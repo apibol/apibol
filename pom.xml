@@ -19,6 +19,7 @@
         <module>prediction-microservice</module>
         <module>user-microservice</module>
         <module>ranking-microservice</module>
+        <module>discovery-microservice</module>
     </modules>
 
     <parent>

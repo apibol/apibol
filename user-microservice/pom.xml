@@ -18,6 +18,20 @@
         <start-class>user.application.UserApplication</start-class>
     </properties>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        
+    </dependencies>
+    
     <build>
         <plugins>
             <plugin>
