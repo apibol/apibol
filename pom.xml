@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.claudioliveira</groupId>
+    <artifactId>apibol</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <docker.plugin.version>0.3.258</docker.plugin.version>
+    </properties>
+
+    <modules>
+        <module>championship-microservice</module>
+        <module>prediction-microservice</module>
+        <module>user-microservice</module>
+        <module>ranking-microservice</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-parent</artifactId>
+        <version>Angel.SR6</version>
+    </parent>
+
+    <dependencies>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <!-- user store -->
+            <dependency>
+                <groupId>com.basho.riak</groupId>
+                <artifactId>riak-client</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+
+            <!-- ranking store -->
+            <dependency>
+                <groupId>com.rethinkdb</groupId>
+                <artifactId>rethinkdb-driver</artifactId>
+                <version>2.2-beta-5</version>
+            </dependency>
+
+            <!-- championship and prediction store -->
+            <dependency>
+                <groupId>org.ektorp</groupId>
+                <artifactId>org.ektorp</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>Angel.SR6</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+</project>
