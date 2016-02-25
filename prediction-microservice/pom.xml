@@ -14,6 +14,7 @@
 
     <properties>
         <docker.image.prefix>claudioed</docker.image.prefix>
+        <start-class>prediction.application.PredictionApplication</start-class>
     </properties>
 
     <dependencies>

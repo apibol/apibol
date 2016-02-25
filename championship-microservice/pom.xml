@@ -15,6 +15,7 @@
 
     <properties>
         <docker.image.prefix>claudioed</docker.image.prefix>
+        <start-class>championship.application.ChampionshipApplication</start-class>
     </properties>
     
     <dependencies>

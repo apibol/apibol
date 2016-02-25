@@ -15,6 +15,7 @@
 
     <properties>
         <docker.image.prefix>claudioed</docker.image.prefix>
+        <start-class>ranking.application.RankingApplication</start-class>
     </properties>
     
     <dependencies>
