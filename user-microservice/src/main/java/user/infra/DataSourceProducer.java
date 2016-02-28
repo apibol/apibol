@@ -1,6 +1,7 @@
 package user.infra;
 
 import com.rethinkdb.RethinkDB;
+import com.rethinkdb.gen.ast.Db;
 import com.rethinkdb.net.Connection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +12,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataSourceProducer {
     
-
     @Bean(name = "dbConnector")
-    public void dbConnector() {
-        RethinkDB rethinkDB = RethinkDB.r;
-        Connection connection = rethinkDB.connection().hostname("localhost").port(28015).connect();
-        rethinkDB.db("user").tableCreate("users").run(connection);
+    public Connection dbConnector() {
+        RethinkDB rethinkDB = rethinkDB();
+        return rethinkDB.connection().hostname("localhost").port(28015).connect();
+    }
+    
+    @Bean(name = "rethinkDB")
+    public RethinkDB rethinkDB(){
+        return RethinkDB.r;
+    }
+
+    @Bean(name = "database")
+    public Db database(){
+        return rethinkDB().db("users");
     }
 
 }
