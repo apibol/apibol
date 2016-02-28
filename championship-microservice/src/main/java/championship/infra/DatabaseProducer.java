@@ -1,4 +1,4 @@
-package infra;
+package championship.infra;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;

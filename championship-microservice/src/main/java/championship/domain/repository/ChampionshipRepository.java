@@ -1,5 +1,6 @@
-package domain;
+package championship.domain.repository;
 
+import championship.domain.Championship;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
