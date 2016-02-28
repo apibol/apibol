@@ -31,8 +31,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.basho.riak</groupId>
-            <artifactId>riak-client</artifactId>
+            <groupId>com.rethinkdb</groupId>
+            <artifactId>rethinkdb-driver</artifactId>
         </dependency>
 
         <dependency>

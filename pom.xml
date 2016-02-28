@@ -65,21 +65,14 @@
 
         <dependencies>
 
-            <!-- user store -->
-            <dependency>
-                <groupId>com.basho.riak</groupId>
-                <artifactId>riak-client</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-
-            <!-- ranking store -->
+            <!-- ranking store and user (rethinkDB)-->
             <dependency>
                 <groupId>com.rethinkdb</groupId>
                 <artifactId>rethinkdb-driver</artifactId>
                 <version>2.2-beta-5</version>
             </dependency>
 
-            <!-- championship and prediction store -->
+            <!-- championship and prediction store (couchDB-->
             <dependency>
                 <groupId>org.ektorp</groupId>
                 <artifactId>org.ektorp</artifactId>

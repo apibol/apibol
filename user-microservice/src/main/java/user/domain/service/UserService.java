@@ -21,5 +21,10 @@ public class UserService {
     public User getUser(String email){
         return this.getUser(email);
     }
+    
+    public User addUser(User user){
+        User savedUser = this.userRepository.addUser(user.getEmail(), user.getNickname());
+        return savedUser;
+    }
 
 }

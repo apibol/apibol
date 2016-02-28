@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class UtilsInfraProducer {
     
     @Bean
-    private Gson gson(){
+    public Gson gson(){
         return new Gson();
     }
 

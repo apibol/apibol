@@ -1,9 +1,7 @@
 package user.infra;
 
-import com.basho.riak.client.IRiakClient;
-import com.basho.riak.client.RiakException;
-import com.basho.riak.client.RiakFactory;
-import com.basho.riak.client.bucket.Bucket;
+import com.rethinkdb.RethinkDB;
+import com.rethinkdb.net.Connection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,14 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataSourceProducer {
     
-    @Bean(name = "riakClient")
-    public IRiakClient riakClient() throws RiakException {
-        return RiakFactory.httpClient();
-    }
-    
-    @Bean(name = "userBucket")
-    public Bucket userBucket() throws RiakException {
-        return riakClient().fetchBucket("user").execute();
+
+    @Bean(name = "dbConnector")
+    public void dbConnector() {
+        RethinkDB rethinkDB = RethinkDB.r;
+        Connection connection = rethinkDB.connection().hostname("localhost").port(28015).connect();
+        rethinkDB.db("user").tableCreate("users").run(connection);
     }
 
 }
