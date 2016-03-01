@@ -4,9 +4,11 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
   instance:
     preferIpAddress: true
+    statusPageUrlPath: ${management.context-path}/info
+    healthCheckUrlPath: ${management.context-path}/health
 
 ribbon:
   eureka:
