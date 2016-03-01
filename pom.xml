@@ -20,6 +20,7 @@
         <module>user-microservice</module>
         <module>ranking-microservice</module>
         <module>discovery-microservice</module>
+        <module>hystrix-dashboard</module>
     </modules>
 
     <parent>
