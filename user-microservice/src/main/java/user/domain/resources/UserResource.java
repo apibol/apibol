@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import user.domain.User;
 import user.domain.service.UserService;
 
+import java.util.List;
+
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
  */
@@ -21,7 +23,19 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<User>> all(){
+        List<User> users = this.userService.all();
+        return new ResponseEntity<>(users,HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    public ResponseEntity<User> find(@PathVariable("id")String id){
+        User user = this.userService.find(id);
+        return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestBody User user){
         User savedUser = this.userService.addUser(user);
         return new ResponseEntity<>(savedUser,HttpStatus.CREATED);

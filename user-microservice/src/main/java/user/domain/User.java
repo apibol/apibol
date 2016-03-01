@@ -1,24 +1,37 @@
 package user.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.couchbase.core.mapping.Field;
+
+import java.util.UUID;
+
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
  */
+@Document
 public class User {
-    
-    private final String id;
-    
-    private final String email;
 
-    private final String nickname;
+    @Id
+    String id;
 
-    private User(String nickname, String email, String id) {
+    @Field
+    String email;
+
+    @Field
+    String nickname;
+
+    protected User() {
+    }
+
+    protected User(String nickname, String email, String id) {
         this.nickname = nickname;
         this.email = email;
         this.id = id;
     }
 
-    public static User createUser(String nickname, String email, String id) {
-        return new User(nickname, email, id);
+    public static User createUser(String nickname, String email) {
+        return new User(nickname, email, UUID.randomUUID().toString());
     }
 
     public String getId() {
@@ -32,5 +45,5 @@ public class User {
     public String getNickname() {
         return nickname;
     }
-    
+
 }

@@ -31,8 +31,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.rethinkdb</groupId>
-            <artifactId>rethinkdb-driver</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-couchbase</artifactId>
         </dependency>
 
         <dependency>

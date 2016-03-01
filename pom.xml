@@ -65,14 +65,14 @@
 
         <dependencies>
 
-            <!-- ranking store and user (rethinkDB)-->
+            <!-- ranking store and user (couchbase)-->
             <dependency>
-                <groupId>com.rethinkdb</groupId>
-                <artifactId>rethinkdb-driver</artifactId>
-                <version>2.2-beta-5</version>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-couchbase</artifactId>
+                <version>1.2.2.RELEASE</version>
             </dependency>
 
-            <!-- championship and prediction store (couchDB-->
+            <!-- championship and prediction store (couchDB)-->
             <dependency>
                 <groupId>org.ektorp</groupId>
                 <artifactId>org.ektorp</artifactId>

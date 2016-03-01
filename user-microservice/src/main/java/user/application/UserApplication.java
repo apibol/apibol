@@ -5,11 +5,14 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import user.infra.DatabaseConfig;
 
 /**
  * @author Claudio E. de Oliveira on 24/02/16.
  */
 @SpringBootApplication
+@Import(DatabaseConfig.class)
 @ComponentScan(basePackages = "user")
 public class UserApplication implements HealthIndicator {
 

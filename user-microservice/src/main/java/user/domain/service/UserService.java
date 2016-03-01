@@ -1,9 +1,12 @@
 package user.domain.service;
 
+import com.couchbase.client.protocol.views.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import user.domain.User;
 import user.domain.repository.UserRepository;
+
+import java.util.List;
 
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
@@ -18,13 +21,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
+    public List<User> all(){
+        return this.userRepository.all(new Query());
+    }
+    
     public User getUser(String email){
-        return this.getUser(email);
+        return null;
     }
     
     public User addUser(User user){
-        User savedUser = this.userRepository.addUser(user.getEmail(), user.getNickname());
-        return savedUser;
+        return this.userRepository.save(User.createUser(user.getNickname(),user.getEmail()));
+    }
+
+    public User find(String id){
+        return this.userRepository.findOne(id);
     }
 
 }
