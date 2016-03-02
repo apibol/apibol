@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.sidecar.EnableSidecar;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import user.infra.DatabaseConfig;
@@ -17,7 +18,8 @@ import user.infra.DatabaseConfig;
 @SpringBootApplication
 @Import(DatabaseConfig.class)
 @ComponentScan(basePackages = "user")
-@EnableSidecar
+@EnableDiscoveryClient
+@EnableZuulProxy
 @EnableHystrix
 public class UserApplication implements HealthIndicator {
 

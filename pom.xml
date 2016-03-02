@@ -21,6 +21,7 @@
         <module>ranking-microservice</module>
         <module>discovery-microservice</module>
         <module>hystrix-dashboard</module>
+        <module>api-gateway-microservice</module>
     </modules>
 
     <parent>
