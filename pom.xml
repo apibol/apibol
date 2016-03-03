@@ -23,6 +23,7 @@
         <module>hystrix-dashboard</module>
         <module>api-gateway-microservice</module>
         <module>config-microservice</module>
+        <module>auth-microservice</module>
     </modules>
 
     <parent>
