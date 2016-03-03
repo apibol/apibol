@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
  */
@@ -24,10 +26,15 @@ public class ChampionshipResource {
         this.championshipService = championshipService;
     }
     
-    @RequestMapping(value = "/",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Championship> create(@RequestBody Championship championship){
         Championship savedChampionship = this.championshipService.create(championship);
         return new ResponseEntity<>(savedChampionship, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Championship>> all(){
+        return new ResponseEntity<>(this.championshipService.all(), HttpStatus.OK);
     }
     
 }

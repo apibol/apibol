@@ -6,6 +6,8 @@ import championship.domain.resource.model.NewGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
  */
@@ -20,15 +22,19 @@ public class ChampionshipService {
     }
 
     public Championship create(Championship championship) {
-        championshipRepository.add(championship);
+        this.championshipRepository.add(championship);
         return championship;
     }
 
     public Championship addNewGame(String championshipId, NewGame newGame) {
-        Championship championship = championshipRepository.get(championshipId);
+        Championship championship = this.championshipRepository.get(championshipId);
         championship.addGame(newGame.toDomain());
-        championshipRepository.update(championship);
+        this.championshipRepository.update(championship);
         return championship;
     }
 
+    public List<Championship> all(){
+        return this.championshipRepository.getAll();
+    }
+    
 }
