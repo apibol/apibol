@@ -108,8 +108,22 @@
                 <version>1.0.2.RELEASE</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
 
 </project>

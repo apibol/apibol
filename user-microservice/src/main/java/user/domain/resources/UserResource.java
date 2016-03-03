@@ -1,5 +1,9 @@
 package user.domain.resources;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/user")
+@Api(value = "/user", description = "Operations about users")
 public class UserResource {
     
     private final UserService userService;
@@ -24,6 +29,8 @@ public class UserResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "Find all users", notes = "Returns all users",response = User.class)
+    @ApiResponses(value = { @ApiResponse(code = 404, message = "Any user not found")})
     public ResponseEntity<List<User>> all(){
         List<User> users = this.userService.all();
         return new ResponseEntity<>(users,HttpStatus.ACCEPTED);
