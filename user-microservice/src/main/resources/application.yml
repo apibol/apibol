@@ -1,5 +1,6 @@
 server:
   port: 9003
+  contextPath: /api
 
 eureka:
   client:
@@ -8,6 +9,8 @@ eureka:
   instance:
     preferIpAddress: true
 
-ribbon:
-  eureka:
-    enabled: true
+zuul:
+  routes:
+    resource:
+      user: /user/**
+      stripPrefix: false

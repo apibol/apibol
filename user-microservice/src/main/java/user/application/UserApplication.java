@@ -58,7 +58,6 @@ public class UserApplication extends WebMvcConfigurerAdapter implements HealthIn
     @Bean
     public Contact contact(){
         return new Contact("Claudio E. de Oliveira","www.apibol.com.br","claudioed.oliveira@gmail.com");
-        
     }
 
     @Override
