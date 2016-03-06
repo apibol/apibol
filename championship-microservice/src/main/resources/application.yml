@@ -19,4 +19,6 @@ data:
     database: championship
     username: mongo
     password: admin
-        
+
+usermicroservice:
+    url: http://producer
