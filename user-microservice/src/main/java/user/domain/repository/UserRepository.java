@@ -23,6 +23,7 @@ public class UserRepository{
     }
 
     public List<User> all(){
+        jdbcTemplate.queryForObject("select * from users",User.class);
         return new ArrayList<>();
     }
     
