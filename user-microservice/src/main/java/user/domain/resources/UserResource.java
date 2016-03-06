@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping(value = "/user")
 @Api(value = "/user", description = "Operations about users")
 public class UserResource {
-    
+
     private final UserService userService;
 
     @Autowired
@@ -28,30 +28,16 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ApiOperation(value = "Find all users", notes = "Returns all users",response = User.class)
-    @ApiResponses(value = { @ApiResponse(code = 404, message = "Any user not found")})
-    public ResponseEntity<List<User>> all(){
-        List<User> users = this.userService.all();
-        return new ResponseEntity<>(users,HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public ResponseEntity<User> find(@PathVariable("id")String id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<User> find(@PathVariable("id") String id) {
         User user = this.userService.find(id);
-        return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> addUser(@RequestBody User user){
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         User savedUser = this.userService.addUser(user);
-        return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
-    
-    @RequestMapping(value = "/{email}")
-    public ResponseEntity<User> getUser(@PathVariable("email")String email){
-        User user = this.userService.getUser(email);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-    
+
 }

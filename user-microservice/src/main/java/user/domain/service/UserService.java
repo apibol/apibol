@@ -20,22 +20,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
-    public List<User> all(){
-        return this.userRepository.all();
-    }
-    
-    public User getUser(String email){
-        return null;
-    }
-    
     public User addUser(User user){
-        //return this.userRepository.save(User.createUser(user.getNickname(),user.getEmail()));
-        return user;
+        return this.userRepository.add(User.createUser(user.getNickname(),user.getEmail()));
     }
 
     public User find(String id){
-        //return this.userRepository.findOne(id);
-        return null;
+        return this.userRepository.findOne(id);
     }
 
 }

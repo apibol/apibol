@@ -13,6 +13,9 @@ public class User {
 
     String nickname;
 
+    User() {
+    }
+
     protected User(String nickname, String email, String id) {
         this.nickname = nickname;
         this.email = email;
@@ -21,6 +24,10 @@ public class User {
 
     public static User createUser(String nickname, String email) {
         return new User(nickname, email, UUID.randomUUID().toString());
+    }
+
+    public static User fromDatabase(String id,String nickname, String email) {
+        return new User(nickname, email, id);
     }
 
     public String getId() {
