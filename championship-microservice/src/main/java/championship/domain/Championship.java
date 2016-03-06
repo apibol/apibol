@@ -2,6 +2,8 @@ package championship.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +12,10 @@ import java.util.List;
  * @author Claudio E. de Oliveira on 27/02/16.
  */
 @Data @EqualsAndHashCode(callSuper = false)
+@Document(collection = "championship")
 public class Championship {
     
+    @Id
     private String id;
     
     private String name;

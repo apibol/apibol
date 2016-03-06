@@ -19,7 +19,7 @@ public class BattlePredictionService {
     }
     
     public BattlePrediction make(BattlePrediction battlePrediction){
-        this.battlePredictionRepository.add(battlePrediction);
+        this.battlePredictionRepository.save(battlePrediction);
         return battlePrediction;
     }
     

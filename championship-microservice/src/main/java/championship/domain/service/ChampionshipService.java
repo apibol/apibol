@@ -22,19 +22,19 @@ public class ChampionshipService {
     }
 
     public Championship create(Championship championship) {
-        this.championshipRepository.add(championship);
+        this.championshipRepository.save(championship);
         return championship;
     }
 
     public Championship addNewGame(String championshipId, NewGame newGame) {
-        Championship championship = this.championshipRepository.get(championshipId);
+        Championship championship = this.championshipRepository.findOne(championshipId);
         championship.addGame(newGame.toDomain());
-        this.championshipRepository.update(championship);
+        this.championshipRepository.save(championship);
         return championship;
     }
 
-    public List<Championship> all(){
-        return this.championshipRepository.getAll();
+    public List<Championship> all() {
+        return this.championshipRepository.findAll();
     }
-    
+
 }

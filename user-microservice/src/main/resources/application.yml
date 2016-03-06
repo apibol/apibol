@@ -12,5 +12,5 @@ eureka:
 zuul:
   routes:
     resource:
-      user: /user/**
+      user: /api/user/**
       stripPrefix: false
