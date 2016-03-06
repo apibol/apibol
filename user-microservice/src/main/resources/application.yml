@@ -14,3 +14,10 @@ zuul:
     resource:
       user: /api/user/**
       stripPrefix: false
+
+spring:
+  datasource:  
+    url: jdbc:mariadb://localhost:3306/user
+    username: root
+    password: admin
+    driver-class-name: org.mariadb.jdbc.Driver

@@ -1,6 +1,5 @@
 package user.domain.service;
 
-import com.couchbase.client.protocol.views.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import user.domain.User;
@@ -22,7 +21,7 @@ public class UserService {
     }
     
     public List<User> all(){
-        return this.userRepository.all(new Query());
+        return this.userRepository.all();
     }
     
     public User getUser(String email){
@@ -30,11 +29,13 @@ public class UserService {
     }
     
     public User addUser(User user){
-        return this.userRepository.save(User.createUser(user.getNickname(),user.getEmail()));
+        //return this.userRepository.save(User.createUser(user.getNickname(),user.getEmail()));
+        return user;
     }
 
     public User find(String id){
-        return this.userRepository.findOne(id);
+        //return this.userRepository.findOne(id);
+        return null;
     }
 
 }

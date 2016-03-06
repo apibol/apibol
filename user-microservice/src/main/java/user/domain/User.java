@@ -1,24 +1,16 @@
 package user.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.couchbase.core.mapping.Document;
-import org.springframework.data.couchbase.core.mapping.Field;
-
 import java.util.UUID;
 
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
  */
-@Document
 public class User {
 
-    @Id
     String id;
 
-    @Field
     String email;
 
-    @Field
     String nickname;
 
     protected User() {
