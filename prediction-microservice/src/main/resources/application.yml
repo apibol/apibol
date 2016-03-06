@@ -11,3 +11,11 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+    
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: prediction
+    username: mongo
+    password: admin

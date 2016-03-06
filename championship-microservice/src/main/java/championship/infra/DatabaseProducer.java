@@ -18,19 +18,19 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableMongoRepositories(basePackages = "championship.domain.repository")
 public class DatabaseProducer extends AbstractMongoConfiguration {
     
-    @Value("${spring.data.mongodb.host}")
+    @Value("${data.mongodb.host}")
     private String host;
     
-    @Value("${spring.data.mongodb.port}")
+    @Value("${data.mongodb.port}")
     private Integer port;
     
-    @Value("${spring.data.mongodb.username}")
+    @Value("${data.mongodb.username}")
     private String username;
     
-    @Value("${spring.data.mongodb.database}")
+    @Value("${data.mongodb.database}")
     private String database;
     
-    @Value("${spring.data.mongodb.password}")
+    @Value("${data.mongodb.password}")
     private String password;
     
     @Bean

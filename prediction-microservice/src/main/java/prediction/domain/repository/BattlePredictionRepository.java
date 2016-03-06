@@ -7,6 +7,5 @@ import prediction.domain.BattlePrediction;
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
  */
-@Repository
 public interface BattlePredictionRepository extends MongoRepository<BattlePrediction,String>{
 }

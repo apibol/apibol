@@ -11,3 +11,12 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: championship
+    username: mongo
+    password: admin
+        

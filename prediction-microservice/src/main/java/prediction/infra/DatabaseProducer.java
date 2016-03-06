@@ -5,28 +5,32 @@ import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * @author Claudio E. de Oliveira on 27/02/16.
  */
+@Configuration
+@EnableMongoRepositories(basePackages = "prediction.domain.repository")
 public class DatabaseProducer extends AbstractMongoConfiguration {
 
-    @Value("${spring.data.mongodb.host}")
+    @Value("${data.mongodb.host}")
     private String host;
 
-    @Value("${spring.data.mongodb.port}")
+    @Value("${data.mongodb.port}")
     private Integer port;
 
-    @Value("${spring.data.mongodb.username}")
+    @Value("${data.mongodb.username}")
     private String username;
 
-    @Value("${spring.data.mongodb.database}")
+    @Value("${data.mongodb.database}")
     private String database;
 
-    @Value("${spring.data.mongodb.password}")
+    @Value("${data.mongodb.password}")
     private String password;
 
     @Bean
