@@ -1,14 +1,14 @@
 package gateway.application;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.sidecar.EnableSidecar;
+import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
  * @author Claudio E. de Oliveira on 01/03/16.
  */
-@SpringBootApplication
-@EnableSidecar
+@SpringCloudApplication
+@EnableZuulProxy
 public class GatewayApplication {
 
     public static void main(String[] args) {
