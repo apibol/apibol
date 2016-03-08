@@ -82,6 +82,12 @@
 
         <dependencies>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-undertow</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
             <!-- ranking store and user (mariadb)-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

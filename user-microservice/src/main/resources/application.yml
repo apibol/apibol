@@ -1,3 +1,6 @@
+info:
+  component: User MicroService
+
 server:
   port: 0
   
@@ -8,7 +11,7 @@ eureka:
 
 spring:
   application:
-    name: user
+    name: users
   datasource:  
     url: jdbc:mariadb://localhost:3306/user
     username: root
