@@ -1,3 +1,6 @@
+info:
+  component: API Gateway (Zull Proxy)
+
 server:
   port: 8888
 
@@ -10,7 +13,18 @@ endpoints:
     sensitive: false
 
 eureka:
+  instance:
+      leaseRenewalIntervalInSeconds: 10
   client:
-    fetchRegistry: true
+    registryFetchIntervalSeconds: 5
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+      
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
+    
+zuul:
+  routes:
+    users: /users/**
