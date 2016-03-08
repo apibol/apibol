@@ -1,7 +1,6 @@
 server:
   port: 0
-  contextPath: /api
-
+  
 eureka:
   client:
     serviceUrl:
@@ -10,6 +9,8 @@ eureka:
     preferIpAddress: true
 
 spring:
+  application:
+    name: user
   datasource:  
     url: jdbc:mariadb://localhost:3306/user
     username: root
