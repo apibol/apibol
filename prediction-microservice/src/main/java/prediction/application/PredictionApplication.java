@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -14,12 +15,10 @@ import prediction.infra.DatabaseProducer;
 /**
  * @author Claudio E. de Oliveira on 24/02/16.
  */
-@SpringBootApplication
+@SpringCloudApplication
 @Import(DatabaseProducer.class)
 @ComponentScan(basePackages = "prediction")
-@EnableDiscoveryClient
 @EnableZuulProxy
-@EnableHystrix
 public class PredictionApplication implements HealthIndicator {
 
     @Override
