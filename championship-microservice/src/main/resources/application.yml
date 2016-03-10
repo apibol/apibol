@@ -23,7 +23,7 @@ data:
 
 spring:
   application:
-    name: championship
+    name: championships
 
 usermicroservice:
     user-info: http://localhost:8888/users/user/

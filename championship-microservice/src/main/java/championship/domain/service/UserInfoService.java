@@ -20,7 +20,7 @@ public class UserInfoService {
     private String url;
     
     public User getUserInfo(String userId){
-        return this.restTemplate.getForObject(this.url, User.class);
+        return this.restTemplate.getForObject(this.url+userId, User.class);
     }
         
 }
