@@ -11,6 +11,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author Claudio E. de Oliveira on 24/02/16.
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Import;
 @Import(DatabaseProducer.class)
 @ComponentScan(basePackages = "championship")
 @EnableZuulProxy
+@EnableSwagger2
 public class ChampionshipApplication implements HealthIndicator {
 
     @Override

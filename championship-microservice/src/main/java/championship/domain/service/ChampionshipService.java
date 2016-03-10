@@ -1,7 +1,9 @@
 package championship.domain.service;
 
 import championship.domain.Championship;
+import championship.domain.User;
 import championship.domain.repository.ChampionshipRepository;
+import championship.domain.resource.model.ChampionshipDTO;
 import championship.domain.resource.model.NewGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +18,17 @@ public class ChampionshipService {
 
     private final ChampionshipRepository championshipRepository;
 
+    private final UserInfoService userInfoService;
+
     @Autowired
-    public ChampionshipService(ChampionshipRepository championshipRepository) {
+    public ChampionshipService(ChampionshipRepository championshipRepository, UserInfoService userInfoService) {
         this.championshipRepository = championshipRepository;
+        this.userInfoService = userInfoService;
     }
 
-    public Championship create(Championship championship) {
-        this.championshipRepository.save(championship);
-        return championship;
+    public Championship create(ChampionshipDTO championship) {
+        User userInfo = this.userInfoService.getUserInfo(championship.getOwnerId());
+        return championship.toDomain(userInfo);
     }
 
     public Championship addNewGame(String championshipId, NewGame newGame) {

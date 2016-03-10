@@ -16,7 +16,7 @@ public class UserInfoService {
     @Autowired @LoadBalanced
     private RestTemplate restTemplate;
 
-    @Value("${usermicroservice.url}")
+    @Value("${usermicroservice.user-info}")
     private String url;
     
     public User getUserInfo(String userId){

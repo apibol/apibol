@@ -1,6 +1,7 @@
 package championship.domain.resource;
 
 import championship.domain.Championship;
+import championship.domain.resource.model.ChampionshipDTO;
 import championship.domain.service.ChampionshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class ChampionshipResource {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Championship> create(@RequestBody Championship championship){
+    public ResponseEntity<Championship> create(@RequestBody ChampionshipDTO championship){
         Championship savedChampionship = this.championshipService.create(championship);
         return new ResponseEntity<>(savedChampionship, HttpStatus.CREATED);
     }
