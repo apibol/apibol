@@ -4,11 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 
 /**
  * @author Claudio E. de Oliveira on 24/02/16.
  */
-@SpringBootApplication
+@SpringCloudApplication
 public class RankingApplication implements HealthIndicator {
 
     @Override
