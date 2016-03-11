@@ -1,0 +1,29 @@
+info:
+  component: Predictor MicroService
+
+server:
+  port: 0
+  
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+ribbon:
+  eureka:
+    enabled: true
+
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: predictor
+    username: mongo
+    password: admin
+
+spring:
+  application:
+    name: predictors
+
+usermicroservice:
+    user-info: http://USERS/users/user/

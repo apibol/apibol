@@ -25,6 +25,7 @@
         <module>api-gateway-microservice</module>
         <module>config-microservice</module>
         <module>auth-microservice</module>
+        <module>predictor-microservice</module>
     </modules>
 
     <parent>
