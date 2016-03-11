@@ -26,4 +26,4 @@ spring:
     name: championships
 
 usermicroservice:
-    user-info: http://localhost:8888/users/user/
+    user-info: http://USERS/users/user/

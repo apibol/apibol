@@ -28,7 +28,8 @@ public class ChampionshipService {
 
     public Championship create(ChampionshipDTO championship) {
         User userInfo = this.userInfoService.getUserInfo(championship.getOwnerId());
-        return championship.toDomain(userInfo);
+        Championship savedChampionship = this.championshipRepository.save(championship.toDomain(userInfo));
+        return savedChampionship;
     }
 
     public Championship addNewGame(String championshipId, NewGame newGame) {
