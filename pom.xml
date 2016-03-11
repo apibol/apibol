@@ -16,7 +16,7 @@
     </properties>
 
     <modules>
-        <module>championship-microservice</module>
+        <module>event-microservice</module>
         <module>prediction-microservice</module>
         <module>user-microservice</module>
         <module>ranking-microservice</module>
