@@ -19,9 +19,16 @@ public class Predictor {
     
     private String eventId;
     
-    private String name;
-    
     private Set<Participant> participants = new HashSet<>();
+    
+    private Predictor(String eventId, Participant participant){
+        this.eventId = eventId;
+        this.addParticipant(participant);
+    }
+
+    public static Predictor createPredictor(String eventId, Participant participant) {
+        return new Predictor(eventId, participant);
+    }
 
     public Predictor addParticipant(Participant participant){
         this.participants.add(participant);

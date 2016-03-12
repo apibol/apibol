@@ -18,31 +18,26 @@ import predictor.domain.resource.PredictorDTO;
  */
 @Service
 public class PredictorService {
+
+    private final ParticipantService participantService;
+            
+    private final EventService eventService;
+
+    private final PredictorRepository predictorRepository;
     
     @Autowired
-    private PredictorRepository predictorRepository;
-
-    @Autowired @LoadBalanced
-    private RestTemplate restTemplate;
-
-    @Value("${usermicroservice.user-info}")
-    private String userInfoUrl;
-
-    @Value("${eventmicroservice.event-info}")
-    private String eventInfoUrl;
-
-    
-    public Predictor create(PredictorDTO predictorDTO){
-        final ResponseEntity<Participant> userResponse = this.restTemplate.getForEntity(this.userInfoUrl + predictorDTO.getUserId(), Participant.class);
-        final ResponseEntity<Event> eventResponse = this.restTemplate.getForEntity(this.eventInfoUrl + predictorDTO.getEventId(), Event.class);
-        if(HttpStatus.OK.equals(userResponse.getStatusCode()) && HttpStatus.OK.equals(eventResponse.getStatusCode())){
-            
-            
-        }
-        
-        userResponse.getBody();    
-
-        return null;
+    public PredictorService(ParticipantService participantService, EventService eventService,PredictorRepository predictorRepository) {
+        this.participantService = participantService;
+        this.eventService = eventService;
+        this.predictorRepository = predictorRepository;
     }
-    
+
+    public Predictor create(PredictorDTO predictorDTO) {
+        Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
+        Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
+        Predictor predictor = Predictor.createPredictor(event.getEventId(), newParticipant);
+        predictor = this.predictorRepository.save(predictor);
+        return predictor;
+    }
+
 }
