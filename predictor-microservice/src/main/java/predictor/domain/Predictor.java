@@ -28,4 +28,9 @@ public class Predictor {
         return this;
     }
     
+    public Predictor removeParticipant(Participant participant){
+        this.participants.remove(participant);
+        return this;
+    }
+    
 }

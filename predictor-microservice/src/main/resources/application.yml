@@ -26,4 +26,7 @@ spring:
     name: predictors
 
 usermicroservice:
-    user-info: http://USERS/users/user/
+  user-info: http://USERS/users/user/
+    
+eventmicroservice:
+  event-info: http://EVENT/events/event/

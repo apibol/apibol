@@ -12,5 +12,6 @@ public class Participant {
     
     private String name;
     
-
+    private String email;
+    
 }

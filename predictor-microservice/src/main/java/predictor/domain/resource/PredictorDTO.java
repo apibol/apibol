@@ -7,4 +7,9 @@ import lombok.Data;
  */
 @Data
 public class PredictorDTO {
+    
+    private String eventId;
+    
+    private String userId;
+    
 }
