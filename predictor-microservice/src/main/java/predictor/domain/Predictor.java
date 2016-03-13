@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * It represents a group of participants grouped in on event.
+ *
  * @author Claudio E. de Oliveira on 10/03/16.
  */
 @Data
