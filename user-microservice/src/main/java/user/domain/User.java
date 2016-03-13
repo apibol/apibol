@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
  */
-public class User {
+public class User implements AbstractNullObject {
 
     String id;
 
@@ -26,6 +26,10 @@ public class User {
         return new User(nickname, email, UUID.randomUUID().toString());
     }
 
+    public static NullUser createNullUser() {
+        return new NullUser();
+    }
+    
     public static User fromDatabase(String id,String nickname, String email) {
         return new User(nickname, email, id);
     }
@@ -42,4 +46,9 @@ public class User {
         return nickname;
     }
 
+    @Override
+    public boolean isNil() {
+        return false;
+    }
+    
 }

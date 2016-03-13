@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/user")
-@Api(value = "/user", description = "Operations about users")
+    @Api(value = "/user", description = "Operations about users")
 public class UserResource {
 
     private final UserService userService;
