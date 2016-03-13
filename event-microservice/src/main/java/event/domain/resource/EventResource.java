@@ -30,8 +30,8 @@ public class EventResource {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Event> create(@RequestBody EventDTO championship){
-        Event savedEvent = this.eventService.create(championship);
+    public ResponseEntity<Event> create(@RequestBody EventDTO eventoDTO){
+        Event savedEvent = this.eventService.create(eventoDTO);
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 

@@ -1,6 +1,7 @@
 package event.domain;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 
@@ -10,8 +11,10 @@ import java.time.LocalDateTime;
 @Data
 public class Period {
     
+    @NotEmpty
     private LocalDateTime start;
-    
+
+    @NotEmpty
     private LocalDateTime end;
 
 }

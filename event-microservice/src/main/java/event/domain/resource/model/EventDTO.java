@@ -4,6 +4,7 @@ import event.domain.Event;
 import event.domain.Period;
 import event.domain.User;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.UUID;
 
@@ -13,16 +14,18 @@ import java.util.UUID;
 @Data
 public class EventDTO {
 
+    @NotEmpty
     private String name;
 
     private Period period;
 
     private Boolean open = Boolean.FALSE;
     
+    @NotEmpty
     private String ownerId;
 
     public Event toDomain(User owner){
-        return Event.newChampionship(UUID.randomUUID().toString(), this.name, this.period, this.open, owner);
+        return Event.newEvent(UUID.randomUUID().toString(), this.name, this.period, this.open, owner);
     }
 
 }

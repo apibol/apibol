@@ -36,7 +36,7 @@ public class Event {
         this.owner = owner;
     }
 
-    public static Event newChampionship(String id, String name, Period period, Boolean open, User owner) {
+    public static Event newEvent(String id, String name, Period period, Boolean open, User owner) {
         return new Event(id, name, period, open, owner);
     }
 
