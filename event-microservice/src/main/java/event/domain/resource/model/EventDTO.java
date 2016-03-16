@@ -6,6 +6,7 @@ import event.domain.User;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -17,6 +18,7 @@ public class EventDTO {
     @NotEmpty
     private String name;
 
+    @NotEmpty
     private Period period;
 
     private Boolean open = Boolean.FALSE;

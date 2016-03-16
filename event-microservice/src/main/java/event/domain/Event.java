@@ -27,6 +27,8 @@ public class Event {
     private List<Game> games = new ArrayList<>();
     
     private User owner;
+    
+    Event(){}
 
     private Event(String id, String name, Period period, Boolean open, User owner) {
         this.id = id;

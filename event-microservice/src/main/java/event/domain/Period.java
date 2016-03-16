@@ -14,13 +14,11 @@ import java.time.LocalDateTime;
 public class Period {
     
     @NotEmpty
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss.SSSZ")
     private LocalDateTime start;
 
     @NotEmpty
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss.SSSZ")
     private LocalDateTime end;
 
     Period(){}
