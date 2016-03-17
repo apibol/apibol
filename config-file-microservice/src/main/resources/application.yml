@@ -1,0 +1,13 @@
+---
+info:
+  component: Config Native Microservice
+  
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/files
+
+server:
+  port: 7001

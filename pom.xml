@@ -26,6 +26,7 @@
         <module>config-microservice</module>
         <module>auth-microservice</module>
         <module>predictor-microservice</module>
+        <module>config-file-microservice</module>
     </modules>
 
     <parent>

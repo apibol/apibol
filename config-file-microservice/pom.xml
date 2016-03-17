@@ -9,26 +9,26 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>config-microservice</artifactId>
+    <artifactId>config-file-microservice</artifactId>
     <packaging>jar</packaging>
 
     <properties>
         <docker.image.prefix>claudioed</docker.image.prefix>
         <start-class>config.application.ConfigApplication</start-class>
     </properties>
-    
+
     <dependencies>
-        
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
@@ -37,6 +37,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
         </dependency>
 
         <dependency>
