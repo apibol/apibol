@@ -7,6 +7,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
@@ -22,9 +23,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author Claudio E. de Oliveira on 24/02/16.
  */
 @SpringCloudApplication
-@ComponentScan
+@ComponentScan(basePackages = "predictor")
 @EnableZuulProxy
 @EnableSwagger2
+@EnableMongoRepositories(basePackages = "predictor.domain.repository")
 public class PredictorApplication extends WebMvcConfigurerAdapter implements HealthIndicator {
 
     @Override
