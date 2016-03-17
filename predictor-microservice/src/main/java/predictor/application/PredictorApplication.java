@@ -22,7 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author Claudio E. de Oliveira on 24/02/16.
  */
 @SpringCloudApplication
-@ComponentScan(basePackages = "predictor")
+@ComponentScan
 @EnableZuulProxy
 @EnableSwagger2
 public class PredictorApplication extends WebMvcConfigurerAdapter implements HealthIndicator {

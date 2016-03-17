@@ -24,6 +24,11 @@ data:
 spring:
   application:
     name: predictors
+  rabbitmq:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
 
 usermicroservice:
   user-info: http://USERS/users/user/
