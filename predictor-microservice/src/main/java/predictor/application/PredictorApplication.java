@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableZuulProxy
 @EnableSwagger2
 @EnableMongoRepositories(basePackages = "predictor.domain.repository")
+@EnableHystrix
 public class PredictorApplication extends WebMvcConfigurerAdapter implements HealthIndicator {
 
     @Override
@@ -46,7 +48,7 @@ public class PredictorApplication extends WebMvcConfigurerAdapter implements Hea
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build()
-                .apiInfo(new ApiInfo("Bolão API","API para gerenciamento de bolões","0.0.1","",contact(),"",""));
+                .apiInfo(new ApiInfo("Bolão API - Participantes","API para gerenciamento usuários a eventos","0.0.1","",contact(),"",""));
     }
     
     @Bean

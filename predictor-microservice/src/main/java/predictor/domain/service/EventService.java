@@ -28,7 +28,6 @@ public class EventService {
             return response.getBody();
         }else {
             throw new InvalidEvent(eventId);
-            
         }
     }
         
