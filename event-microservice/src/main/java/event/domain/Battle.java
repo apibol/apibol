@@ -26,6 +26,7 @@ public class Battle extends Game {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.time = time;
+        this.id = id;
     }
 
     public static Battle createBattleWithoutResult(String playerOne, String playerTwo, LocalDateTime time) {

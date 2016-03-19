@@ -87,9 +87,7 @@ public class Event {
      * @return
      */
     public Event removeGame(String gameId) {
-        this.games = this.games.stream().filter(element -> {
-            return !element.id.equals(gameId);
-        }).collect(Collectors.toSet());
+        this.games.removeIf(element -> element.id.equals(gameId));
         return this;
     }
 
