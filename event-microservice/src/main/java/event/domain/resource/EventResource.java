@@ -6,6 +6,7 @@ import event.domain.resource.model.NewBattle;
 import event.domain.resource.model.NewGame;
 import event.domain.service.EventService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,29 +30,34 @@ public class EventResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "Create Event", nickname = "Create Event")
     public ResponseEntity<Event> create(@RequestBody EventDTO eventoDTO) {
         Event savedEvent = this.eventService.create(eventoDTO);
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "List all events", nickname = "List Events")
     public ResponseEntity<List<Event>> all() {
         return new ResponseEntity<>(this.eventService.all(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "Find Event By ID", nickname = "Find Event by ID")
     public ResponseEntity<Event> findOne(@PathVariable("id") String id) {
         return new ResponseEntity<>(this.eventService.findOne(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/addGame", method = RequestMethod.POST)
+    @ApiOperation(value = "Add game in Event", nickname = "Add Game")
     public ResponseEntity<Event> addBattleGame(@PathVariable("id") String id, @RequestBody NewBattle newBattle) {
         return new ResponseEntity<>(this.eventService.addNewGame(id, newBattle), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/addGame", method = RequestMethod.POST)
-    public ResponseEntity<Event> removeBattleGame(@PathVariable("id") String id, @RequestBody NewBattle newBattle) {
-        return new ResponseEntity<>(this.eventService.addNewGame(id, newBattle), HttpStatus.OK);
+    @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "Remove game from Event", nickname = "Remove Game")
+    public void removeBattleGame(@PathVariable("id") String id,@PathVariable("gameId") String gameId ) {
+        this.eventService.removeGame(id,gameId);
     }
     
 }
