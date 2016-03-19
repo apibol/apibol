@@ -32,8 +32,8 @@ public class EventService {
         return savedEvent;
     }
 
-    public Event addNewGame(String championshipId, NewGame newGame) {
-        Event event = this.eventRepository.findOne(championshipId);
+    public Event addNewGame(String eventId, NewGame newGame) {
+        Event event = this.eventRepository.findOne(eventId);
         event.addGame(newGame.toDomain());
         this.eventRepository.save(event);
         return event;

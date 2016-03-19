@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
@@ -19,14 +20,16 @@ public class Battle extends Game {
 
     private String resultPlayerTwo;
 
-    private Battle(String playerOne, String playerTwo, LocalDateTime time){
+    Battle(){}
+    
+    private Battle(String id,String playerOne, String playerTwo, LocalDateTime time){
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.time = time;
     }
 
     public static Battle createBattleWithoutResult(String playerOne, String playerTwo, LocalDateTime time) {
-        return new Battle(playerOne, playerTwo, time);
+        return new Battle(UUID.randomUUID().toString(),playerOne, playerTwo, time);
     }
 
     @Override

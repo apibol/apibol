@@ -21,14 +21,18 @@ public class PredictorService {
 
     @Value("${services.predictor.info}")
     private String predictorInfoUrl;
-    
-    
-    public Predictor getEventInfo(String eventId){
-        ResponseEntity<Predictor> response = this.restTemplate.getForEntity(this.predictorInfoUrl + eventId, Predictor.class);
+
+    /**
+     * Get predictor information
+     * @param predictorId
+     * @return
+     */
+    public Predictor getPredictorInfo(String predictorId){
+        ResponseEntity<Predictor> response = this.restTemplate.getForEntity(this.predictorInfoUrl + predictorId, Predictor.class);
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
-            throw new InvalidPredictor(eventId);
+            throw new InvalidPredictor(predictorId);
         }
     }
     

@@ -13,9 +13,12 @@ public class BattlePredictionService {
     
     private final BattlePredictionRepository battlePredictionRepository;
 
+    private final PredictorService predictorService;
+    
     @Autowired
-    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository) {
+    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository,PredictorService predictorService) {
         this.battlePredictionRepository = battlePredictionRepository;
+        this.predictorService = predictorService;
     }
     
     public BattlePrediction make(BattlePrediction battlePrediction){
