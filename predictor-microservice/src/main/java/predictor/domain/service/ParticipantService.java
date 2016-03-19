@@ -19,7 +19,7 @@ public class ParticipantService {
     @Autowired @LoadBalanced
     private RestTemplate restTemplate;
 
-    @Value("${usermicroservice.user-info}")
+    @Value("${services.user.info}")
     private String url;
     
     public Participant getUserInfo(String userId){

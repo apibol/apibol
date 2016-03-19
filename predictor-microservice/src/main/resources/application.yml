@@ -30,8 +30,8 @@ spring:
       username: guest
       password: guest
 
-usermicroservice:
-  user-info: http://USERS/users/user/
-    
-eventmicroservice:
-  event-info: http://EVENT/events/event/
+services:
+  user:
+    info: http://USERS/user/
+  event:
+    info: http://EVENTS/event/

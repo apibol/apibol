@@ -20,3 +20,11 @@ data:
     database: prediction
     username: mongo
     password: admin
+
+services:
+  user:
+    info: http://USERS/user/
+  event:
+    info: http://EVENTS/event/
+  predictor:
+      info: http://PREDICTORS/predictors/

@@ -42,5 +42,9 @@ public class EventService {
     public List<Event> all() {
         return this.eventRepository.findAll();
     }
+    
+    public Event findOne(String id){
+        return this.eventRepository.findOne(id);
+    }
 
 }

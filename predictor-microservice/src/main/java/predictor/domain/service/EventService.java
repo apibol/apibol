@@ -19,7 +19,7 @@ public class EventService {
     @Autowired @LoadBalanced
     private RestTemplate restTemplate;
 
-    @Value("${eventmicroservice.event-info}")
+    @Value("${services.event.info}")
     private String eventInfoUrl;
     
     public Event getEventInfo(String eventId){

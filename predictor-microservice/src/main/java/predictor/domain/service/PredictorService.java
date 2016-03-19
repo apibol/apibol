@@ -13,6 +13,9 @@ import predictor.domain.Predictor;
 import predictor.domain.repository.PredictorRepository;
 import predictor.domain.resource.PredictorDTO;
 
+import java.util.List;
+import java.util.Objects;
+
 /**
  * @author Claudio E. de Oliveira on 10/03/16.
  */
@@ -32,12 +35,48 @@ public class PredictorService {
         this.predictorRepository = predictorRepository;
     }
 
+    /**
+     * Create or updates a predictor
+     * @param predictorDTO
+     * @return
+     */
     public Predictor create(PredictorDTO predictorDTO) {
         Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
         Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
-        Predictor predictor = Predictor.createPredictor(event.getEventId(), newParticipant);
+        Predictor predictor = this.predictorRepository.findByEventId(predictorDTO.getEventId());
+        if(Objects.nonNull(predictor)){
+            predictor.addParticipant(newParticipant);    
+        }else{
+            predictor = Predictor.createPredictor(event.getId(), newParticipant);
+        }
         predictor = this.predictorRepository.save(predictor);
         return predictor;
+    }
+
+    /**
+     * Retrieves all predictors 
+     * 
+     * @return all predictors
+     */
+    public List<Predictor> all(){
+        return this.predictorRepository.findAll();
+    }
+
+    /**
+     * Retrieves a predictor by Id
+     * @param id
+     * @return
+     */
+    public Predictor findOne(String id){
+        return this.predictorRepository.findOne(id);
+    }
+
+    /**
+     * Delete a predictor from repository
+     * @param id
+     */
+    public void deletePredictor(String id){
+        this.predictorRepository.delete(id);
     }
 
 }
