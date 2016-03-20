@@ -1,5 +1,7 @@
 package event.domain;
 
+import event.domain.exception.GameIsNotInEventRangeDate;
+import event.domain.specification.IsInEventPeriod;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
@@ -75,8 +77,12 @@ public class Event {
      * @param game
      * @return
      */
-    public Event addGame(Game game) {
-        this.games.add(game);
+    public Event addGame(Game game) throws GameIsNotInEventRangeDate{
+        if (new IsInEventPeriod(this).isSatisfiedBy(game)){
+            this.games.add(game);
+        }else{
+            throw new GameIsNotInEventRangeDate(game);
+        }
         return this;
     }
 
