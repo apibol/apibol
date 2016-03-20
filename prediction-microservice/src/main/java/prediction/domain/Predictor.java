@@ -9,5 +9,7 @@ import lombok.Data;
 public class Predictor {
     
     private String id;
+
+    private String eventId;
     
 }

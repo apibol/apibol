@@ -1,6 +1,7 @@
 package event.domain.service;
 
 import event.domain.Event;
+import event.domain.Game;
 import event.domain.User;
 import event.domain.repository.EventRepository;
 import event.domain.resource.model.EventDTO;
@@ -78,6 +79,17 @@ public class EventService {
      */
     public Event findOne(String id){
         return this.eventRepository.findOne(id);
+    }
+
+    /**
+     * Find game in event
+     * @param eventId
+     * @param gameId
+     * @return
+     */
+    public Game findGameById(String eventId,String gameId){
+        Event event = this.findOne(eventId);
+        return event.gameById(gameId);
     }
 
 }

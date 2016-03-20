@@ -97,4 +97,13 @@ public class Event {
         return this;
     }
 
+    /**
+     * Select game by Id
+     * @param gameId
+     * @return
+     */
+    public Game gameById(String gameId){
+        return this.games.stream().filter(game -> game.getId().equals(gameId)).findFirst().get();
+    }
+    
 }

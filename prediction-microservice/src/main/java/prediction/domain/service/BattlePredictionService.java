@@ -3,6 +3,7 @@ package prediction.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import prediction.domain.BattlePrediction;
+import prediction.domain.Game;
 import prediction.domain.Predictor;
 import prediction.domain.User;
 import prediction.domain.repository.BattlePredictionRepository;
@@ -19,11 +20,14 @@ public class BattlePredictionService {
     private final BattlePredictionRepository battlePredictionRepository;
 
     private final PredictorService predictorService;
+    
+    private final GameService gameService;
 
     @Autowired
-    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictorService predictorService) {
+    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictorService predictorService,GameService gameService) {
         this.battlePredictionRepository = battlePredictionRepository;
         this.predictorService = predictorService;
+        this.gameService = gameService;
     }
 
     /**
@@ -35,6 +39,7 @@ public class BattlePredictionService {
     public BattlePrediction doPrediction(BattlePredictionDTO battlePredictionDTO) {
         User participantInfo = this.predictorService.getParticipantInfo(battlePredictionDTO.getPredictorId(), battlePredictionDTO.getUserId());
         Predictor predictor = this.predictorService.getPredictorInfo(battlePredictionDTO.getPredictorId());
+        Game game = this.gameService.getGameInfo(predictor.getEventId(),battlePredictionDTO.getGameId());
         battlePredictionDTO.assignOwner(participantInfo);
         return this.battlePredictionRepository.save(battlePredictionDTO.toDomain());
     }
