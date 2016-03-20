@@ -28,3 +28,4 @@ services:
     info: http://EVENTS/event/
   predictor:
       info: http://PREDICTORS/predictor/
+      participant-info: http://PREDICTORS/predictor/{0}/participant/{1}
