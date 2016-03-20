@@ -19,6 +19,7 @@ import prediction.infra.DatabaseProducer;
 @Import(DatabaseProducer.class)
 @ComponentScan(basePackages = "prediction")
 @EnableZuulProxy
+@EnableHystrix
 public class PredictionApplication implements HealthIndicator {
 
     @Override

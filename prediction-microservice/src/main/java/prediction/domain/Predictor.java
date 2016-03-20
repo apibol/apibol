@@ -7,4 +7,7 @@ import lombok.Data;
  */
 @Data
 public class Predictor {
+    
+    private String id;
+    
 }
