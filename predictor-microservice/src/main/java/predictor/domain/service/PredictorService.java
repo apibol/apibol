@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import predictor.domain.Event;
 import predictor.domain.Participant;
 import predictor.domain.Predictor;
+import predictor.domain.exception.ParticipantNotInPredictor;
 import predictor.domain.repository.PredictorRepository;
 import predictor.domain.resource.PredictorDTO;
 
@@ -79,4 +80,20 @@ public class PredictorService {
         this.predictorRepository.delete(id);
     }
 
+    /**
+     * Get participant Info
+     * @param predictorId
+     * @param participantId
+     * @return
+     */
+    public Participant findByPredictorAndParticipantId(String predictorId,String participantId){
+        Predictor predictor = this.predictorRepository.findByIdAndParticipantsId(predictorId, participantId);
+        if(Objects.isNull(predictor)){
+            throw new ParticipantNotInPredictor(participantId,predictorId);
+        }else {
+            return predictor.participantInfo(participantId);
+            
+        }
+    }
+    
 }

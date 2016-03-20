@@ -15,5 +15,7 @@ public interface PredictorRepository extends MongoRepository<Predictor,String> {
      * @return
      */
     Predictor findByEventId(String eventId);
+    
+    Predictor findByIdAndParticipantsId(String id,String participantId);
 
 }

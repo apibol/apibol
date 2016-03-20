@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import predictor.domain.Participant;
 import predictor.domain.Predictor;
 import predictor.domain.service.PredictorService;
 
@@ -46,4 +47,9 @@ public class PredictorResource {
         this.predictorService.deletePredictor(id);
     }
 
+    @RequestMapping(value = "/{id}/participant/{participantId}",method = RequestMethod.GET)
+    public ResponseEntity<Participant> participantInfo(@PathVariable("id")String id,@PathVariable("participantId")String participantId) {
+        return new ResponseEntity<>(this.predictorService.findByPredictorAndParticipantId(id,participantId), HttpStatus.OK);
+    }
+    
 }

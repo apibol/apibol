@@ -18,14 +18,15 @@ public class Predictor {
 
     @Id
     private String id;
-    
+
     private String eventId;
-    
+
     private Set<Participant> participants = new HashSet<>();
-    
-    Predictor(){}
-    
-    private Predictor(String eventId, Participant participant){
+
+    Predictor() {
+    }
+
+    private Predictor(String eventId, Participant participant) {
         this.eventId = eventId;
         this.addParticipant(participant);
     }
@@ -34,14 +35,18 @@ public class Predictor {
         return new Predictor(eventId, participant);
     }
 
-    public Predictor addParticipant(Participant participant){
+    public Predictor addParticipant(Participant participant) {
         this.participants.add(participant);
         return this;
     }
-    
-    public Predictor removeParticipant(Participant participant){
+
+    public Predictor removeParticipant(Participant participant) {
         this.participants.remove(participant);
         return this;
     }
-    
+
+    public Participant participantInfo(String participantId) {
+        return this.participants.stream().filter(part -> part.getId().equals(participantId)).findFirst().get();
+    }
+
 }
