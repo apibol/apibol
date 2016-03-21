@@ -3,6 +3,7 @@ package prediction.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,7 @@ import java.text.MessageFormat;
  * @author Claudio E. de Oliveira on 19/03/16.
  */
 @Service
+@RefreshScope
 public class PredictorService {
 
     @Autowired

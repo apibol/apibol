@@ -3,6 +3,7 @@ package predictor.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import predictor.domain.exception.InvalidParticipant;
  * @author Claudio E. de Oliveira on 06/03/16.
  */
 @Service
+@RefreshScope
 public class ParticipantService {
 
     @Autowired @LoadBalanced
