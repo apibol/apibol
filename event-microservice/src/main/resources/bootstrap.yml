@@ -1,3 +1,6 @@
 spring:
   application:
     name: events
+  cloud:
+      config:
+        uri: http://localhost:8001/
