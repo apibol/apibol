@@ -1,3 +1,6 @@
 spring:
   application:
     name: predictions
+  cloud:
+    config:
+      uri: http://localhost:8001/
