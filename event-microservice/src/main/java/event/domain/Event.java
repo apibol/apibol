@@ -105,5 +105,5 @@ public class Event {
     public Game gameById(String gameId){
         return this.games.stream().filter(game -> game.getId().equals(gameId)).findFirst().get();
     }
-    
+
 }

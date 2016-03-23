@@ -1,5 +1,6 @@
 package event.domain;
 
+import event.domain.resource.model.BattleResultDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @Data @EqualsAndHashCode(callSuper = false)
-public class Battle extends Game {
+public class Battle extends Game<BattleResultDTO> {
 
     private String playerOne;
 
@@ -34,8 +35,9 @@ public class Battle extends Game {
     }
 
     @Override
-    protected GameResult result() {
-        return null;
+    public void updateGame(BattleResultDTO result) {
+        this.resultPlayerOne = result.getPlayerOneResult();
+        this.resultPlayerTwo = result.getPlayerTwoResult();
     }
 
 }

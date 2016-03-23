@@ -4,6 +4,7 @@ import event.domain.Event;
 import event.domain.Game;
 import event.domain.User;
 import event.domain.repository.EventRepository;
+import event.domain.resource.model.BattleResultDTO;
 import event.domain.resource.model.EventDTO;
 import event.domain.resource.model.NewGame;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,4 +93,19 @@ public class EventService {
         return event.gameById(gameId);
     }
 
+    /**
+     * Update Game result
+     * @param eventId
+     * @param gameId
+     * @param resultDTO
+     * @return
+     */
+    public Game addGameResult(String eventId,String gameId,BattleResultDTO resultDTO){
+        Event event = this.findOne(eventId);
+        Game game = event.gameById(gameId);
+        game.updateGame(resultDTO);
+        this.eventRepository.save(event);
+        return game;
+    }
+    
 }

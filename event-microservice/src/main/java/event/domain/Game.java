@@ -10,12 +10,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(of = {"id"})
-public abstract class Game {
+public abstract class Game<T> implements GameWithResult<T> {
 
     protected String id;
 
     protected LocalDateTime time;
-
-    protected abstract GameResult result();
 
 }

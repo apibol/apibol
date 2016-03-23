@@ -2,6 +2,7 @@ package event.domain.resource;
 
 import event.domain.Event;
 import event.domain.Game;
+import event.domain.resource.model.BattleResultDTO;
 import event.domain.resource.model.EventDTO;
 import event.domain.resource.model.NewBattle;
 import event.domain.resource.model.NewGame;
@@ -65,6 +66,12 @@ public class EventResource {
     @ApiOperation(value = "Get game in Event", nickname = "Get Game")
     public ResponseEntity<Game> findGameById(@PathVariable("id") String eventId,@PathVariable("gameId") String gameId) {
         return new ResponseEntity<>(this.eventService.findGameById(eventId,gameId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.GET)
+    @ApiOperation(value = "Update game result", nickname = "Update Game")
+    public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId,@PathVariable("gameId") String gameId,@RequestBody BattleResultDTO resultDTO) {
+        return new ResponseEntity<>(this.eventService.addGameResult(eventId,gameId,resultDTO), HttpStatus.OK);
     }
 
 }
