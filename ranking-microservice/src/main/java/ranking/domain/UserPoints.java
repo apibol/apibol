@@ -3,8 +3,8 @@ package ranking.domain;
 import lombok.Data;
 
 /**
- * User earned points 
- * @author Claudio E. de Oliveira on 22/03/16.
+ * Total points by user
+ * @author Claudio E. de Oliveira on 23/03/16.
  */
 @Data
 public class UserPoints {
@@ -13,6 +13,6 @@ public class UserPoints {
     
     private String userId;
     
-    private Integer pointsEarned;
+    private Integer points;
     
 }
