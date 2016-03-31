@@ -1,5 +1,6 @@
 package event.domain.service;
 
+import event.domain.BattleResult;
 import event.domain.Event;
 import event.domain.Game;
 import event.domain.User;
@@ -22,14 +23,18 @@ public class EventService {
 
     private final UserInfoService userInfoService;
 
+    private final SenderService senderService;
+
     @Autowired
-    public EventService(EventRepository eventRepository, UserInfoService userInfoService) {
+    public EventService(EventRepository eventRepository, UserInfoService userInfoService, SenderService senderService) {
         this.eventRepository = eventRepository;
         this.userInfoService = userInfoService;
+        this.senderService = senderService;
     }
 
     /**
      * Create an event
+     *
      * @param eventoDTO
      * @return
      */
@@ -40,7 +45,8 @@ public class EventService {
     }
 
     /**
-     * Add game in event 
+     * Add game in event
+     *
      * @param eventId
      * @param newGame
      * @return
@@ -53,20 +59,22 @@ public class EventService {
     }
 
     /**
-     * Remove game from event  
+     * Remove game from event
+     *
      * @param eventId
      * @param gameId
      * @return
      */
-    public Event removeGame(String eventId,String gameId){
+    public Event removeGame(String eventId, String gameId) {
         Event event = this.eventRepository.findOne(eventId);
         event = event.removeGame(gameId);
         this.eventRepository.save(event);
-        return event;    
+        return event;
     }
 
     /**
-     * List all events 
+     * List all events
+     *
      * @return
      */
     public List<Event> all() {
@@ -74,38 +82,43 @@ public class EventService {
     }
 
     /**
-     * Find event by Id 
+     * Find event by Id
+     *
      * @param id
      * @return
      */
-    public Event findOne(String id){
+    public Event findOne(String id) {
         return this.eventRepository.findOne(id);
     }
 
     /**
      * Find game in event
+     *
      * @param eventId
      * @param gameId
      * @return
      */
-    public Game findGameById(String eventId,String gameId){
+    public Game findGameById(String eventId, String gameId) {
         Event event = this.findOne(eventId);
         return event.gameById(gameId);
     }
 
     /**
      * Update Game result
+     *
      * @param eventId
      * @param gameId
      * @param resultDTO
      * @return
      */
-    public Game addGameResult(String eventId,String gameId,BattleResultDTO resultDTO){
+    public Game addGameResult(String eventId, String gameId, BattleResultDTO resultDTO) {
         Event event = this.findOne(eventId);
         Game game = event.gameById(gameId);
         game.updateGame(resultDTO);
         this.eventRepository.save(event);
+        BattleResult battleResult = new BattleResult().eventId(eventId).gameId(gameId).playerOneResult(resultDTO.getPlayerOneResult()).playerTwoResult(resultDTO.getPlayerTwoResult());
+        this.senderService.sendResult(battleResult);
         return game;
     }
-    
+
 }

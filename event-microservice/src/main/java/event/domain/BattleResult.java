@@ -1,4 +1,4 @@
-package prediction.domain;
+package event.domain;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
