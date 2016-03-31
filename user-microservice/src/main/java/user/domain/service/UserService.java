@@ -29,7 +29,7 @@ public class UserService {
      * @return
      */
     public User addUser(User user){
-        if(checkUserAlreadyExists(user.getEmail())){
+        if(!checkUserAlreadyExists(user.getEmail())){
             return this.userRepository.add(User.createUser(user.getNickname(),user.getEmail()));
         }
         return User.createNullUser();
@@ -50,8 +50,8 @@ public class UserService {
      * @return
      */
     private boolean checkUserAlreadyExists(String email){
-        User byEmail = this.userRepository.findByEmail(email);
-        if(Objects.nonNull(byEmail)){
+        boolean exists = this.userRepository.checkIfUserExists(email);
+        if(exists){
             throw new UserAlreadyExists(email);
         }
         return false;
