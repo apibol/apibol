@@ -33,8 +33,8 @@ public class EventResource {
 
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create Event", nickname = "Create Event")
-    public ResponseEntity<Event> create(@RequestBody EventDTO eventoDTO) {
-        Event savedEvent = this.eventService.create(eventoDTO);
+    public ResponseEntity<Event> create(@RequestBody EventDTO eventDTO) {
+        Event savedEvent = this.eventService.create(eventDTO);
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 

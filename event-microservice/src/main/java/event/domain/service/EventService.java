@@ -35,12 +35,12 @@ public class EventService {
     /**
      * Create an event
      *
-     * @param eventoDTO
+     * @param eventDTO
      * @return
      */
-    public Event create(EventDTO eventoDTO) {
-        User userInfo = this.userInfoService.getUserInfo(eventoDTO.getOwnerId());
-        Event savedEvent = this.eventRepository.save(eventoDTO.toDomain(userInfo));
+    public Event create(EventDTO eventDTO) {
+        User userInfo = this.userInfoService.getUserInfo(eventDTO.getOwnerId());
+        Event savedEvent = this.eventRepository.save(eventDTO.toDomain(userInfo));
         return savedEvent;
     }
 

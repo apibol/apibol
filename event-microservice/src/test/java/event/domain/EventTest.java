@@ -19,7 +19,7 @@ public class EventTest {
         User owner = new User();
         owner.setId("1010");
         owner.setEmail("jao@gmail.com");
-        owner.setName("Jao");
+        owner.setNickname("Jao");
         Period period = Period.newPeriod(LocalDateTime.now(), LocalDateTime.now());
         Event paulistao = Event.newEvent(UUID.randomUUID().toString(), "Paulistão", period, false, owner);
         String jsonEvent = new ObjectMapper().writeValueAsString(paulistao);

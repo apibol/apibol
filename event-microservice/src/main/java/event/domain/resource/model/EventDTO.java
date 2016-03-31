@@ -22,11 +22,11 @@ public class EventDTO {
     private Period period;
 
     private Boolean open = Boolean.FALSE;
-    
+
     @NotEmpty
     private String ownerId;
 
-    public Event toDomain(User owner){
+    public Event toDomain(User owner) {
         return Event.newEvent(UUID.randomUUID().toString(), this.name, this.period, this.open, owner);
     }
 

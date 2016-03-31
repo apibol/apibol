@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 public class Period {
     
     @NotEmpty
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss.SSSZ")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime start;
 
     @NotEmpty
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss.SSSZ")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime end;
 
     Period(){}
