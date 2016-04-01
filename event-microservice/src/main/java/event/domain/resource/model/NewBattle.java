@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
@@ -14,19 +15,19 @@ import java.time.LocalDateTime;
 @Data @EqualsAndHashCode(callSuper = false)
 public class NewBattle extends NewGame<Battle> {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     private String playerOne;
 
     private String playerTwo;
 
-    @NotEmpty
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss.SSSZ")
-    private LocalDateTime time;
+    private String time;
 
     NewBattle(){}
     
     @Override
     public Battle toDomain() {
-        return Battle.createBattleWithoutResult(this.playerOne,this.playerTwo,this.time);
+        return Battle.createBattleWithoutResult(this.playerOne,this.playerTwo,LocalDateTime.parse(this.time,FORMATTER));
     }
 
 }

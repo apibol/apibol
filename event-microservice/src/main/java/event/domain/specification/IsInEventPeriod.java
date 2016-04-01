@@ -26,7 +26,7 @@ public class IsInEventPeriod extends AbstractSpecification<Game> {
     @Override
     public Boolean isSatisfiedBy(Game game) {
         Period eventPeriod = event.getPeriod();
-        return eventPeriod.getStart().isBefore(game.getTime()) && eventPeriod.getEnd().isAfter(game.getTime());
+        return eventPeriod.start().isBefore(game.getTime()) && eventPeriod.end().isAfter(game.getTime());
     }
 
 }
