@@ -16,9 +16,12 @@ public class BattlePredictionDispatcher {
     
     private final BattlePredictionRepository battlePredictionRepository;
 
+    private final SenderService senderService;
+
     @Autowired
-    public BattlePredictionDispatcher(BattlePredictionRepository battlePredictionRepository) {
+    public BattlePredictionDispatcher(BattlePredictionRepository battlePredictionRepository,SenderService senderService) {
         this.battlePredictionRepository = battlePredictionRepository;
+        this.senderService = senderService;
     }
 
     /**
@@ -29,7 +32,7 @@ public class BattlePredictionDispatcher {
         List<BattlePrediction> predictions = battlePredictionRepository.findByGameId(battleResult.getGameId());
         predictions.parallelStream().forEach(prediction ->{
             Integer pointsEarned = new PredictionEvaluator(battleResult).evaluate(prediction);
-            new UserPoints(battleResult.getGameId(),prediction.getOwner().getId(),pointsEarned);
+            senderService.sendPoints(new UserPoints(battleResult.getGameId(),prediction.getOwner().getId(),pointsEarned));
         });
     }
 

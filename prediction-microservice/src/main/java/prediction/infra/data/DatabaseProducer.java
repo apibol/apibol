@@ -1,4 +1,4 @@
-package prediction.infra;
+package prediction.infra.data;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
