@@ -10,7 +10,7 @@ public class Participant {
     
     private String id;
     
-    private String name;
+    private String nickname;
     
     private String email;
     

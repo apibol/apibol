@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
@@ -54,6 +55,12 @@ public class EventResource {
     @ApiOperation(value = "Add game in Event", nickname = "Add Game")
     public ResponseEntity<Event> addBattleGame(@PathVariable("id") String id, @RequestBody NewBattle newBattle) {
         return new ResponseEntity<>(this.eventService.addNewGame(id, newBattle), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/game", method = RequestMethod.GET)
+    @ApiOperation(value = "Get Event Games", nickname = "Get Games")
+    public ResponseEntity<Set<Game>> games(@PathVariable("id") String id) {
+        return new ResponseEntity<>(this.eventService.findOne(id).getGames(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.DELETE)

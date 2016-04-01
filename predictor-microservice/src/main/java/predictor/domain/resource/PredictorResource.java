@@ -27,9 +27,9 @@ public class PredictorResource {
     }
 
     @RequestMapping(value = "/join")
-    public ResponseEntity<String> joinInEvent(@RequestBody PredictorDTO predictorDTO) {
-        this.predictorService.create(predictorDTO);
-        return new ResponseEntity<String>("OK", HttpStatus.CREATED);
+    public ResponseEntity<Predictor> joinInEvent(@RequestBody PredictorDTO predictorDTO) {
+        Predictor predictor = this.predictorService.create(predictorDTO);
+        return new ResponseEntity<>(predictor, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
