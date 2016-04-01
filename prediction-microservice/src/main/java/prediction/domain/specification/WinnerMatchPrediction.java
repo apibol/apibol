@@ -17,8 +17,8 @@ public class WinnerMatchPrediction extends AbstractSpecification<BattlePredictio
 
     @Override
     public Boolean isSatisfiedBy(BattlePrediction instance) {
-        Integer playerOneResult = Integer.valueOf(battleResult.playerOneResult());
-        Integer playerTwoResult = Integer.valueOf(battleResult.playerTwoResult());
+        Integer playerOneResult = Integer.valueOf(battleResult.getPlayerOneResult());
+        Integer playerTwoResult = Integer.valueOf(battleResult.getPlayerTwoResult());
         Integer myPlayerOneResult = Integer.valueOf(instance.getPlayerOneResult());
         Integer myPlayerTwoResult = Integer.valueOf(instance.getPlayerTwoResult());
         switch (playerOneResult.compareTo(playerTwoResult)){

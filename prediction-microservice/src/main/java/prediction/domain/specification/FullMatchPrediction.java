@@ -17,7 +17,7 @@ public class FullMatchPrediction extends AbstractSpecification<BattlePrediction>
 
     @Override
     public Boolean isSatisfiedBy(BattlePrediction instance) {
-        return this.battleResult.playerOneResult().equals(instance.getPlayerOneResult()) && this.battleResult.playerTwoResult().equals(instance.getPlayerTwoResult());
+        return this.battleResult.getPlayerOneResult().equals(instance.getPlayerOneResult()) && this.battleResult.getPlayerTwoResult().equals(instance.getPlayerTwoResult());
     }
 
 }

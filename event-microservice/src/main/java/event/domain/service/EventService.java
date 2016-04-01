@@ -115,7 +115,6 @@ public class EventService {
         Game game = event.gameById(gameId);
         game.updateGame(resultDTO);
         this.eventRepository.save(event);
-
         BattleResult battleResult =  new BattleResult.BattleResultBuilder().eventId(eventId).gameId(gameId).playerOneResult(resultDTO.getPlayerOneResult()).playerTwoResult(resultDTO.getPlayerTwoResult()).build();
         this.senderService.sendResult(battleResult);
         return game;
