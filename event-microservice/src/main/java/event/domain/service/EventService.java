@@ -1,6 +1,5 @@
 package event.domain.service;
 
-import event.domain.BattleResult;
 import event.domain.Event;
 import event.domain.Game;
 import event.domain.User;
@@ -116,7 +115,8 @@ public class EventService {
         Game game = event.gameById(gameId);
         game.updateGame(resultDTO);
         this.eventRepository.save(event);
-        BattleResult battleResult = new BattleResult().eventId(eventId).gameId(gameId).playerOneResult(resultDTO.getPlayerOneResult()).playerTwoResult(resultDTO.getPlayerTwoResult());
+
+        BattleResult battleResult =  new BattleResult.BattleResultBuilder().eventId(eventId).gameId(gameId).playerOneResult(resultDTO.getPlayerOneResult()).playerTwoResult(resultDTO.getPlayerTwoResult()).build();
         this.senderService.sendResult(battleResult);
         return game;
     }

@@ -1,5 +1,6 @@
-package event.domain;
+package event.domain.service;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -7,7 +8,7 @@ import lombok.experimental.Accessors;
  * @author Claudio E. de Oliveira on 22/03/16.
  */
 @Data
-@Accessors(chain = true,fluent = true)
+@Builder
 public class BattleResult {
 
     private String eventId;

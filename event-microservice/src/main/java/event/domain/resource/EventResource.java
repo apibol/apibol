@@ -75,7 +75,7 @@ public class EventResource {
         return new ResponseEntity<>(this.eventService.findGameById(eventId,gameId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.PUT)
     @ApiOperation(value = "Update game result", nickname = "Update Game")
     public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId,@PathVariable("gameId") String gameId,@RequestBody BattleResultDTO resultDTO) {
         return new ResponseEntity<>(this.eventService.addGameResult(eventId,gameId,resultDTO), HttpStatus.OK);
