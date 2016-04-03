@@ -52,6 +52,11 @@ public class RankingRepository {
         }
     }
 
+    /**
+     * Find rankings by predictor id
+     * @param predictorId
+     * @return
+     */
     public List<RankingElement> findRankingData(String predictorId) {
         final Jedis redis = jedisPool.getResource();
         final List<RankingElement> rankingElements = new ArrayList<>();

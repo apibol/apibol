@@ -32,7 +32,7 @@ public class BattlePredictionDispatcher {
         List<BattlePrediction> predictions = battlePredictionRepository.findByGameId(battleResult.getGameId());
         predictions.parallelStream().forEach(prediction ->{
             Integer pointsEarned = new PredictionEvaluator(battleResult).evaluate(prediction);
-            senderService.sendPoints(new UserPoints(battleResult.getGameId(),prediction.getOwner().getId(),pointsEarned));
+            senderService.sendPoints(new UserPoints(battleResult.getGameId(),prediction.getOwner().getId(),pointsEarned,prediction.getOwner().getNickname()));
         });
     }
 
