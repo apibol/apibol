@@ -64,4 +64,14 @@ public class BattlePredictionService {
         return this.battlePredictionRepository.findByPredictor(predictorId);
     }
 
+    /**
+     * Retrieves Prediction by Predictor Id and Game Id
+     *
+     * @param predictorId
+     * @return
+     */
+    public List<BattlePrediction> findByPredictorIdAndGame(String predictorId,String gameId) {
+        return this.battlePredictionRepository.findByPredictorAndGameId(predictorId,gameId);
+    }
+
 }

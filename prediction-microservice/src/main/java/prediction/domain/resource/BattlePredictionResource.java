@@ -35,4 +35,9 @@ public class BattlePredictionResource {
         return new ResponseEntity<>(this.battlePredictionService.findByPredictorId(predictorId), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/predictor/{predictorId}/game/{gameId}", method = RequestMethod.GET)
+    public ResponseEntity<List<BattlePrediction>> findByPredictionsByGame(@PathVariable("predictorId") String predictorId,@PathVariable("gameId") String gameId) {
+        return new ResponseEntity<>(this.battlePredictionService.findByPredictorIdAndGame(predictorId,gameId), HttpStatus.OK);
+    }
+
 }

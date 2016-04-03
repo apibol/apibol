@@ -25,5 +25,13 @@ public interface BattlePredictionRepository extends MongoRepository<BattlePredic
      * @return
      */
     List<BattlePrediction> findByPredictor(String predictor);
-    
+
+    /**
+     * Find predictions by predictor and gameId
+     * @param predictor
+     * @param gameId
+     * @return
+     */
+    List<BattlePrediction> findByPredictorAndGameId(String predictor,String gameId);
+
 }
