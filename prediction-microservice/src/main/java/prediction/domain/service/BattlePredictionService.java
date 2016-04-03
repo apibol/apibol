@@ -74,4 +74,12 @@ public class BattlePredictionService {
         return this.battlePredictionRepository.findByPredictorAndGameId(predictorId,gameId);
     }
 
+    /**
+     * It removes prediction by Id
+     * @param id
+     */
+    public void deletePredictionById(String id){
+        this.battlePredictionRepository.delete(id);
+    }
+
 }

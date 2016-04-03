@@ -24,6 +24,11 @@ public class BattlePredictionResource {
         this.battlePredictionService = battlePredictionService;
     }
 
+    @RequestMapping(value = "/{predictionId}", method = RequestMethod.DELETE)
+    public void deletePrediction(@PathVariable("predictionId") String predictionId) {
+        this.battlePredictionService.deletePredictionById(predictionId);
+    }
+
     @RequestMapping(value = "/predictor/{predictorId}", method = RequestMethod.POST)
     public ResponseEntity<BattlePrediction> makePrediction(@PathVariable("predictorId") String predictorId, @RequestBody BattlePredictionDTO battlePrediction) {
         battlePrediction.assignPredictor(predictorId);
