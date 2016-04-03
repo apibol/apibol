@@ -92,7 +92,6 @@ public class PredictorService {
             throw new ParticipantNotInPredictor(participantId,predictorId);
         }else {
             return predictor.participantInfo(participantId);
-            
         }
     }
     

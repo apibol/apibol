@@ -1,5 +1,6 @@
 package predictor.domain.service;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -16,6 +17,7 @@ import predictor.domain.exception.InvalidEvent;
  */
 @Service
 @RefreshScope
+@Log4j2
 public class EventService {
 
     @Autowired @LoadBalanced
@@ -29,6 +31,7 @@ public class EventService {
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
+            log.error(String.format("Error on retrieve event %s information",eventId));
             throw new InvalidEvent(eventId);
         }
     }
