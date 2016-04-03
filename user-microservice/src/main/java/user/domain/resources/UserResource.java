@@ -28,6 +28,11 @@ public class UserResource {
         this.userService = userService;
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<User>> find() {
+        return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> find(@PathVariable("id") String id) {
         User user = this.userService.find(id);

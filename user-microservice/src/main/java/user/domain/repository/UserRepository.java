@@ -27,6 +27,8 @@ public class UserRepository {
 
     private static final String BY_EMAIL = "SELECT * FROM users WHERE email = ?";
 
+    private static final String ALL_USERS = "SELECT * FROM users";
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -84,5 +86,12 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Find All users
+     * @return
+     */
+    public List<User> findAll(){
+        return this.jdbcTemplate.query(ALL_USERS,new Object[]{},new UserMapper());
+    }
 
 }

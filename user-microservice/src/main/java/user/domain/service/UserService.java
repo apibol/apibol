@@ -57,4 +57,12 @@ public class UserService {
         return false;
     }
 
+    /**
+     * Find All Users
+     * @return
+     */
+    public List<User> findAll(){
+        return this.userRepository.findAll();
+    }
+
 }

@@ -1,10 +1,13 @@
 package user.domain;
 
+import lombok.Data;
+
 import java.util.UUID;
 
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
  */
+@Data
 public class User implements AbstractNullObject {
 
     String id;
@@ -32,18 +35,6 @@ public class User implements AbstractNullObject {
     
     public static User fromDatabase(String id,String nickname, String email) {
         return new User(nickname, email, id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getNickname() {
-        return nickname;
     }
 
     @Override
