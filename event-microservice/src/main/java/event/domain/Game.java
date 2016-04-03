@@ -16,4 +16,6 @@ public abstract class Game<T> implements GameWithResult<T> {
 
     protected LocalDateTime time;
 
+    protected LocalDateTime registeredAt;
+
 }

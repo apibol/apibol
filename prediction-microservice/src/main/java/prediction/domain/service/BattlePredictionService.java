@@ -19,14 +19,14 @@ public class BattlePredictionService {
 
     private final BattlePredictionRepository battlePredictionRepository;
 
-    private final PredictorService predictorService;
+    private final PredictionService predictionService;
     
     private final GameService gameService;
 
     @Autowired
-    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictorService predictorService,GameService gameService) {
+    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictionService predictionService, GameService gameService) {
         this.battlePredictionRepository = battlePredictionRepository;
-        this.predictorService = predictorService;
+        this.predictionService = predictionService;
         this.gameService = gameService;
     }
 
@@ -37,8 +37,8 @@ public class BattlePredictionService {
      * @return
      */
     public BattlePrediction doPrediction(BattlePredictionDTO battlePredictionDTO) {
-        User participantInfo = this.predictorService.getParticipantInfo(battlePredictionDTO.getPredictorId(), battlePredictionDTO.getUserId());
-        Predictor predictor = this.predictorService.getPredictorInfo(battlePredictionDTO.getPredictorId());
+        User participantInfo = this.predictionService.getParticipantInfo(battlePredictionDTO.getPredictorId(), battlePredictionDTO.getUserId());
+        Predictor predictor = this.predictionService.getPredictorInfo(battlePredictionDTO.getPredictorId());
         Game game = this.gameService.getGameInfo(predictor.getEventId(),battlePredictionDTO.getGameId());
         battlePredictionDTO.assignOwner(participantInfo);
         return this.battlePredictionRepository.save(battlePredictionDTO.toDomain());

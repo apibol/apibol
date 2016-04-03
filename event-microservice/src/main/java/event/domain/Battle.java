@@ -28,6 +28,7 @@ public class Battle extends Game<BattleResultDTO> {
         this.playerTwo = playerTwo;
         this.time = time;
         this.id = id;
+        this.registeredAt = LocalDateTime.now();
     }
 
     public static Battle createBattleWithoutResult(String playerOne, String playerTwo, LocalDateTime time) {

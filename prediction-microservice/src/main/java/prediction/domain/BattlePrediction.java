@@ -3,6 +3,7 @@ package prediction.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -36,6 +37,7 @@ public class BattlePrediction extends Prediction {
         this.playerTwoResult = playerTwoResult;
         this.owner = owner;
         this.predictor = predictor;
+        this.registeredAt = LocalDateTime.now();
     }
 
     /**

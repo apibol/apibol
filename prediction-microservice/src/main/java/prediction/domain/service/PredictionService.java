@@ -1,5 +1,6 @@
 package prediction.domain.service;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -18,7 +19,8 @@ import java.text.MessageFormat;
  */
 @Service
 @RefreshScope
-public class PredictorService {
+@Log4j2
+public class PredictionService {
 
     @Autowired
     @LoadBalanced
@@ -40,6 +42,7 @@ public class PredictorService {
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
+            log.error(String.format("Error on get predictor %s info",predictorId));
             throw new InvalidPredictor(predictorId);
         }
     }
