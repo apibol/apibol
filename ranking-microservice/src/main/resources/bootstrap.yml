@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: rankings
+  cloud:
+    config:
+      uri: http://localhost:8001/
