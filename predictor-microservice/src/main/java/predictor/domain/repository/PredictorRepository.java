@@ -4,6 +4,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import predictor.domain.Predictor;
 
+import java.util.List;
+
 /**
  * @author Claudio E. de Oliveira on 10/03/16.
  */
@@ -15,7 +17,13 @@ public interface PredictorRepository extends MongoRepository<Predictor,String> {
      * @return
      */
     Predictor findByEventId(String eventId);
-    
+
+    /**
+     * Find Predictor by participant and id
+     * @param id
+     * @param participantId
+     * @return
+     */
     Predictor findByIdAndParticipantsId(String id,String participantId);
 
 }
