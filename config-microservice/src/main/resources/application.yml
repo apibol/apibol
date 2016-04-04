@@ -1,5 +1,6 @@
 ---
 spring:
+  profiles: default
   cloud:
     config:
       server:
@@ -21,4 +22,30 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 server:
-  port: 8001      
+  port: 8001
+
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/claudioed/apibol-config-files
+  application:
+      name: configserver
+
+logging:
+  levels:
+    org.springframework.boot.env.PropertySourcesLoader: TRACE
+    org.springframework.web: DEBUG
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+server:
+  port: 8001
