@@ -27,3 +27,22 @@ services:
     depends_on:
       - config
       - discovery
+
+  rabbit:
+    restart: always
+    image: rabbitmq:3.6.0-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  dbinstance:
+    restart: always
+    image: mariadb
+    expose:
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=user

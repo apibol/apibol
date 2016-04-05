@@ -1,6 +1,16 @@
+---
 spring:
+  profiles: default
   application:
     name: events
   cloud:
       config:
         uri: http://localhost:8001/
+---
+spring:
+  profiles: docker
+  application:
+    name: events
+  cloud:
+    config:
+      uri: http://config:8001/
