@@ -1,13 +1,29 @@
-config:
-  restart: always
-  image: claudioed/config-microservice
-  expose:
-    - "8001"
-  links:
-      - discovery:discovery
+version: '2'
+services:
+  config:
+    restart: always
+    image: claudioed/config-microservice
+    depends_on:
+      - discovery
+    expose:
+      - "8001"
+    links:
+        - discovery:discovery
 
-discovery:
-  restart: always
-  image: claudioed/discovery-microservice
-  expose:
-    - "8761"
+  discovery:
+    restart: always
+    image: claudioed/discovery-microservice
+    expose:
+      - "8761"
+
+  gateway:
+    restart: always
+    image: claudioed/api-gateway-microservice
+    ports:
+      - 8888:8888
+    links:
+      - config:config
+      - discovery:discovery
+    depends_on:
+      - config
+      - discovery

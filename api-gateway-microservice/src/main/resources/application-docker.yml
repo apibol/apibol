@@ -18,7 +18,7 @@ eureka:
   client:
     registryFetchIntervalSeconds: 5
     serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+      defaultZone: http://discovery:8761/eureka/
       
 logging:
   level:
