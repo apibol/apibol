@@ -8,6 +8,8 @@ spring:
           uri: https://github.com/claudioed/apibol-config-files
   application:
     name: configserver
+  rabbitmq:
+      host: localhost
 
 logging:
   levels:
@@ -34,6 +36,8 @@ spring:
           uri: https://github.com/claudioed/apibol-config-files
   application:
       name: configserver
+  rabbitmq:
+      host: rabbit
 
 logging:
   levels:
