@@ -1,0 +1,13 @@
+config:
+  restart: always
+  image: claudioed/config-microservice
+  expose:
+    - "8001"
+  links:
+      - discovery:discovery
+
+discovery:
+  restart: always
+  image: claudioed/discovery-microservice
+  expose:
+    - "8761"
