@@ -18,13 +18,17 @@ public class UserPoints {
 
     private String nickname;
 
+    private String predictorId;
+
+
     UserPoints(){}
 
-    public UserPoints(String gameId, String userId, Integer pointsEarned,String nickname) {
+    public UserPoints(String gameId, String userId, Integer pointsEarned,String nickname,String predictorId) {
         this.gameId = gameId;
         this.userId = userId;
         this.pointsEarned = pointsEarned;
         this.nickname = nickname;
+        this.predictorId = predictorId;
     }
 
 }

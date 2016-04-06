@@ -23,7 +23,9 @@ import java.util.Set;
 @Log4j2
 public class RankingRepository {
 
-    private static final String PATTERN = "ranking:predictor:%s:user:%s";
+    private static final String RANKING_PATTERN = "ranking:predictor:%s:user:%s";
+
+    private static final String GAME_PATTERN = "games:predictor:%s:user:%s";
 
     private final JedisPool jedisPool;
 
@@ -40,12 +42,16 @@ public class RankingRepository {
     public void updatePoints(RequestUpdateUserPoints request) {
         final Jedis redis = jedisPool.getResource();
         try {
-            String key = String.format(PATTERN, request.getPredictorId(), request.getUserId());
-            String data = redis.hget(key, "nickname");
-            if (Strings.isNullOrEmpty(data)) {
-                redis.hmset(key, request.redisValue());
-            } else {
-                redis.hincrBy(key, "points", request.getPointsEarned());
+            String key = String.format(RANKING_PATTERN, request.getPredictorId(), request.getUserId());
+            String gameKey = String.format(GAME_PATTERN, request.getPredictorId(), request.getUserId());
+            if (!checkIfGameIsRepeated(redis, gameKey, request.getGameId())) {
+                String data = redis.hget(key, "nickname");
+                if (Strings.isNullOrEmpty(data)) {
+                    redis.hmset(key, request.redisValue());
+                } else {
+                    redis.hincrBy(key, "points", request.getPointsEarned());
+                }
+                redis.sadd(key, request.getGameId());
             }
         } finally {
             jedisPool.returnResourceObject(redis);
@@ -54,6 +60,7 @@ public class RankingRepository {
 
     /**
      * Find rankings by predictor id
+     *
      * @param predictorId
      * @return
      */
@@ -61,7 +68,7 @@ public class RankingRepository {
         final Jedis redis = jedisPool.getResource();
         final List<RankingElement> rankingElements = new ArrayList<>();
         try {
-            String argument = String.format(PATTERN, predictorId, "*");
+            String argument = String.format(RANKING_PATTERN, predictorId, "*");
             Set<String> keys = redis.keys(argument);
             keys.stream().forEach(key -> {
                 Map<String, String> data = redis.hgetAll(key);
@@ -71,6 +78,17 @@ public class RankingRepository {
             jedisPool.returnResourceObject(redis);
         }
         return rankingElements;
+    }
+
+    /**
+     * Check if the game was computed
+     * @param redis
+     * @param key
+     * @param gameId
+     * @return
+     */
+    private boolean checkIfGameIsRepeated(Jedis redis, String key, String gameId) {
+        return redis.sismember(key, gameId);
     }
 
 }

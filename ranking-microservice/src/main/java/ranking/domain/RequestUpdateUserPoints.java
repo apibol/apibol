@@ -22,6 +22,8 @@ public class RequestUpdateUserPoints {
 
     private String nickname;
 
+    private String gameId;
+
     /**
      * Create the redis value key
      * @return

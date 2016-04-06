@@ -1,4 +1,4 @@
-package ranking.infra;
+package ranking.infra.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
