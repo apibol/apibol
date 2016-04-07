@@ -1,5 +1,6 @@
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.network "forwarded_port", guest: 8888, host: 8888
   config.vm.define "apibol-test" do |apibol|
     apibol.vm.box = "ubuntu/trusty64"
     apibol.vm.network :private_network, ip:"192.168.33.21"
