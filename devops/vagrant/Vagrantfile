@@ -1,0 +1,11 @@
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.define "apibol-test" do |apibol|
+    apibol.vm.box = "ubuntu/trusty64"
+    apibol.vm.network :private_network, ip:"192.168.33.21"
+  end
+  config.ssh.insert_key = false
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+end
