@@ -12,6 +12,7 @@ import predictor.domain.Participant;
 import predictor.domain.Predictor;
 import predictor.domain.exception.ParticipantNotInPredictor;
 import predictor.domain.repository.PredictorRepository;
+import predictor.domain.resource.JoinPredictorDTO;
 import predictor.domain.resource.PredictorDTO;
 
 import java.util.List;
@@ -44,12 +45,22 @@ public class PredictorService {
     public Predictor create(PredictorDTO predictorDTO) {
         Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
         Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
-        Predictor predictor = this.predictorRepository.findByEventId(predictorDTO.getEventId());
-        if(Objects.nonNull(predictor)){
-            predictor.addParticipant(newParticipant);    
-        }else{
-            predictor = Predictor.createPredictor(event.getId(), newParticipant);
-        }
+        Predictor predictor = Predictor.createPredictor(event.getId(), newParticipant);
+        predictor.addParticipant(newParticipant);
+        predictor = this.predictorRepository.save(predictor);
+        return predictor;
+    }
+
+    /**
+     * Add participant in Predictor
+     * @param predictorId
+     * @param joinPredictorDTO
+     * @return
+     */
+    public Predictor join(String predictorId, JoinPredictorDTO joinPredictorDTO) {
+        Participant newParticipant = this.participantService.getUserInfo(joinPredictorDTO.getUserId());
+        Predictor predictor = this.predictorRepository.findOne(predictorId);
+        predictor.addParticipant(newParticipant);
         predictor = this.predictorRepository.save(predictor);
         return predictor;
     }

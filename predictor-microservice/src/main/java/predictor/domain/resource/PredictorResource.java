@@ -26,10 +26,16 @@ public class PredictorResource {
         this.predictorService = predictorService;
     }
 
-    @RequestMapping(value = "/join")
-    public ResponseEntity<Predictor> joinInEvent(@RequestBody PredictorDTO predictorDTO) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Predictor> create(@RequestBody PredictorDTO predictorDTO) {
         Predictor predictor = this.predictorService.create(predictorDTO);
         return new ResponseEntity<>(predictor, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{predictorId}/join",method = RequestMethod.POST)
+    public ResponseEntity<Predictor> join(@PathVariable("predictorId")String predictorId,@RequestBody JoinPredictorDTO joinPredictorDTO) {
+        Predictor predictor = this.predictorService.join(predictorId,joinPredictorDTO);
+        return new ResponseEntity<>(predictor, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
