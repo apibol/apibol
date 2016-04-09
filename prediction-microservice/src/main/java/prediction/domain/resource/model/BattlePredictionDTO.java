@@ -16,19 +16,19 @@ public class BattlePredictionDTO implements DomainConverter<BattlePrediction> {
     @Transient
     private User owner;
 
-    @Transient
+    @NotEmpty(message = "predictor id cannot be null")
     private String predictorId;
 
-    @NotEmpty
+    @NotEmpty(message = "player game result cannot be null")
     private String gameId;
 
-    @NotEmpty
+    @NotEmpty(message = "player two result cannot be null")
     private String playerOneResult;
 
-    @NotEmpty
+    @NotEmpty(message = "player one result cannot be null")
     private String playerTwoResult;
 
-    @NotEmpty
+    @NotEmpty(message = "user id result cannot be null")
     private String userId;
 
     @Override
