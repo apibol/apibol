@@ -1,5 +1,8 @@
 package predictor.domain.service;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import predictor.domain.Participant;
 import predictor.domain.exception.InvalidParticipant;
+
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Claudio E. de Oliveira on 06/03/16.
@@ -25,7 +31,10 @@ public class ParticipantService {
 
     @Value("${services.user.info}")
     private String url;
-    
+
+    private final Cache<String,Participant> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
+
+    @HystrixCommand(fallbackMethod = "getParticipantIndCache")
     public Participant getUserInfo(String userId){
         ResponseEntity<Participant> response = this.restTemplate.getForEntity(this.url + userId, Participant.class);
         if(response.getStatusCode().is2xxSuccessful()){
@@ -34,6 +43,19 @@ public class ParticipantService {
             log.error(String.format("Error on retrieve participant %s information",userId));
             throw new InvalidParticipant(userId);
         }
+    }
+
+    /**
+     * Retrieve participant from cache
+     * @param participantId
+     * @return
+     */
+    public Participant getParticipantIndCache(String participantId){
+        Participant cachedParticipant = cache.getIfPresent(participantId);
+        if(Objects.isNull(cachedParticipant)){
+            throw new InvalidParticipant(participantId);
+        }
+        return cachedParticipant;
     }
         
 }
