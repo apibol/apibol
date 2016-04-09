@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import user.domain.User;
 import user.domain.service.UserService;
@@ -40,7 +41,7 @@ public class UserResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@Validated @RequestBody User user) {
         User savedUser = this.userService.addUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }

@@ -28,6 +28,7 @@
         <module>predictor-microservice</module>
         <module>config-file-microservice</module>
         <module>specification</module>
+        <module>common</module>
     </modules>
 
     <parent>

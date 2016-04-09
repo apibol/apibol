@@ -1,6 +1,7 @@
 package user.domain;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.UUID;
 
@@ -12,8 +13,10 @@ public class User implements AbstractNullObject {
 
     String id;
 
+    @NotEmpty(message = "email cannot be null")
     String email;
 
+    @NotEmpty(message = "nickname cannot be null")
     String nickname;
 
     User() {
