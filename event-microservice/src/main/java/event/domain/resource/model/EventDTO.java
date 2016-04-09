@@ -15,15 +15,15 @@ import java.util.UUID;
 @Data
 public class EventDTO {
 
-    @NotEmpty
+    @NotEmpty(message = "name cannot be null")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "period cannot be null")
     private Period period;
 
     private Boolean open = Boolean.FALSE;
 
-    @NotEmpty
+    @NotEmpty(message = "owner cannot be null")
     private String ownerId;
 
     public Event toDomain(User owner) {

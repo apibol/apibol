@@ -17,10 +17,13 @@ public class NewBattle extends NewGame<Battle> {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    @NotEmpty(message = "player one cannot be null")
     private String playerOne;
 
+    @NotEmpty(message = "player two cannot be null")
     private String playerTwo;
 
+    @NotEmpty(message = "time cannot be null")
     private String time;
 
     NewBattle(){}

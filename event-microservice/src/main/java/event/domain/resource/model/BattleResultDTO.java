@@ -1,6 +1,7 @@
 package event.domain.resource.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Represents battle result
@@ -8,9 +9,11 @@ import lombok.Data;
  */
 @Data
 public class BattleResultDTO {
-    
+
+    @NotEmpty(message = "player one result cannot be null")
     private String playerOneResult;
 
+    @NotEmpty(message = "player two result cannot be null")
     private String playerTwoResult;
     
 }

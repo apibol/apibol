@@ -1,6 +1,7 @@
 package event.domain;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -14,8 +15,10 @@ public class Period {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    @NotEmpty(message = "start cannot be null")
     private String start;
 
+    @NotEmpty(message = "end cannot be null")
     private String end;
 
     Period() {

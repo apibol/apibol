@@ -1,5 +1,7 @@
 package event.infra.exception;
 
+import common.validation.Message;
+import common.validation.MessageType;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -9,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -21,6 +25,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
+
+import java.util.Objects;
 
 /**
  * Logs the message error
@@ -103,8 +109,9 @@ public class RestErrorLogger extends ResponseEntityExceptionHandler{
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("Error type [ARGUMENT NOT VALID]",ex);
-        return super.handleMethodArgumentNotValid(ex, headers, status, request);
+        log.error("Error type [ARGUMENT NOT VALID]");
+        final Message message = processValidationError(ex);
+        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -123,6 +130,31 @@ public class RestErrorLogger extends ResponseEntityExceptionHandler{
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("Error type [NO HANDLER EXCEPTION]",ex);
         return super.handleNoHandlerFoundException(ex, headers, status, request);
+    }
+
+    /**
+     * Process method argument not valid exception
+     * @param ex
+     * @return
+     */
+    public Message processValidationError(MethodArgumentNotValidException ex) {
+        BindingResult result = ex.getBindingResult();
+        FieldError error = result.getFieldError();
+        return processFieldError(error);
+    }
+
+    /**
+     * Build error message
+     * @param error
+     * @return
+     */
+    private Message processFieldError(FieldError error) {
+        Message message = null;
+        if (Objects.nonNull(error)) {
+            String msg = error.getDefaultMessage();
+            message = new Message(MessageType.ERROR, msg);
+        }
+        return message;
     }
 
 }
