@@ -24,3 +24,21 @@ logging:
   level:
     ROOT: INFO
     org.springframework.web: DEBUG
+
+zuul:
+  routes:
+    users:
+      path: /api/v1/users/**
+      serviceId: users
+    events:
+      path: /api/v1/events/**
+      serviceId: events
+    predictors:
+      path: /api/v1/predictors/**
+      serviceId: predictors
+    predictions:
+      path: /api/v1/predictions/**
+      serviceId: predictions
+    rankings:
+      path: /api/v1/rankings/**
+      serviceId: rankings
