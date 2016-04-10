@@ -34,14 +34,15 @@ public class ParticipantService {
 
     private final Cache<String,Participant> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
 
-    @HystrixCommand(fallbackMethod = "getParticipantIndCache")
-    public Participant getUserInfo(String userId){
-        ResponseEntity<Participant> response = this.restTemplate.getForEntity(this.url + userId, Participant.class);
+    @HystrixCommand(fallbackMethod = "getParticipantInCache")
+    public Participant getUserInfo(String participantId){
+        log.info("[REQUEST-PARTICIPANT-INFO] Request event info ");
+        ResponseEntity<Participant> response = this.restTemplate.getForEntity(this.url + participantId, Participant.class);
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
-            log.error(String.format("Error on retrieve participant %s information",userId));
-            throw new InvalidParticipant(userId);
+            log.error(String.format("[REQUEST-PARTICIPANT-INFO] HTTP - Error on retrieve participant %s information", participantId));
+            throw new InvalidParticipant(participantId);
         }
     }
 
@@ -50,9 +51,10 @@ public class ParticipantService {
      * @param participantId
      * @return
      */
-    public Participant getParticipantIndCache(String participantId){
+    public Participant getParticipantInCache(String participantId){
         Participant cachedParticipant = cache.getIfPresent(participantId);
         if(Objects.isNull(cachedParticipant)){
+            log.error(String.format("[REQUEST-PARTICIPANT-INFO] CACHE - Error on retrieve participant %s information", participantId));
             throw new InvalidParticipant(participantId);
         }
         return cachedParticipant;
