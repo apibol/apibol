@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ranking.domain.RankingElement;
+import ranking.domain.repository.model.RankingTO;
 import ranking.domain.service.RankingService;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class RankingResource {
     }
 
     @RequestMapping(value = "/{predictorId}", method = RequestMethod.GET)
-    public ResponseEntity<List<RankingElement>> findByPredictor(@PathVariable("predictorId") String predictorId) {
+    public ResponseEntity<List<RankingTO>> findByPredictor(@PathVariable("predictorId") String predictorId) {
         return new ResponseEntity<>(this.rankingService.findRanking(predictorId), HttpStatus.OK);
     }
 

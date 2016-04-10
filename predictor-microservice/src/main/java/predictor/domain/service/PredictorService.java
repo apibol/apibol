@@ -41,19 +41,19 @@ public class PredictorService {
     }
 
     /**
-     * Create or updates a predictor
+     * Creates a predictor
      *
      * @param predictorDTO
      * @return
      */
     public Predictor create(PredictorDTO predictorDTO) {
-        log.info("Creating predictor ");
+        log.info("[CREATE-PREDICTOR] Creating predictor ");
         Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
         Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
         Predictor predictor = Predictor.createPredictor(event.getId(), newParticipant);
         predictor.addParticipant(newParticipant);
         predictor = this.predictorRepository.save(predictor);
-        log.info("Predictor created with success ");
+        log.info("[CREATE-PREDICTOR] Predictor created with success ");
         return predictor;
     }
 
@@ -65,16 +65,16 @@ public class PredictorService {
      * @return
      */
     public Predictor join(String predictorId, JoinPredictorDTO joinPredictorDTO) {
-        log.info(String.format("Adding participant %s in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
+        log.info(String.format("[ADD-PARTICIPANT] Adding participant %s in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
         Participant newParticipant = this.participantService.getUserInfo(joinPredictorDTO.getUserId());
         Predictor predictor = this.predictorRepository.findOne(predictorId);
         if (Objects.nonNull(predictor)) {
             predictor.addParticipant(newParticipant);
             predictor = this.predictorRepository.save(predictor);
-            log.info(String.format("Participant %s added in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
+            log.info(String.format("[ADD-PARTICIPANT] Participant %s added in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
             return predictor;
         } else {
-            log.error("Invalid predictor or not found");
+            log.error("[ADD-PARTICIPANT] Invalid predictor or not found");
             throw new InvalidPredictor(predictorId);
         }
 
@@ -105,7 +105,7 @@ public class PredictorService {
      * @param id
      */
     public void deletePredictor(String id) {
-        log.info(String.format("Delete predictor by id. Predictor %s", id));
+        log.info(String.format("[DELETE-PREDICTOR] Delete predictor by id. Predictor %s", id));
         this.predictorRepository.delete(id);
     }
 

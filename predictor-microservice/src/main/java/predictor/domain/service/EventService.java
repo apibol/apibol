@@ -27,36 +27,40 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 public class EventService {
 
-    @Autowired @LoadBalanced
+    @Autowired
+    @LoadBalanced
     private RestTemplate restTemplate;
 
     @Value("${services.event.info}")
     private String eventInfoUrl;
 
-    private final Cache<String,Event> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
+    private final Cache<String, Event> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
 
     @HystrixCommand(fallbackMethod = "getEventInCache")
-    public Event getEventInfo(String eventId){
+    public Event getEventInfo(String eventId) {
+        log.info("[REQUEST-EVENT-INFO] Request event info ");
         ResponseEntity<Event> response = this.restTemplate.getForEntity(this.eventInfoUrl + eventId, Event.class);
-        if(response.getStatusCode().is2xxSuccessful()){
+        if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
-        }else {
-            log.error(String.format("Error on retrieve event %s information",eventId));
+        } else {
+            log.error(String.format("[REQUEST-EVENT-INFO] HTTP - Error on retrieve event %s information", eventId));
             throw new InvalidEvent(eventId);
         }
     }
 
     /**
      * Retrieve event from cache
+     *
      * @param eventId
      * @return
      */
-    public Event getEventInCache(String eventId){
+    public Event getEventInCache(String eventId) {
         Event event = cache.getIfPresent(eventId);
-        if(Objects.isNull(event)){
+        if (Objects.isNull(event)) {
+            log.error(String.format("[REQUEST-EVENT-INFO] CACHE - Error on retrieve event %s information", eventId));
             throw new InvalidEvent(eventId);
         }
         return event;
     }
-        
+
 }
