@@ -21,7 +21,6 @@ import java.security.Principal;
  * @author Claudio E. de Oliveira on 02/03/16.
  */
 @SpringCloudApplication
-@RestController
 @EnableResourceServer
 public class AuthApplication implements HealthIndicator {
 
@@ -32,33 +31,6 @@ public class AuthApplication implements HealthIndicator {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(AuthApplication.class, args);
-    }
-
-    @RequestMapping("/user")
-    public Principal user(Principal user) {
-        return user;
-    }
-
-    @Configuration
-    @EnableAuthorizationServer
-    protected static class OAuth2Config extends AuthorizationServerConfigurerAdapter {
-
-        @Autowired
-        private AuthenticationManager authenticationManager;
-
-        @Override
-        public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-            endpoints.authenticationManager(authenticationManager);
-        }
-
-        @Override
-        public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-            clients.inMemory()
-                    .withClient("acme")
-                    .secret("acmesecret")
-                    .authorizedGrantTypes("authorization_code", "refresh_token", "implicit", "password", "client_credentials")
-                    .scopes("webshop");
-        }
     }
 
 }
