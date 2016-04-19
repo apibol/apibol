@@ -25,7 +25,6 @@ import java.security.Principal;
  * @author Claudio E. de Oliveira on 02/03/16.
  */
 @SpringCloudApplication
-@EnableOAuth2Sso
 @EnableZuulProxy
 @ComponentScan(basePackages = {"auth"})
 public class AuthApplication implements HealthIndicator {
