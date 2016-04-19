@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.security.oauth2.sso.EnableOAuth2Sso;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -21,7 +25,9 @@ import java.security.Principal;
  * @author Claudio E. de Oliveira on 02/03/16.
  */
 @SpringCloudApplication
-@EnableResourceServer
+@EnableOAuth2Sso
+@EnableZuulProxy
+@ComponentScan(basePackages = {"auth"})
 public class AuthApplication implements HealthIndicator {
 
     @Override

@@ -17,6 +17,8 @@ logging:
     org.springframework.web: DEBUG
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     registerWithEureka: true
     fetchRegistry: true
