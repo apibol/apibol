@@ -20,7 +20,7 @@ import java.util.List;
  * @author Claudio E. de Oliveira on 13/03/16.
  */
 @RestController
-@RequestMapping(value = "/predictor")
+@RequestMapping(value = "/")
 @Api(value = "/predictor", description = "Operations to associate participants in events")
 public class PredictorResource {
 
