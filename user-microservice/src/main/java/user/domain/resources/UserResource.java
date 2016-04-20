@@ -18,7 +18,7 @@ import java.util.List;
  * @author Claudio E. de Oliveira on 25/02/16.
  */
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/")
 @Api(value = "/user", description = "Operations about users")
 public class UserResource {
 
