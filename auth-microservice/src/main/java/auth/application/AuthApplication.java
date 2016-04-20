@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringCloudApplication
 @EnableZuulProxy
 @ComponentScan(basePackages = "auth")
+
 public class AuthApplication implements HealthIndicator {
 
     @Override
