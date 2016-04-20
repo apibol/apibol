@@ -10,8 +10,8 @@ import java.security.Principal;
  * @author Claudio E. de Oliveira on on 10/04/16.
  */
 @RestController
-@RequestMapping("/user")
-public class UserResource {
+@RequestMapping("/credential")
+public class CredentialResource {
 
     @RequestMapping(method = RequestMethod.GET)
     public Principal user(Principal user) {

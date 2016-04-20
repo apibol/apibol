@@ -3,6 +3,9 @@ package auth.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Credential for OAuth
  *
@@ -19,5 +22,7 @@ public class Credential {
     private String nickname;
 
     private String password;
+
+    private Set<Scope> scopes = new HashSet<>();
 
 }
