@@ -19,7 +19,7 @@ import java.util.List;
  * @author Claudio E. de Oliveira on on 03/04/16.
  */
 @RestController
-@RequestMapping(value = "/ranking")
+@RequestMapping(value = "/")
 @Api(value = "/ranking", description = "Operations about rankings")
 public class RankingResource {
 
