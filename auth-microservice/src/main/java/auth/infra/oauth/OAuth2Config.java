@@ -3,6 +3,7 @@ package auth.infra.oauth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -49,12 +50,16 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(this.dataSource);
+        clients.jdbc(this.dataSource).passwordEncoder(this.passwordEncoder);
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.passwordEncoder(this.passwordEncoder);
+    }
+
+    public void init(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(this.dataSource).passwordEncoder(this.passwordEncoder);
     }
 
 }
