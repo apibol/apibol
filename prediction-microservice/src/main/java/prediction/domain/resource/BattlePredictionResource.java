@@ -1,5 +1,6 @@
 package prediction.domain.resource;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,12 @@ import prediction.domain.service.BattlePredictionService;
 import java.util.List;
 
 /**
+ * Operations about predictions
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @RestController
-@RequestMapping(value = "/prediction")
+@RequestMapping(value = "/")
+@Api(value = "/predictions", description = "Operations to receive predictions")
 public class BattlePredictionResource {
 
     private final BattlePredictionService battlePredictionService;
