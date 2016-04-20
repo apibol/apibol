@@ -1,2 +1,7 @@
 server:
   port: 7777
+
+spring:
+  datasource:
+    initialization-fail-fast: true
+    validation-query: SELECT 1

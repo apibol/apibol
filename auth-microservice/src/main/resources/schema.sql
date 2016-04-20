@@ -1,5 +1,5 @@
+-- Client Details
 drop table if exists oauth_client_details;
-
 create table oauth_client_details (
   client_id VARCHAR(255) PRIMARY KEY,
   resource_ids VARCHAR(255),
@@ -14,6 +14,7 @@ create table oauth_client_details (
   autoapprove VARCHAR(255)
 );
 
+-- Client Token
 drop table if exists oauth_client_token;
 create table oauth_client_token (
   token_id VARCHAR(255),
@@ -23,6 +24,7 @@ create table oauth_client_token (
   client_id VARCHAR(255)
 );
 
+-- Access token
 drop table if exists oauth_access_token;
 create table oauth_access_token (
   token_id VARCHAR(255),
@@ -34,6 +36,7 @@ create table oauth_access_token (
   refresh_token VARCHAR(255)
 );
 
+-- Refresh token
 drop table if exists oauth_refresh_token;
 create table oauth_refresh_token (
   token_id VARCHAR(255),
@@ -41,11 +44,13 @@ create table oauth_refresh_token (
   authentication LONG VARBINARY
 );
 
+-- OAuth Code
 drop table if exists oauth_code;
 create table oauth_code (
   code VARCHAR(255), authentication LONG VARBINARY
 );
 
+-- OAuth Approvals
 drop table if exists oauth_approvals;
 create table oauth_approvals (
     userId VARCHAR(255),
@@ -55,3 +60,30 @@ create table oauth_approvals (
     expiresAt TIMESTAMP,
     lastModifiedAt TIMESTAMP
 );
+
+-- Scope
+drop table if exists scope;
+create table scope (
+  id VARCHAR(100),
+  scope VARCHAR(255)
+);
+
+-- Credential
+drop table if exists credential;
+create table credential (
+  id VARCHAR(255),
+  email VARCHAR(500),
+  nickname VARCHAR(100),
+  password VARCHAR(500)
+);
+
+-- Credential X Scope
+drop table if exists credentials_scope;
+create table credentials_scope (
+  id VARCHAR(255),
+  credential_id VARCHAR(100),
+  scope_id VARCHAR(50)
+);
+
+
+
