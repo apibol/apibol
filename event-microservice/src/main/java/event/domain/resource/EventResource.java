@@ -18,10 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Events Resources
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @RestController
-@RequestMapping("/event")
+@RequestMapping("/")
 @Api(value = "/event", description = "Operations about events")
 public class EventResource {
 
