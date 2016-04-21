@@ -2,6 +2,7 @@ package auth.domain.service;
 
 import auth.domain.Credential;
 import auth.domain.repository.CredentialRepository;
+import auth.domain.resource.vo.CredentialVO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,10 @@ public class CredentialService {
      * @param credential
      * @return
      */
-    public Credential createOwner(Credential credential) {
+    public Credential createOwner(CredentialVO credential) {
         log.info("Creating new [OWNER]");
-        return this.credentialRepository.addOwner(credential);
+        Credential newCredential = Credential.fromVO(credential.getEmail(), credential.getNickname(), credential.getPassword());
+        return this.credentialRepository.addOwner(newCredential);
     }
 
     /**
@@ -39,9 +41,10 @@ public class CredentialService {
      * @param credential
      * @return
      */
-    public Credential createMaintainer(Credential credential) {
+    public Credential createMaintainer(CredentialVO credential) {
         log.info("Creating new [MAINTAINER]");
-        return this.credentialRepository.addMaintainer(credential);
+        Credential newCredential = Credential.fromVO(credential.getEmail(), credential.getNickname(), credential.getPassword());
+        return this.credentialRepository.addMaintainer(newCredential);
     }
 
     /**
@@ -50,9 +53,10 @@ public class CredentialService {
      * @param credential
      * @return
      */
-    public Credential createUser(Credential credential) {
+    public Credential createUser(CredentialVO credential) {
         log.info("Creating new [USER]");
-        return this.credentialRepository.addUser(credential);
+        Credential newCredential = Credential.fromVO(credential.getEmail(), credential.getNickname(), credential.getPassword());
+        return this.credentialRepository.addUser(newCredential);
     }
 
 }

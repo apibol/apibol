@@ -70,10 +70,9 @@ public class CredentialRepository {
      */
     private Credential addCredential(Credential credential,String scope) {
         String encodedPassword = this.passwordEncoder.encode(credential.getPassword());
-        credential.assignNewId(newUuid());
+        credential.assignNewId(newUuid()).assignEncodedPassword(encodedPassword).addScope(scope);
         this.jdbcTemplate.update(INSERT_CREDENTIAL,credential.getId(),credential.getNickname(),credential.getEmail(),encodedPassword);
         this.jdbcTemplate.update(INSERT_ASSOCIATION,newUuid(),credential.getNickname(),scope);
-        credential.addScope(scope);
         return credential;
     }
 

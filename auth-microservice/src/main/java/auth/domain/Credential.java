@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Credential for OAuth
@@ -46,6 +47,31 @@ public class Credential {
     }
 
     /**
+     * Constructor
+     *
+     * @param email
+     * @param nickname
+     * @param password
+     */
+    private Credential(String email,String nickname,String password){
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+    }
+
+    /**
+     * Credential factory
+     *
+     * @param email
+     * @param nickname
+     * @param password
+     * @return
+     */
+    public static Credential fromVO(String email,String nickname,String password){
+        return new Credential(email,nickname,password);
+    }
+
+    /**
      * Credential factory
      *
      * @param id
@@ -66,6 +92,17 @@ public class Credential {
      */
     public Credential assignNewId(String id){
         this.id = id;
+        return this;
+    }
+
+    /**
+     * Assign encoded password
+     *
+     * @param encodedPassword - the encoded password
+     * @return
+     */
+    public Credential assignEncodedPassword(String encodedPassword){
+        this.password = encodedPassword;
         return this;
     }
 
