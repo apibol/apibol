@@ -2,14 +2,17 @@ package auth.domain.service;
 
 import auth.domain.Credential;
 import auth.domain.repository.CredentialRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * Credentials Service
+ *
  * @author Claudio E. de Oliveira on on 21/04/16.
  */
 @Service
+@Log4j2
 public class CredentialService {
 
     private final CredentialRepository credentialRepository;
@@ -25,8 +28,9 @@ public class CredentialService {
      * @param credential
      * @return
      */
-    public Credential createOwner(Credential credential){
-        return this.createOwner(credential);
+    public Credential createOwner(Credential credential) {
+        log.info("Creating new [OWNER]");
+        return this.credentialRepository.addOwner(credential);
     }
 
     /**
@@ -35,8 +39,9 @@ public class CredentialService {
      * @param credential
      * @return
      */
-    public Credential createMaintainer(Credential credential){
-        return this.createMaintainer(credential);
+    public Credential createMaintainer(Credential credential) {
+        log.info("Creating new [MAINTAINER]");
+        return this.credentialRepository.addMaintainer(credential);
     }
 
     /**
@@ -45,8 +50,9 @@ public class CredentialService {
      * @param credential
      * @return
      */
-    public Credential createUser(Credential credential){
-        return this.createUser(credential);
+    public Credential createUser(Credential credential) {
+        log.info("Creating new [USER]");
+        return this.credentialRepository.addUser(credential);
     }
 
 }

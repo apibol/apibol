@@ -26,20 +26,20 @@ public class RegisterResource {
     @RequestMapping(value = "/owner",method = RequestMethod.POST)
     public ResponseEntity<CredentialResponse> newOwner(@RequestBody Credential credential){
         Credential owner = this.credentialService.createOwner(credential);
-        return new ResponseEntity<CredentialResponse>(CredentialResponse.newResponse(credential), HttpStatus.CREATED);
+        return new ResponseEntity<>(CredentialResponse.newResponse(credential), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/maintainer",method = RequestMethod.POST)
     public ResponseEntity<CredentialResponse> newMaintainer(@RequestBody Credential credential){
         Credential owner = this.credentialService.createMaintainer(credential);
-        return new ResponseEntity<CredentialResponse>(CredentialResponse.newResponse(credential), HttpStatus.CREATED);
+        return new ResponseEntity<>(CredentialResponse.newResponse(credential), HttpStatus.CREATED);
 
     }
 
     @RequestMapping(value = "/user",method = RequestMethod.POST)
     public ResponseEntity<CredentialResponse> newUser(@RequestBody Credential credential){
         Credential owner = this.credentialService.createUser(credential);
-        return new ResponseEntity<CredentialResponse>(CredentialResponse.newResponse(credential), HttpStatus.CREATED);
+        return new ResponseEntity<>(CredentialResponse.newResponse(credential), HttpStatus.CREATED);
     }
 
 }
