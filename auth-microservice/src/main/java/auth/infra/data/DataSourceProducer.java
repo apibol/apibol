@@ -3,6 +3,7 @@ package auth.infra.data;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -25,6 +26,11 @@ public class DataSourceProducer {
         dataSource.setUsername("root");
         dataSource.setPassword("admin");
         return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(this.dataSource());
     }
 
 }

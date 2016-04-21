@@ -12,8 +12,28 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = {"scope"})
 public class Scope {
 
-    private String id;
-
     private String scope;
+
+    /**
+     * Default constructor
+     */
+    Scope(){}
+
+    /**
+     * Constructor
+     * @param scope
+     */
+    private Scope(String scope){
+        this.scope = scope;
+    }
+
+    /**
+     * Scope Factory
+     * @param scope
+     * @return
+     */
+    public static Scope create(String scope){
+        return new Scope(scope);
+    }
 
 }

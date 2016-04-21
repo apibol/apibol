@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
 
@@ -23,7 +24,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
+public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
@@ -35,17 +36,14 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     private TokenStore tokenStore;
 
     @Autowired
-    private ApprovalStore approvalStore;
-
-    @Autowired
-    private AuthorizationCodeServices authorizationCodeServices;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(this.authenticationManager).approvalStore(this.approvalStore).tokenStore(this.tokenStore).authorizationCodeServices(this.authorizationCodeServices);
+        endpoints.authenticationManager(this.authenticationManager).approvalStoreDisabled().tokenStore(this.tokenStore).accessTokenConverter(this.jwtAccessTokenConverter);
     }
 
     @Override
@@ -54,12 +52,17 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.passwordEncoder(this.passwordEncoder);
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 
     public void init(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(this.dataSource).passwordEncoder(this.passwordEncoder);
+        auth
+            .jdbcAuthentication()
+                .dataSource(this.dataSource)
+                .usersByUsernameQuery("select nickname,password,true from users where nickname=?")
+                .authoritiesByUsernameQuery("select nickname, scope from credentials_scope where nickname=?")
+            .passwordEncoder(this.passwordEncoder);
     }
 
 }

@@ -81,8 +81,8 @@ create table credential (
 drop table if exists credentials_scope;
 create table credentials_scope (
   id VARCHAR(255),
-  credential_id VARCHAR(100),
-  scope_id VARCHAR(50)
+  nickname VARCHAR(100),
+  scope VARCHAR(50)
 );
 
 
