@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import user.domain.User;
 import user.domain.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class UserResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<User>> find() {
+    public ResponseEntity<List<User>> find(Principal currentUser) {
         return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
     }
 

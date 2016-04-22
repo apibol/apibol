@@ -1,5 +1,6 @@
 package user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -41,6 +42,7 @@ public class User implements AbstractNullObject {
     }
 
     @Override
+    @JsonIgnore
     public boolean isNil() {
         return false;
     }
