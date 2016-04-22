@@ -1,12 +1,16 @@
 package auth.domain.repository;
 
 import auth.domain.Credential;
+import auth.domain.Scope;
+import auth.infra.mapper.CredentialMapper;
+import auth.infra.mapper.CredentialScopeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -23,6 +27,8 @@ public class CredentialRepository {
 
     private static final String INSERT_ASSOCIATION = "INSERT INTO credentials_scope(id,nickname,scope) VALUES (?,?,?)";
 
+    private static final String FIND_USER_SCOPE = "SELECT * FROM credentials_scope WHERE nickname = ?";
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -30,7 +36,10 @@ public class CredentialRepository {
     private JdbcTemplate jdbcTemplate;
 
     public Credential findByNickname(String nickname) {
-        return this.jdbcTemplate.queryForObject(FIND_BY_NICKNAME, new Object[]{nickname}, Credential.class);
+        final Credential credential = this.jdbcTemplate.queryForObject(FIND_BY_NICKNAME, new Object[]{nickname}, new CredentialMapper());
+        List<Scope> scopes = this.jdbcTemplate.query(FIND_USER_SCOPE, new Object[]{nickname}, new CredentialScopeMapper());
+        scopes.forEach(scope -> credential.addScope(scope.getScope()));
+        return credential;
     }
 
     /**

@@ -1,5 +1,6 @@
-package auth.infra.oauth;
+package auth.infra.security;
 
+import auth.domain.service.CredentialUserDetails;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,21 +31,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CredentialUserDetails credentialUserDetails;
+
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         log.info("Defining JDBC Authentication");
-        auth.jdbcAuthentication()
-                .dataSource(this.dataSource)
-                .usersByUsernameQuery("select nickname,password,true from credential where nickname=?")
-                .authoritiesByUsernameQuery("select nickname, scope from credentials_scope where nickname=?")
-                .passwordEncoder(this.passwordEncoder);
+        auth.userDetailsService(this.credentialUserDetails).passwordEncoder(this.passwordEncoder);
     }
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+        return this.authenticationManager;
     }
 
     @Override
