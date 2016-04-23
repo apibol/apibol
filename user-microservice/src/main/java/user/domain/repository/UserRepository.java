@@ -1,5 +1,7 @@
 package user.domain.repository;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,6 +15,7 @@ import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Claudio E. de Oliveira on 25/02/16.
@@ -33,6 +36,8 @@ public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final Cache<String,User> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
+
     @Autowired
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -46,6 +51,7 @@ public class UserRepository {
      */
     public User add(User user) {
         jdbcTemplate.update(INSERT_USER, user.getId(), user.getNickname(), user.getEmail());
+        addOrUpdateInCache(user);
         return user;
     }
 
@@ -57,7 +63,9 @@ public class UserRepository {
      */
     public User findOne(String id) {
         try {
-            return jdbcTemplate.queryForObject(BY_ID, new Object[]{id}, new UserMapper());
+            User user = jdbcTemplate.queryForObject(BY_ID, new Object[]{id}, new UserMapper());
+            addOrUpdateInCache(user);
+            return user;
         } catch (EmptyResultDataAccessException e) {
             log.error(String.format("User %s not found", id));
             throw new UserNotFound(id);
@@ -71,7 +79,9 @@ public class UserRepository {
      * @return
      */
     public User findByEmail(String email) {
-        return jdbcTemplate.queryForObject(BY_EMAIL, new Object[]{email}, new UserMapper());
+        User user = jdbcTemplate.queryForObject(BY_EMAIL, new Object[]{email}, new UserMapper());
+        addOrUpdateInCache(user);
+        return user;
     }
 
     /**
@@ -81,7 +91,9 @@ public class UserRepository {
      * @return
      */
     public User findByNickname(String nickname) {
-        return jdbcTemplate.queryForObject(BY_NICKNAME, new Object[]{nickname}, new UserMapper());
+        User user = jdbcTemplate.queryForObject(BY_NICKNAME, new Object[]{nickname}, new UserMapper());
+        addOrUpdateInCache(user);
+        return user;
     }
 
     /**
@@ -122,6 +134,15 @@ public class UserRepository {
      */
     public List<User> findAll() {
         return this.jdbcTemplate.query(ALL_USERS, new Object[]{}, new UserMapper());
+    }
+
+    /**
+     * Update user information in cache
+     *
+     * @param user
+     */
+    private void addOrUpdateInCache(User user){
+        this.cache.put(user.getId(),user);
     }
 
 }
