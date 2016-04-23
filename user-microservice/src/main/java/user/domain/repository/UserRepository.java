@@ -27,6 +27,8 @@ public class UserRepository {
 
     private static final String BY_EMAIL = "SELECT * FROM users WHERE email = ?";
 
+    private static final String BY_NICKNAME = "SELECT * FROM users WHERE nickname = ?";
+
     private static final String ALL_USERS = "SELECT * FROM users";
 
     private final JdbcTemplate jdbcTemplate;
@@ -65,7 +67,7 @@ public class UserRepository {
     /**
      * Retrieve user from email
      *
-     * @param email
+     * @param email - the email
      * @return
      */
     public User findByEmail(String email) {
@@ -73,11 +75,22 @@ public class UserRepository {
     }
 
     /**
-     * Check user if exists
-     * @param email
+     * Retrieve user from nickname
+     *
+     * @param nickname - the nickname
      * @return
      */
-    public boolean checkIfUserExists(String email) {
+    public User findByNickname(String nickname) {
+        return jdbcTemplate.queryForObject(BY_NICKNAME, new Object[]{nickname}, new UserMapper());
+    }
+
+    /**
+     * Check user if exists by email
+     *
+     * @param email - the email
+     * @return
+     */
+    public boolean checkIfUserExistsByEmail(String email) {
         try {
             return Objects.nonNull(this.findByEmail(email));
         } catch (EmptyResultDataAccessException e) {
@@ -87,11 +100,28 @@ public class UserRepository {
     }
 
     /**
-     * Find All users
+     * Check user if exists by nickname
+     *
+     * @param nickname - the nickname
      * @return
      */
-    public List<User> findAll(){
-        return this.jdbcTemplate.query(ALL_USERS,new Object[]{},new UserMapper());
+    public boolean checkIfUserExistsByNickname(String nickname) {
+        try {
+            return Objects.nonNull(this.findByNickname(nickname));
+        } catch (EmptyResultDataAccessException e) {
+            log.info(String.format("User with nickname %s", nickname));
+            return false;
+        }
+    }
+
+
+    /**
+     * Find All users
+     *
+     * @return
+     */
+    public List<User> findAll() {
+        return this.jdbcTemplate.query(ALL_USERS, new Object[]{}, new UserMapper());
     }
 
 }
