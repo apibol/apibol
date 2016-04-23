@@ -1,9 +1,6 @@
 package user.domain.resources;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import user.domain.User;
 import user.domain.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 /**
+ * REST API for user entity
+ *
  * @author Claudio E. de Oliveira on 25/02/16.
  */
 @RestController
@@ -31,14 +29,20 @@ public class UserResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<User>> find(Principal currentUser) {
+    public ResponseEntity<List<User>> find() {
         return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> find(@PathVariable("id") String id) {
         User user = this.userService.find(id);
-        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public ResponseEntity<User> findByNickname(@RequestParam(value = "nickname", required = true) String nickname) {
+        User user = this.userService.findByNickname(nickname);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -8,11 +8,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import user.domain.User;
-import user.domain.exception.UserNotFound;
+import user.domain.exception.UserNotFoundByEmail;
+import user.domain.exception.UserNotFoundById;
+import user.domain.exception.UserNotFoundByNickname;
 import user.infra.data.UserMapper;
 
-import java.sql.JDBCType;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +36,10 @@ public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final Cache<String,User> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
+    /**
+     * The users cache Key: nickname Value: user
+     */
+    private final Cache<String, User> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
 
     @Autowired
     public UserRepository(JdbcTemplate jdbcTemplate) {
@@ -67,8 +70,8 @@ public class UserRepository {
             addOrUpdateInCache(user);
             return user;
         } catch (EmptyResultDataAccessException e) {
-            log.error(String.format("User %s not found", id));
-            throw new UserNotFound(id);
+            log.error(String.format("User %s not found by id", id),e);
+            throw new UserNotFoundById(id);
         }
     }
 
@@ -79,9 +82,14 @@ public class UserRepository {
      * @return
      */
     public User findByEmail(String email) {
-        User user = jdbcTemplate.queryForObject(BY_EMAIL, new Object[]{email}, new UserMapper());
-        addOrUpdateInCache(user);
-        return user;
+        try {
+            User user = jdbcTemplate.queryForObject(BY_EMAIL, new Object[]{email}, new UserMapper());
+            addOrUpdateInCache(user);
+            return user;
+        } catch (EmptyResultDataAccessException e) {
+            log.error(String.format("User %s not found by email", email), e);
+            throw new UserNotFoundByEmail(email);
+        }
     }
 
     /**
@@ -91,9 +99,18 @@ public class UserRepository {
      * @return
      */
     public User findByNickname(String nickname) {
-        User user = jdbcTemplate.queryForObject(BY_NICKNAME, new Object[]{nickname}, new UserMapper());
-        addOrUpdateInCache(user);
-        return user;
+        final User cachedUser = getIfPresentInCache(nickname);
+        if (Objects.nonNull(cachedUser)) {
+            return cachedUser;
+        }
+        try {
+            User user = jdbcTemplate.queryForObject(BY_NICKNAME, new Object[]{nickname}, new UserMapper());
+            addOrUpdateInCache(user);
+            return user;
+        } catch (EmptyResultDataAccessException e) {
+            log.error(String.format("User %s not found by nickname", nickname), e);
+            throw new UserNotFoundByNickname(nickname);
+        }
     }
 
     /**
@@ -106,7 +123,7 @@ public class UserRepository {
         try {
             return Objects.nonNull(this.findByEmail(email));
         } catch (EmptyResultDataAccessException e) {
-            log.info(String.format("User with email %s", email));
+            log.info(String.format("User with email %s", email), e);
             return false;
         }
     }
@@ -121,11 +138,10 @@ public class UserRepository {
         try {
             return Objects.nonNull(this.findByNickname(nickname));
         } catch (EmptyResultDataAccessException e) {
-            log.info(String.format("User with nickname %s", nickname));
+            log.info(String.format("User with nickname %s", nickname), e);
             return false;
         }
     }
-
 
     /**
      * Find All users
@@ -141,8 +157,18 @@ public class UserRepository {
      *
      * @param user
      */
-    private void addOrUpdateInCache(User user){
-        this.cache.put(user.getId(),user);
+    private void addOrUpdateInCache(User user) {
+        this.cache.put(user.getNickname(), user);
+    }
+
+    /**
+     * Get if user present in cache
+     *
+     * @param nickname - the nickname
+     * @return
+     */
+    private User getIfPresentInCache(String nickname) {
+        return this.cache.getIfPresent(nickname);
     }
 
 }

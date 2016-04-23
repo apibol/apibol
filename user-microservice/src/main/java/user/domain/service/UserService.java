@@ -73,4 +73,14 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    /**
+     * Retrieve user by nickname
+     *
+     * @param nickname - the nickname
+     * @return
+     */
+    public User findByNickname(String nickname) {
+        return this.userRepository.findByNickname(nickname);
+    }
+
 }

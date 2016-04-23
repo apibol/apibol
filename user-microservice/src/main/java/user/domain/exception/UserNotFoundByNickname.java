@@ -5,17 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * User not found Exception
+ * User not found Exception  by nickname
+ *
  * @author Claudio E. de Oliveira on 20/03/16.
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "User not found")
-public class UserNotFound extends RuntimeException {
+public class UserNotFoundByNickname extends RuntimeException {
 
     @Getter
-    private final String userId;
+    private final String nickname;
 
-    public UserNotFound(String userId) {
-        this.userId = userId;
+    public UserNotFoundByNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }
