@@ -44,14 +44,13 @@ public class RankingRepository {
         try {
             String key = String.format(RANKING_PATTERN, request.getPredictorId(), request.getUserId());
             String gameKey = String.format(GAME_PATTERN, request.getPredictorId(), request.getUserId());
-            if (!checkIfGameIsRepeated(redis, gameKey, request.getGameId())) {
+            if (redis.sadd(gameKey, request.getGameId()) > 0) {
                 String data = redis.hget(key, "nickname");
                 if (Strings.isNullOrEmpty(data)) {
                     redis.hmset(key, request.redisValue());
                 } else {
                     redis.hincrBy(key, "points", request.getPointsEarned());
                 }
-                redis.sadd(key, request.getGameId());
             }
         } finally {
             jedisPool.returnResourceObject(redis);
@@ -78,17 +77,6 @@ public class RankingRepository {
             jedisPool.returnResourceObject(redis);
         }
         return rankingElements;
-    }
-
-    /**
-     * Check if the game was computed
-     * @param redis
-     * @param key
-     * @param gameId
-     * @return
-     */
-    private boolean checkIfGameIsRepeated(Jedis redis, String key, String gameId) {
-        return redis.sismember(key, gameId);
     }
 
 }
