@@ -50,8 +50,8 @@ public class PredictorService {
         log.info("[CREATE-PREDICTOR] Creating predictor ");
         Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
         Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
-        Predictor predictor = Predictor.createPredictor(event.getId(), newParticipant);
-        predictor.addParticipant(newParticipant);
+        Predictor predictor = Predictor.createPredictor(event.getId(), newParticipant,event.getOpen());
+        predictor.join(newParticipant);
         predictor = this.predictorRepository.save(predictor);
         log.info("[CREATE-PREDICTOR] Predictor created with success ");
         return predictor;
@@ -69,7 +69,7 @@ public class PredictorService {
         Participant newParticipant = this.participantService.getUserInfo(joinPredictorDTO.getUserId());
         Predictor predictor = this.predictorRepository.findOne(predictorId);
         if (Objects.nonNull(predictor)) {
-            predictor.addParticipant(newParticipant);
+            predictor.join(newParticipant);
             predictor = this.predictorRepository.save(predictor);
             log.info(String.format("[ADD-PARTICIPANT] Participant %s added in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
             return predictor;
@@ -77,7 +77,6 @@ public class PredictorService {
             log.error("[ADD-PARTICIPANT] Invalid predictor or not found");
             throw new InvalidPredictor(predictorId);
         }
-
     }
 
     /**

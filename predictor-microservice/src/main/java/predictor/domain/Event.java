@@ -10,4 +10,6 @@ public class Event {
     
     private String id;
 
+    private Boolean open = Boolean.FALSE;
+
 }
