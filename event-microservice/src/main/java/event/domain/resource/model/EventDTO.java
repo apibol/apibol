@@ -7,6 +7,8 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -21,10 +23,12 @@ public class EventDTO {
     @NotEmpty(message = "period cannot be null")
     private Period period;
 
-    private Boolean open = Boolean.FALSE;
+    private Boolean open = Boolean.TRUE;
 
     @NotEmpty(message = "owner cannot be null")
     private String ownerId;
+
+    private Set<String> participants = new HashSet<>();
 
     public Event toDomain(User owner) {
         return Event.newEvent(UUID.randomUUID().toString(), this.name, this.period, this.open, owner);

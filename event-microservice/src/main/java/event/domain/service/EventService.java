@@ -7,10 +7,12 @@ import event.domain.repository.EventRepository;
 import event.domain.resource.model.BattleResultDTO;
 import event.domain.resource.model.EventDTO;
 import event.domain.resource.model.NewGame;
+import event.domain.specification.IsPrivateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Claudio E. de Oliveira on 28/02/16.
@@ -37,9 +39,13 @@ public class EventService {
      * @param eventDTO
      * @return
      */
-    public Event create(EventDTO eventDTO) {
+    public Event create(final EventDTO eventDTO) {
         User userInfo = this.userInfoService.getUserInfo(eventDTO.getOwnerId());
-        Event savedEvent = this.eventRepository.save(eventDTO.toDomain(userInfo));
+        Event newEvent = eventDTO.toDomain(userInfo);
+        if(new IsPrivateEvent().isSatisfiedBy(eventDTO)){
+            fillUserInfo(newEvent,eventDTO.getParticipants());
+        }
+        Event savedEvent = this.eventRepository.save(newEvent);
         return savedEvent;
     }
 
@@ -50,7 +56,7 @@ public class EventService {
      * @param newGame
      * @return
      */
-    public Event addNewGame(String eventId, NewGame newGame) {
+    public Event addNewGame(final String eventId, final NewGame newGame) {
         Event event = this.eventRepository.findOne(eventId);
         event.addGame(newGame.toDomain());
         this.eventRepository.save(event);
@@ -64,7 +70,7 @@ public class EventService {
      * @param gameId
      * @return
      */
-    public Event removeGame(String eventId, String gameId) {
+    public Event removeGame(final String eventId, final String gameId) {
         Event event = this.eventRepository.findOne(eventId);
         event = event.removeGame(gameId);
         this.eventRepository.save(event);
@@ -86,7 +92,7 @@ public class EventService {
      * @param id
      * @return
      */
-    public Event findOne(String id) {
+    public Event findOne(final String id) {
         return this.eventRepository.findOne(id);
     }
 
@@ -97,7 +103,7 @@ public class EventService {
      * @param gameId
      * @return
      */
-    public Game findGameById(String eventId, String gameId) {
+    public Game findGameById(final String eventId, final String gameId) {
         Event event = this.findOne(eventId);
         return event.gameById(gameId);
     }
@@ -110,14 +116,29 @@ public class EventService {
      * @param resultDTO
      * @return
      */
-    public Game addGameResult(String eventId, String gameId, BattleResultDTO resultDTO) {
+    public Game addGameResult(final String eventId, final String gameId, final BattleResultDTO resultDTO) {
         Event event = this.findOne(eventId);
         Game game = event.gameById(gameId);
         game.updateGame(resultDTO);
         this.eventRepository.save(event);
-        BattleResult battleResult =  new BattleResult.BattleResultBuilder().eventId(eventId).gameId(gameId).playerOneResult(resultDTO.getPlayerOneResult()).playerTwoResult(resultDTO.getPlayerTwoResult()).build();
+        BattleResult battleResult =  BattleResult.createNew(eventId,gameId,resultDTO.getPlayerOneResult(),resultDTO.getPlayerTwoResult());
         this.senderService.sendResult(battleResult);
         return game;
+    }
+
+    /**
+     * Fill users info
+     *
+     * @param event
+     * @param participants
+     * @return
+     */
+    private Event fillUserInfo(final Event event,final Set<String> participants){
+        participants.forEach(participantId -> {
+            User participantInfo = this.userInfoService.getUserInfo(participantId);
+            event.addParticipant(participantInfo);
+        });
+        return event;
     }
 
 }

@@ -32,6 +32,8 @@ public class Event {
 
     private Set<Game> games = new HashSet<>();
 
+    private Set<User> participants = new HashSet<>();
+
     private User owner;
 
     /**
@@ -104,6 +106,16 @@ public class Event {
      */
     public Game gameById(String gameId){
         return this.games.stream().filter(game -> game.getId().equals(gameId)).findFirst().get();
+    }
+
+    /**
+     * Add participant in event
+     * @param user
+     * @return
+     */
+    public Event addParticipant(User user){
+        this.participants.add(user);
+        return this;
     }
 
 }
