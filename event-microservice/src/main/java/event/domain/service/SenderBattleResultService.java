@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
  * @author Claudio E. de Oliveira on on 30/03/16.
  */
 @Component
-public class SenderService {
+public class SenderBattleResultService {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Value("${rabbit.queue.results}")
-    private String queueName;
+    private String resultsQueue;
 
     @Autowired
-    public SenderService(RabbitTemplate rabbitTemplate) {
+    public SenderBattleResultService(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -27,7 +27,7 @@ public class SenderService {
      * @param battleResult
      */
     public void sendResult(BattleResult battleResult){
-        this.rabbitTemplate.convertAndSend(this.queueName,battleResult);
+        this.rabbitTemplate.convertAndSend(this.resultsQueue,battleResult);
     }
 
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewPredictorListenerConfiguration {
 
-    @Value("${rabbit.queue.new.predictor}")
+    @Value("${rabbit.queue.event}")
     private String newPredictorQueue;
 
     private final ConnectionFactory connectionFactory;

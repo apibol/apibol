@@ -24,13 +24,16 @@ public class EventService {
 
     private final UserInfoService userInfoService;
 
-    private final SenderService senderService;
+    private final SenderBattleResultService senderBattleResultService;
+
+    private final SenderNewEventService senderNewEventService;
 
     @Autowired
-    public EventService(EventRepository eventRepository, UserInfoService userInfoService, SenderService senderService) {
+    public EventService(EventRepository eventRepository, UserInfoService userInfoService, SenderBattleResultService senderBattleResultService, SenderNewEventService senderNewEventService) {
         this.eventRepository = eventRepository;
         this.userInfoService = userInfoService;
-        this.senderService = senderService;
+        this.senderBattleResultService = senderBattleResultService;
+        this.senderNewEventService = senderNewEventService;
     }
 
     /**
@@ -42,8 +45,8 @@ public class EventService {
     public Event create(final EventDTO eventDTO) {
         User userInfo = this.userInfoService.getUserInfo(eventDTO.getOwnerId());
         Event newEvent = eventDTO.toDomain(userInfo);
-        if(new IsPrivateEvent().isSatisfiedBy(eventDTO)){
-            fillUserInfo(newEvent,eventDTO.getParticipants());
+        if (new IsPrivateEvent().isSatisfiedBy(eventDTO)) {
+            fillUserInfo(newEvent, eventDTO.getParticipants());
         }
         Event savedEvent = this.eventRepository.save(newEvent);
         return savedEvent;
@@ -121,8 +124,8 @@ public class EventService {
         Game game = event.gameById(gameId);
         game.updateGame(resultDTO);
         this.eventRepository.save(event);
-        BattleResult battleResult =  BattleResult.createNew(eventId,gameId,resultDTO.getPlayerOneResult(),resultDTO.getPlayerTwoResult());
-        this.senderService.sendResult(battleResult);
+        BattleResult battleResult = BattleResult.createNew(eventId, gameId, resultDTO.getPlayerOneResult(), resultDTO.getPlayerTwoResult());
+        this.senderBattleResultService.sendResult(battleResult);
         return game;
     }
 
@@ -133,7 +136,7 @@ public class EventService {
      * @param participants
      * @return
      */
-    private Event fillUserInfo(final Event event,final Set<String> participants){
+    private Event fillUserInfo(final Event event, final Set<String> participants) {
         participants.forEach(participantId -> {
             User participantInfo = this.userInfoService.getUserInfo(participantId);
             event.addParticipant(participantInfo);

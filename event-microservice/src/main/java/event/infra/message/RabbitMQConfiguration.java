@@ -1,7 +1,6 @@
 package event.infra.message;
 
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -23,7 +22,10 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfiguration {
 
     @Value("${rabbit.queue.results}")
-    private String queueName;
+    private String resultsQueue;
+
+    @Value("${rabbit.queue.event}")
+    private String newEventQueue;
 
     @Value("${rabbit.exchange.event}")
     private String topicName;
@@ -42,13 +44,18 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
-    public TopicExchange exchange() {
+    public TopicExchange eventExchange() {
         return new TopicExchange(this.topicName);
     }
 
-    @Bean
-    public Queue queue() {
-        return new Queue(this.queueName, false);
+    @Bean(name = "resultsQueue")
+    public Queue resultsQueue() {
+        return new Queue(this.resultsQueue, false);
+    }
+
+    @Bean(name = "newEventQueue")
+    public Queue newEventQueue() {
+        return new Queue(this.newEventQueue, false);
     }
 
     @Bean
@@ -58,9 +65,14 @@ public class RabbitMQConfiguration {
         return template;
     }
 
-    @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(this.queueName);
+    @Bean(name = "resultsBinding")
+    public Binding resultsBinding() {
+        return BindingBuilder.bind(resultsQueue()).to(eventExchange()).with(this.resultsQueue);
+    }
+
+    @Bean(name = "newEventBinding")
+    public Binding newEventBinding() {
+        return BindingBuilder.bind(newEventQueue()).to(eventExchange()).with(this.newEventQueue);
     }
 
 }

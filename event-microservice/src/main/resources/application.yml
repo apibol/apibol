@@ -1,0 +1,32 @@
+info:
+  component: Event MicroService
+
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
+ribbon:
+  eureka:
+    enabled: true
+
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: event
+    username: mongo
+    password: admin
+
+usermicroservice:
+    user-info: http://USERS/users/
+
+rabbit:
+  queue:
+    results: results
+    event: new-event
+  exchange:
+    event: event

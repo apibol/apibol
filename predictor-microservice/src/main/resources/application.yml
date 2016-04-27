@@ -1,0 +1,40 @@
+---
+info:
+  component: Predictor MicroService
+
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+ribbon:
+  eureka:
+    enabled: true
+
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: predictor
+    username: mongo
+    password: admin
+
+spring:
+  rabbitmq:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
+
+services:
+  user:
+    info: http://USERS/user/
+  event:
+    info: http://EVENTS/event/
+
+rabbit:
+  queue:
+    event: new-event
