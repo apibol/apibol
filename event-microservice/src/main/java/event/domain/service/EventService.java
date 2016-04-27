@@ -49,6 +49,7 @@ public class EventService {
             fillUserInfo(newEvent, eventDTO.getParticipants());
         }
         Event savedEvent = this.eventRepository.save(newEvent);
+        senderNewEventService.notifyNewEvent(savedEvent);
         return savedEvent;
     }
 

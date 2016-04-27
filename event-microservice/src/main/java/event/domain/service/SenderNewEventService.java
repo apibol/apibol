@@ -29,7 +29,7 @@ public class SenderNewEventService {
      *
      * @param event
      */
-    public void sendResult(Event event){
+    public void notifyNewEvent(Event event){
         this.rabbitTemplate.convertAndSend(this.newEventQueue,event);
     }
 
