@@ -36,10 +36,26 @@ public class Predictor {
     /** Accepted invitations */
     private Set<AcceptedInvitation> acceptedInvitations = new HashSet<>();
 
+    /** Owner */
+    private Participant owner;
+
     /**
      * Default constructor
      */
     Predictor() {
+    }
+
+    /**
+     * Constructor with owner
+     *
+     * @param eventId
+     * @param open
+     * @param owner
+     */
+    public Predictor(String eventId, Boolean open,Participant owner){
+        this.eventId = eventId;
+        this.open = open;
+        this.owner = owner;
     }
 
     /**
@@ -52,6 +68,18 @@ public class Predictor {
         this.eventId = eventId;
         this.open = open;
         this.join(participant);
+    }
+
+    /**
+     * Factory method
+     *
+     * @param eventId
+     * @param open
+     * @param owner
+     * @return
+     */
+    public static Predictor createPredictor(String eventId, Boolean open,Participant owner) {
+        return new Predictor(eventId, open,owner);
     }
 
     /**
@@ -118,6 +146,17 @@ public class Predictor {
                 iterator.remove();
             }
         }
+        return this;
+    }
+
+    /**
+     * Add new invitation
+     *
+     * @param userId
+     * @return
+     */
+    public Predictor newInvitation(String userId){
+        this.invitations.add(Invitation.createNew(userId));
         return this;
     }
 

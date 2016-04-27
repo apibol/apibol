@@ -2,6 +2,7 @@ package predictor.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import predictor.domain.service.HashKeyService;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,8 @@ public class Invitation {
 
     private LocalDateTime createdAt;
 
+    private String key;
+
     /**
      * Default constructor
      */
@@ -32,6 +35,7 @@ public class Invitation {
     public Invitation(String userId) {
         this.userId = userId;
         this.createdAt = LocalDateTime.now();
+        this.key = HashKeyService.encrypt(this.userId);
     }
 
     /**

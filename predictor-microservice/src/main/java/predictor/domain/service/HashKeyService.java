@@ -45,16 +45,16 @@ public class HashKeyService {
     /**
      * Encrypt value
      *
-     * @param Data
+     * @param data
      * @return
      * @throws Exception
      */
-    public static String encrypt(String Data) {
+    public static String encrypt(String data) {
         try {
             Key key = generateKey();
             Cipher c = Cipher.getInstance(ALG);
             c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encVal = c.doFinal(Data.getBytes());
+            byte[] encVal = c.doFinal(data.getBytes());
             String encryptedValue = base64().encode(encVal);
             return encryptedValue;
         } catch (Exception e) {
