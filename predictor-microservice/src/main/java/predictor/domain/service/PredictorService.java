@@ -61,10 +61,11 @@ public class PredictorService {
      * Add participant in Predictor
      *
      * @param predictorId
+     * @param hash
      * @param joinPredictorDTO
      * @return
      */
-    public Predictor join(String predictorId, JoinPredictorDTO joinPredictorDTO) {
+    public Predictor join(String predictorId,String hash, JoinPredictorDTO joinPredictorDTO) {
         log.info(String.format("[ADD-PARTICIPANT] Adding participant %s in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
         Participant newParticipant = this.participantService.getUserInfo(joinPredictorDTO.getUserId());
         Predictor predictor = this.predictorRepository.findOne(predictorId);

@@ -1,4 +1,4 @@
-package user.infra;
+package predictor.infra.oauth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

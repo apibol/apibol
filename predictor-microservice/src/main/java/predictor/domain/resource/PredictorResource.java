@@ -5,13 +5,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import predictor.domain.Participant;
 import predictor.domain.Predictor;
 import predictor.domain.service.PredictorService;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -48,9 +51,11 @@ public class PredictorResource {
             @ApiResponse(message = "Check your parameters", code = 400),
             @ApiResponse(message = "Predictor not found", code = 404)
     })
-    @RequestMapping(value = "/{predictorId}/join", method = RequestMethod.POST)
-    public ResponseEntity<Predictor> join(@PathVariable("predictorId") String predictorId, @RequestBody JoinPredictorDTO joinPredictorDTO) {
-        Predictor predictor = this.predictorService.join(predictorId, joinPredictorDTO);
+    @RequestMapping(value = "/{predictorId}/join/{hash}", method = RequestMethod.POST)
+    public ResponseEntity<Predictor> join(@PathVariable("predictorId") String predictorId, @PathVariable("hash") String hash, Principal principal) {
+        JoinPredictorDTO joinPredictorDTO = new JoinPredictorDTO();
+        joinPredictorDTO.setUserId(principal.getName());
+        Predictor predictor = this.predictorService.join(predictorId, hash, joinPredictorDTO);
         return new ResponseEntity<>(predictor, HttpStatus.OK);
     }
 
