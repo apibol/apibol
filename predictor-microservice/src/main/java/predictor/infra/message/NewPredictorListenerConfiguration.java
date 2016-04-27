@@ -1,4 +1,4 @@
-package ranking.infra.message;
+package predictor.infra.message;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -6,35 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import ranking.domain.service.UpdatePointsListener;
 
 /**
- * Update Points Listener configuration
+ * New predictor listener
  *
- * @author Claudio E. de Oliveira on on 05/04/16.
+ * @author Claudio E. de Oliveira on on 26/04/16.
  */
 @Component
-public class RankingMessageConfiguration {
+public class NewPredictorListenerConfiguration {
 
-    @Value("${rabbit.queue.userpoints}")
-    private String queueName;
+    @Value("${rabbit.queue.new.predictor}")
+    private String newPredictorQueue;
 
     private final ConnectionFactory connectionFactory;
 
-    private final UpdatePointsListener updatePointsListener;
-
     @Autowired
-    public RankingMessageConfiguration(ConnectionFactory connectionFactory, UpdatePointsListener updatePointsListener) {
+    public NewPredictorListenerConfiguration(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
-        this.updatePointsListener = updatePointsListener;
     }
 
-    @Bean
-    public SimpleMessageListenerContainer container() {
+    @Bean(name = "newPredictorContainer")
+    public SimpleMessageListenerContainer newPredictorContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
-        container.setMessageListener(this.updatePointsListener);
+        container.setQueueNames(newPredictorQueue);
         return container;
     }
 
