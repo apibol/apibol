@@ -14,11 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
 /**
  * Events Resources
+ *
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @RestController
@@ -35,8 +37,8 @@ public class EventResource {
 
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Create Event", nickname = "Create Event")
-    public ResponseEntity<Event> create(@RequestBody EventDTO eventDTO) {
-        Event savedEvent = this.eventService.create(eventDTO);
+    public ResponseEntity<Event> create(@RequestBody EventDTO eventDTO, Principal credentials) {
+        Event savedEvent = this.eventService.create(eventDTO, credentials.getName());
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 
@@ -66,20 +68,20 @@ public class EventResource {
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Remove game from Event", nickname = "Remove Game")
-    public void removeBattleGame(@PathVariable("id") String id,@PathVariable("gameId") String gameId ) {
-        this.eventService.removeGame(id,gameId);
+    public void removeBattleGame(@PathVariable("id") String id, @PathVariable("gameId") String gameId) {
+        this.eventService.removeGame(id, gameId);
     }
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.GET)
     @ApiOperation(value = "Get game in Event", nickname = "Get Game")
-    public ResponseEntity<Game> findGameById(@PathVariable("id") String eventId,@PathVariable("gameId") String gameId) {
-        return new ResponseEntity<>(this.eventService.findGameById(eventId,gameId), HttpStatus.OK);
+    public ResponseEntity<Game> findGameById(@PathVariable("id") String eventId, @PathVariable("gameId") String gameId) {
+        return new ResponseEntity<>(this.eventService.findGameById(eventId, gameId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.PUT)
     @ApiOperation(value = "Update game result", nickname = "Update Game")
-    public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId,@PathVariable("gameId") String gameId,@RequestBody BattleResultDTO resultDTO) {
-        return new ResponseEntity<>(this.eventService.addGameResult(eventId,gameId,resultDTO), HttpStatus.OK);
+    public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId, @PathVariable("gameId") String gameId, @RequestBody BattleResultDTO resultDTO) {
+        return new ResponseEntity<>(this.eventService.addGameResult(eventId, gameId, resultDTO), HttpStatus.OK);
     }
 
 }

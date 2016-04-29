@@ -1,4 +1,4 @@
-package event.infra;
+package event.infra.data;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;

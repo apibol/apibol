@@ -25,9 +25,6 @@ public class EventDTO {
 
     private Boolean open = Boolean.TRUE;
 
-    @NotEmpty(message = "owner cannot be null")
-    private String ownerId;
-
     private Set<String> participants = new HashSet<>();
 
     public Event toDomain(User owner) {

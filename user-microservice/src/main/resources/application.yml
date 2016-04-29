@@ -24,6 +24,7 @@ management:
   security:
     enabled: false
 
+
 config:
   oauth2:
     privateKey: |
@@ -49,3 +50,7 @@ config:
       /myh1zM6m8cbL5cYFPyP099thbVxzJkjHWqywvQih/qOOjliomKbM9pxG8Z1dB26
       hL9dSAZuA8xExjlPmQIDAQAB
       -----END PUBLIC KEY-----
+
+security:
+  basic:
+    enabled: false

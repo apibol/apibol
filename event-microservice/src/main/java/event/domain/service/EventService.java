@@ -1,8 +1,10 @@
 package event.domain.service;
 
+import domain.SystemUser;
 import event.domain.Event;
 import event.domain.Game;
 import event.domain.User;
+import event.domain.factory.UserFactory;
 import event.domain.repository.EventRepository;
 import event.domain.resource.model.BattleResultDTO;
 import event.domain.resource.model.EventDTO;
@@ -28,22 +30,28 @@ public class EventService {
 
     private final SenderNewEventService senderNewEventService;
 
+    private final SystemUserService systemUserService;
+
     @Autowired
-    public EventService(EventRepository eventRepository, UserInfoService userInfoService, SenderBattleResultService senderBattleResultService, SenderNewEventService senderNewEventService) {
+    public EventService(EventRepository eventRepository, UserInfoService userInfoService, SenderBattleResultService senderBattleResultService,
+                        SenderNewEventService senderNewEventService, SystemUserService systemUserService) {
         this.eventRepository = eventRepository;
         this.userInfoService = userInfoService;
         this.senderBattleResultService = senderBattleResultService;
         this.senderNewEventService = senderNewEventService;
+        this.systemUserService = systemUserService;
     }
 
     /**
      * Create an event
      *
      * @param eventDTO
+     * @param nickname
      * @return
      */
-    public Event create(final EventDTO eventDTO) {
-        User userInfo = this.userInfoService.getUserInfo(eventDTO.getOwnerId());
+    public Event create(final EventDTO eventDTO, String nickname) {
+        SystemUser systemUser = this.systemUserService.loggerUserInfo(nickname);
+        User userInfo = UserFactory.fromSystemUser(systemUser);
         Event newEvent = eventDTO.toDomain(userInfo);
         if (new IsPrivateEvent().isSatisfiedBy(eventDTO)) {
             fillUserInfo(newEvent, eventDTO.getParticipants());
