@@ -1,6 +1,6 @@
 ---
 info:
-  component: User MicroService
+  component: Predictor MicroService
 
 server:
   port: 0
@@ -8,17 +8,32 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+      defaultZone: http://localhost:8761/eureka/
+
+ribbon:
+  eureka:
+    enabled: true
+
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: predictor
+    username: mongo
+    password: admin
 
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/user
-    username: root
-    password: admin
-    driver-class-name: org.mariadb.jdbc.Driver
-  oauth2:
-    resource:
-      userInfoUri: http://localhost:7777/credential
+  rabbitmq:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
+
+services:
+  user:
+    info: http://USERS/user/
+  event:
+    info: http://EVENTS/event/
 
 management:
   security:
