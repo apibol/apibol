@@ -51,6 +51,7 @@ public class OAuth2AuthServer extends AuthorizationServerConfigurerAdapter {
         clients
             .inMemory()
                 .withClient("frontend") // frontend
+                .secret("9ecc8459ea5f39f9da55cb4d71a70b5d1e0f0b80")
                 .authorizedGrantTypes("authorization_code","refresh_token", "implicit","client_credentials")
                 .authorities("maintainer", "owner","user")
                 .scopes("read", "write")

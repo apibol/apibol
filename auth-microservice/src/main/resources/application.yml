@@ -35,3 +35,7 @@ config:
 security:
   basic:
     enabled: false
+
+services:
+  user:
+    new: http://USERS/

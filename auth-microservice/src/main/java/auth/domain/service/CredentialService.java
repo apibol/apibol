@@ -3,6 +3,7 @@ package auth.domain.service;
 import auth.domain.Credential;
 import auth.domain.repository.CredentialRepository;
 import auth.domain.resource.vo.CredentialVO;
+import domain.NewUser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,12 @@ public class CredentialService {
 
     private final CredentialRepository credentialRepository;
 
+    private final RegisterUserService registerUserService;
+
     @Autowired
-    public CredentialService(CredentialRepository credentialRepository) {
+    public CredentialService(CredentialRepository credentialRepository,RegisterUserService registerUserService) {
         this.credentialRepository = credentialRepository;
+        this.registerUserService = registerUserService;
     }
 
     /**
@@ -32,6 +36,7 @@ public class CredentialService {
     public Credential createOwner(CredentialVO credential) {
         log.info("Creating new [OWNER]");
         Credential newCredential = Credential.fromVO(credential.getEmail(), credential.getNickname(), credential.getPassword());
+        this.registerUserService.registerNewUser(newCredential);
         return this.credentialRepository.addOwner(newCredential);
     }
 
@@ -44,6 +49,7 @@ public class CredentialService {
     public Credential createMaintainer(CredentialVO credential) {
         log.info("Creating new [MAINTAINER]");
         Credential newCredential = Credential.fromVO(credential.getEmail(), credential.getNickname(), credential.getPassword());
+        this.registerUserService.registerNewUser(newCredential);
         return this.credentialRepository.addMaintainer(newCredential);
     }
 
@@ -56,6 +62,7 @@ public class CredentialService {
     public Credential createUser(CredentialVO credential) {
         log.info("Creating new [USER]");
         Credential newCredential = Credential.fromVO(credential.getEmail(), credential.getNickname(), credential.getPassword());
+        this.registerUserService.registerNewUser(newCredential);
         return this.credentialRepository.addUser(newCredential);
     }
 

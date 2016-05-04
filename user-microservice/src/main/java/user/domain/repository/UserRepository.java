@@ -122,7 +122,7 @@ public class UserRepository {
     public boolean checkIfUserExistsByEmail(String email) {
         try {
             return Objects.nonNull(this.findByEmail(email));
-        } catch (EmptyResultDataAccessException e) {
+        } catch (UserNotFoundByEmail e) {
             log.info(String.format("User with email %s", email), e);
             return false;
         }
@@ -137,7 +137,7 @@ public class UserRepository {
     public boolean checkIfUserExistsByNickname(String nickname) {
         try {
             return Objects.nonNull(this.findByNickname(nickname));
-        } catch (EmptyResultDataAccessException e) {
+        } catch (UserNotFoundByNickname e) {
             log.info(String.format("User with nickname %s", nickname), e);
             return false;
         }
