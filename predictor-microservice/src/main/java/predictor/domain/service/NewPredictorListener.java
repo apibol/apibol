@@ -19,9 +19,12 @@ public class NewPredictorListener implements MessageListener {
 
     private final PredictorByEventService predictorByEventService;
 
+    private final PredictorService predictorService;
+
     @Autowired
-    public NewPredictorListener(PredictorByEventService predictorByEventService) {
+    public NewPredictorListener(PredictorByEventService predictorByEventService,PredictorService predictorService) {
         this.predictorByEventService = predictorByEventService;
+        this.predictorService = predictorService;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class NewPredictorListener implements MessageListener {
         log.info("[RECEIVE-NEW-PREDICTOR-BY-EVENT] Receive new event");
         String json = new String(message.getBody());
         Event event = new Gson().fromJson(json, Event.class);
-        this.predictorByEventService.byEvent(event);
+        this.predictorService.saveByEvent(this.predictorByEventService.byEvent(event));
     }
 
 }

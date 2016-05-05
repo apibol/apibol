@@ -1,5 +1,7 @@
 package predictor.application;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.beans.factory.support.SecurityContextProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -19,6 +21,9 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import javax.annotation.PostConstruct;
+import java.security.Security;
 
 /**
  * @author Claudio E. de Oliveira on 24/02/16.
@@ -61,5 +66,10 @@ public class PredictorApplication extends WebMvcConfigurerAdapter implements Hea
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-    
+
+    @PostConstruct
+    public void addSecurityProvider(){
+        Security.addProvider(new BouncyCastleProvider());
+    }
+
 }

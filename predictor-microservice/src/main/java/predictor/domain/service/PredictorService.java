@@ -125,4 +125,14 @@ public class PredictorService {
         }
     }
 
+    /**
+     * Create a predictor by event
+     *
+     * @param predictor
+     * @return
+     */
+    public Predictor saveByEvent(Predictor predictor){
+        return this.predictorRepository.save(predictor);
+    }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import predictor.domain.service.NewPredictorListener;
 
 /**
  * New predictor listener
@@ -20,9 +21,12 @@ public class NewPredictorListenerConfiguration {
 
     private final ConnectionFactory connectionFactory;
 
+    private final NewPredictorListener newPredictorListener;
+
     @Autowired
-    public NewPredictorListenerConfiguration(ConnectionFactory connectionFactory) {
+    public NewPredictorListenerConfiguration(ConnectionFactory connectionFactory,NewPredictorListener newPredictorListener) {
         this.connectionFactory = connectionFactory;
+        this.newPredictorListener = newPredictorListener;
     }
 
     @Bean(name = "newPredictorContainer")
@@ -30,6 +34,7 @@ public class NewPredictorListenerConfiguration {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(newPredictorQueue);
+        container.setMessageListener(this.newPredictorListener);
         return container;
     }
 
