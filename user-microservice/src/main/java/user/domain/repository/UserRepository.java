@@ -11,7 +11,7 @@ import user.domain.User;
 import user.domain.exception.UserNotFoundByEmail;
 import user.domain.exception.UserNotFoundById;
 import user.domain.exception.UserNotFoundByNickname;
-import user.infra.data.UserMapper;
+import user.infra.data.mapper.UserMapper;
 
 import java.util.List;
 import java.util.Objects;

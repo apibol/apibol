@@ -1,4 +1,4 @@
-package user.infra.data;
+package user.infra.data.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import user.domain.User;

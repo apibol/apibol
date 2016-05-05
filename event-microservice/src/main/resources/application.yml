@@ -30,7 +30,7 @@ rabbit:
 
 services:
   user:
-    baseUrl: http://USERS/user/
+    baseUrl: http://USERS/
 
 spring:
   oauth2:

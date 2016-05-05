@@ -29,14 +29,14 @@ public class UserInfoService {
     @LoadBalanced
     private RestTemplate restTemplate;
 
-    @Value("${usermicroservice.user-info}")
-    private String url;
+    @Value("${services.user.baseUrl}")
+    private String baseUrl;
 
     private final Cache<String,User> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
 
     @HystrixCommand(fallbackMethod = "getCachedUser")
     public User getUserInfo(String userId) {
-        ResponseEntity<User> response = this.restTemplate.getForEntity(this.url + userId, User.class);
+        ResponseEntity<User> response = this.restTemplate.getForEntity(this.baseUrl + userId, User.class);
         User body = response.getBody();
         cache.put(body.getId(),body);
         return body;
