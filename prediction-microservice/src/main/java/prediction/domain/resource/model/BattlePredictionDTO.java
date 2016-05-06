@@ -1,5 +1,6 @@
 package prediction.domain.resource.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
@@ -12,8 +13,7 @@ import prediction.domain.User;
 @Data
 public class BattlePredictionDTO implements DomainConverter<BattlePrediction> {
 
-    // TODO Refactor to get user from OAuth sub
-    @Transient
+    @JsonIgnore
     private User owner;
 
     @NotEmpty(message = "predictor id cannot be null")
@@ -27,9 +27,6 @@ public class BattlePredictionDTO implements DomainConverter<BattlePrediction> {
 
     @NotEmpty(message = "player one result cannot be null")
     private String playerTwoResult;
-
-    @NotEmpty(message = "user id result cannot be null")
-    private String userId;
 
     @Override
     public BattlePrediction toDomain() {

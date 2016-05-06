@@ -1,12 +1,14 @@
 package prediction.domain.service;
 
 import domain.SystemUser;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import prediction.domain.BattlePrediction;
 import prediction.domain.Game;
 import prediction.domain.Predictor;
 import prediction.domain.User;
+import prediction.domain.exception.UserIsNotInPredictor;
 import prediction.domain.exception.UserIsNotPredictionOwner;
 import prediction.domain.repository.BattlePredictionRepository;
 import prediction.domain.resource.model.BattlePredictionDTO;
@@ -15,9 +17,12 @@ import prediction.domain.specification.IsPredictionOwner;
 import java.util.List;
 
 /**
+ * Battle Prediction Service
+ *
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @Service
+@Log4j2
 public class BattlePredictionService {
 
     private final BattlePredictionRepository battlePredictionRepository;
@@ -26,17 +31,14 @@ public class BattlePredictionService {
     
     private final GameService gameService;
 
-    private final UserService userService;
-
     private final SystemUserService systemUserService;
 
     @Autowired
     public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictionService predictionService,
-                                   GameService gameService,UserService userService,SystemUserService systemUserService) {
+                                   GameService gameService,SystemUserService systemUserService) {
         this.battlePredictionRepository = battlePredictionRepository;
         this.predictionService = predictionService;
         this.gameService = gameService;
-        this.userService = userService;
         this.systemUserService = systemUserService;
     }
 
@@ -48,8 +50,14 @@ public class BattlePredictionService {
      * @return
      */
     public BattlePrediction doPrediction(BattlePredictionDTO battlePredictionDTO, String name) {
-        User participantInfo = this.predictionService.getParticipantInfo(battlePredictionDTO.getPredictorId(), battlePredictionDTO.getUserId());
+        SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
+        User participantInfo = this.predictionService.getParticipantInfo(battlePredictionDTO.getPredictorId(), loggedUser.getId());
         Predictor predictor = this.predictionService.getPredictorInfo(battlePredictionDTO.getPredictorId());
+        final boolean isParticipant = predictor.isParticipant(loggedUser);
+        if(!isParticipant){
+            log.error(String.format("User %s is not in predictor %s",loggedUser.getId(),predictor.getId()));
+            throw new UserIsNotInPredictor(predictor.getId(),loggedUser.getId());
+        }
         Game game = this.gameService.getGameInfo(predictor.getEventId(),battlePredictionDTO.getGameId());
         battlePredictionDTO.assignOwner(participantInfo);
         return this.battlePredictionRepository.save(battlePredictionDTO.toDomain());
