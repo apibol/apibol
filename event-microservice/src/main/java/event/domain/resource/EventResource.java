@@ -56,19 +56,19 @@ public class EventResource {
 
     @RequestMapping(value = "/{id}/game", method = RequestMethod.POST)
     @ApiOperation(value = "Add game in Event", nickname = "Add Game")
-    public ResponseEntity<Event> addBattleGame(@PathVariable("id") String id, @RequestBody NewBattle newBattle) {
+    public ResponseEntity<Event> addBattleGame(@PathVariable("id") String id, @RequestBody NewBattle newBattle, Principal credential) {
         return new ResponseEntity<>(this.eventService.addNewGame(id, newBattle), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/game", method = RequestMethod.GET)
     @ApiOperation(value = "Get Event Games", nickname = "Get Games")
-    public ResponseEntity<Set<Game>> games(@PathVariable("id") String id) {
+    public ResponseEntity<Set<Game>> games(@PathVariable("id") String id, Principal credential) {
         return new ResponseEntity<>(this.eventService.findOne(id).getGames(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Remove game from Event", nickname = "Remove Game")
-    public void removeBattleGame(@PathVariable("id") String id, @PathVariable("gameId") String gameId) {
+    public void removeBattleGame(@PathVariable("id") String id, @PathVariable("gameId") String gameId, Principal credential) {
         this.eventService.removeGame(id, gameId);
     }
 
@@ -80,7 +80,7 @@ public class EventResource {
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.PUT)
     @ApiOperation(value = "Update game result", nickname = "Update Game")
-    public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId, @PathVariable("gameId") String gameId, @RequestBody BattleResultDTO resultDTO) {
+    public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId, @PathVariable("gameId") String gameId, @RequestBody BattleResultDTO resultDTO,Principal credential) {
         return new ResponseEntity<>(this.eventService.addGameResult(eventId, gameId, resultDTO), HttpStatus.OK);
     }
 
