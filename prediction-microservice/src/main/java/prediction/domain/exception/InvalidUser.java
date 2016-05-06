@@ -3,6 +3,8 @@ package prediction.domain.exception;
 import lombok.Getter;
 
 /**
+ * Invalid User exception
+ *
  * @author Claudio E. de Oliveira on 12/03/16.
  */
 

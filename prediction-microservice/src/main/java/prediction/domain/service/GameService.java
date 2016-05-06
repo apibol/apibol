@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import prediction.domain.Game;
-import prediction.domain.Predictor;
 import prediction.domain.exception.InvalidGame;
-import prediction.exception.InvalidPredictor;
 
 import java.text.MessageFormat;
 

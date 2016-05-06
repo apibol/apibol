@@ -1,4 +1,4 @@
-package prediction.exception;
+package prediction.domain.exception;
 
 import lombok.Getter;
 

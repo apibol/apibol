@@ -1,13 +1,16 @@
 package prediction.domain.service;
 
+import domain.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import prediction.domain.BattlePrediction;
 import prediction.domain.Game;
 import prediction.domain.Predictor;
 import prediction.domain.User;
+import prediction.domain.exception.UserIsNotPredictionOwner;
 import prediction.domain.repository.BattlePredictionRepository;
 import prediction.domain.resource.model.BattlePredictionDTO;
+import prediction.domain.specification.IsPredictionOwner;
 
 import java.util.List;
 
@@ -23,20 +26,28 @@ public class BattlePredictionService {
     
     private final GameService gameService;
 
+    private final UserService userService;
+
+    private final SystemUserService systemUserService;
+
     @Autowired
-    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictionService predictionService, GameService gameService) {
+    public BattlePredictionService(BattlePredictionRepository battlePredictionRepository, PredictionService predictionService,
+                                   GameService gameService,UserService userService,SystemUserService systemUserService) {
         this.battlePredictionRepository = battlePredictionRepository;
         this.predictionService = predictionService;
         this.gameService = gameService;
+        this.userService = userService;
+        this.systemUserService = systemUserService;
     }
 
     /**
      * Store prediction in repository
      *
      * @param battlePredictionDTO
+     * @param name
      * @return
      */
-    public BattlePrediction doPrediction(BattlePredictionDTO battlePredictionDTO) {
+    public BattlePrediction doPrediction(BattlePredictionDTO battlePredictionDTO, String name) {
         User participantInfo = this.predictionService.getParticipantInfo(battlePredictionDTO.getPredictorId(), battlePredictionDTO.getUserId());
         Predictor predictor = this.predictionService.getPredictorInfo(battlePredictionDTO.getPredictorId());
         Game game = this.gameService.getGameInfo(predictor.getEventId(),battlePredictionDTO.getGameId());
@@ -76,10 +87,18 @@ public class BattlePredictionService {
 
     /**
      * It removes prediction by Id
+     *
      * @param id
+     * @param name
      */
-    public void deletePredictionById(String id){
-        this.battlePredictionRepository.delete(id);
+    public void deletePredictionById(String id, String name){
+        final SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
+        final BattlePrediction battlePrediction = this.battlePredictionRepository.findOne(id);
+        if(new IsPredictionOwner(battlePrediction).isSatisfiedBy(loggedUser)){
+            this.battlePredictionRepository.delete(id);
+        }else{
+            throw new UserIsNotPredictionOwner(name,id);
+        }
     }
 
 }

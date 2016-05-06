@@ -24,10 +24,10 @@ services:
   event:
     info: http://EVENTS/event/
     game:
-      info: http://EVENTS/event/{0}/game/{1}
+      info: http://EVENTS/{0}/game/{1}
   predictor:
-      info: http://PREDICTORS/predictor/
-      participant-info: http://PREDICTORS/predictor/{0}/participant/{1}
+      info: http://PREDICTORS/
+      participant-info: http://PREDICTORS/{0}/participant/{1}
 
 rabbit:
   queue:

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import prediction.domain.Predictor;
 import prediction.domain.User;
-import prediction.exception.InvalidPredictor;
+import prediction.domain.exception.InvalidPredictor;
 
 import java.text.MessageFormat;
 
