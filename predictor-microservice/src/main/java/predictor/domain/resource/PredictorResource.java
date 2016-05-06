@@ -85,7 +85,7 @@ public class PredictorResource {
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteOne(@PathVariable("id") String id,Principal credential) {
-        this.predictorService.deletePredictor(id);
+        this.predictorService.deletePredictor(id,credential.getName());
     }
 
     @ApiOperation(value = "Get participant of predictor by id ", nickname = "Get predictor participant")

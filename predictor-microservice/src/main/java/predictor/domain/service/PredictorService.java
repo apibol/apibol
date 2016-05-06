@@ -103,8 +103,9 @@ public class PredictorService {
      * Delete a predictor from repository
      *
      * @param id
+     * @param name
      */
-    public void deletePredictor(String id) {
+    public void deletePredictor(String id, String name) {
         log.info(String.format("[DELETE-PREDICTOR] Delete predictor by id. Predictor %s", id));
         this.predictorRepository.delete(id);
     }
