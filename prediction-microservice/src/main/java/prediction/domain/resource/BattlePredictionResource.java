@@ -9,6 +9,7 @@ import prediction.domain.BattlePrediction;
 import prediction.domain.resource.model.BattlePredictionDTO;
 import prediction.domain.service.BattlePredictionService;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -28,12 +29,12 @@ public class BattlePredictionResource {
     }
 
     @RequestMapping(value = "/{predictionId}", method = RequestMethod.DELETE)
-    public void deletePrediction(@PathVariable("predictionId") String predictionId) {
+    public void deletePrediction(@PathVariable("predictionId") String predictionId,Principal credential) {
         this.battlePredictionService.deletePredictionById(predictionId);
     }
 
     @RequestMapping(value = "/predictor/{predictorId}", method = RequestMethod.POST)
-    public ResponseEntity<BattlePrediction> makePrediction(@PathVariable("predictorId") String predictorId, @RequestBody BattlePredictionDTO battlePrediction) {
+    public ResponseEntity<BattlePrediction> makePrediction(@PathVariable("predictorId") String predictorId, @RequestBody BattlePredictionDTO battlePrediction,Principal credential) {
         battlePrediction.assignPredictor(predictorId);
         return new ResponseEntity<>(this.battlePredictionService.doPrediction(battlePrediction), HttpStatus.CREATED);
     }
