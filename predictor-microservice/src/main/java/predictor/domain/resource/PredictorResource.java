@@ -84,7 +84,7 @@ public class PredictorResource {
             @ApiResponse(message = "Predictor retrieved with success", code = 200)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteOne(@PathVariable("id") String id) {
+    public void deleteOne(@PathVariable("id") String id,Principal credential) {
         this.predictorService.deletePredictor(id);
     }
 
