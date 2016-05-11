@@ -26,4 +26,12 @@ public interface PredictorRepository extends MongoRepository<Predictor,String> {
      */
     Predictor findByIdAndParticipantsId(String id,String participantId);
 
+    /**
+     * Find user predictors
+     *
+     * @param userId
+     * @return
+     */
+    List<Predictor> findByInvitationsUserId(String userId);
+
 }

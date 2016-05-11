@@ -1,5 +1,6 @@
 package predictor.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import predictor.domain.service.HashKeyService;
@@ -17,8 +18,7 @@ public class Invitation {
 
     private String userId;
 
-    private LocalDateTime createdAt;
-
+    @JsonIgnore
     private String key;
 
     /**
@@ -34,7 +34,6 @@ public class Invitation {
      */
     public Invitation(String userId) {
         this.userId = userId;
-        this.createdAt = LocalDateTime.now();
         this.key = HashKeyService.encrypt(this.userId);
     }
 

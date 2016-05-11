@@ -1,5 +1,6 @@
 package predictor.domain.service;
 
+import domain.SystemUser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,11 +34,14 @@ public class PredictorService {
 
     private final PredictorRepository predictorRepository;
 
+    private final SystemUserService systemUserService;
+
     @Autowired
-    public PredictorService(ParticipantService participantService, EventService eventService, PredictorRepository predictorRepository) {
+    public PredictorService(ParticipantService participantService, EventService eventService, PredictorRepository predictorRepository,SystemUserService systemUserService) {
         this.participantService = participantService;
         this.eventService = eventService;
         this.predictorRepository = predictorRepository;
+        this.systemUserService = systemUserService;
     }
 
     /**
@@ -134,6 +138,18 @@ public class PredictorService {
      */
     public Predictor saveByEvent(Predictor predictor){
         return this.predictorRepository.save(predictor);
+    }
+
+    /**
+     * Find user predictors
+     *
+     * @param userId
+     * @return
+     */
+    public List<Predictor> myPredictors(String userId){
+        log.info(String.format("[MY-PREDICTORS] Retrieve my predictors user %s", userId));
+        final SystemUser loggerUserInfo = this.systemUserService.loggerUserInfo(userId);
+        return this.predictorRepository.findByInvitationsUserId(loggerUserInfo.getId());
     }
 
 }

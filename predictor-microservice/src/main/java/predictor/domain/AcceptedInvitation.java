@@ -11,8 +11,6 @@ public class AcceptedInvitation {
 
     private String userId;
 
-    private LocalDateTime acceptedAt;
-
     /**
      * Default constructor
      */
@@ -26,7 +24,6 @@ public class AcceptedInvitation {
      */
     public AcceptedInvitation(String userId) {
         this.userId = userId;
-        this.acceptedAt = LocalDateTime.now();
     }
 
     /**

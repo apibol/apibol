@@ -7,9 +7,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.convert.CustomConversions;
+import org.springframework.data.mongodb.core.convert.DbRefResolver;
+import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import predictor.infra.converter.*;
+
+import java.util.Arrays;
 
 /**
  * @author Claudio E. de Oliveira on 27/02/16.
@@ -37,6 +45,12 @@ public class DatabaseProducer extends AbstractMongoConfiguration {
     public ValidatingMongoEventListener validatingMongoEventListener() {
         return new ValidatingMongoEventListener(validator());
     }
+
+    @Bean
+    public CustomConversions customConversions() {
+        return new CustomConversions(Arrays.asList(new InstantToLongConverter(), new LongToInstantConverter(),
+                new LocalDateToStringConverter(), new StringToLocalDateConverter(), new LocalDateTimeToStringConverter(), new StringToLocalDateTimeConverter()));
+    }
     
     @Bean
     public LocalValidatorFactoryBean validator() {
@@ -51,6 +65,16 @@ public class DatabaseProducer extends AbstractMongoConfiguration {
     @Bean
     public Mongo mongo() throws Exception {
         return new MongoClient(new ServerAddress(host, port));
+    }
+
+    @Bean
+    public MappingMongoConverter mongoConverter() throws Exception {
+        MongoMappingContext mappingContext = new MongoMappingContext();
+        DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory());
+        MappingMongoConverter mongoConverter = new MappingMongoConverter(dbRefResolver, mappingContext);
+        mongoConverter.setCustomConversions(customConversions());
+        mongoConverter.afterPropertiesSet();
+        return mongoConverter;
     }
     
 }

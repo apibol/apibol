@@ -23,5 +23,4 @@ public class Event {
 
     private Participant owner;
 
-
 }

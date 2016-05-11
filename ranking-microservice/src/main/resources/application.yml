@@ -31,9 +31,9 @@ spring:
 
 services:
   user:
-    info: http://USERS/user/
+    info: http://USERS/
   event:
-    info: http://EVENTS/event/
+    info: http://EVENTS/
 
 management:
   security:

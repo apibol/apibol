@@ -11,6 +11,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
@@ -34,6 +35,7 @@ import java.security.Security;
 @EnableSwagger2
 @EnableMongoRepositories(basePackages = "predictor.domain.repository")
 @EnableHystrix
+@EnableResourceServer
 public class PredictorApplication extends WebMvcConfigurerAdapter implements HealthIndicator {
 
     @Override

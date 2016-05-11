@@ -84,8 +84,8 @@ public class PredictorResource {
             @ApiResponse(message = "Predictor retrieved with success", code = 200)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteOne(@PathVariable("id") String id,Principal credential) {
-        this.predictorService.deletePredictor(id,credential.getName());
+    public void deleteOne(@PathVariable("id") String id, Principal credential) {
+        this.predictorService.deletePredictor(id, credential.getName());
     }
 
     @ApiOperation(value = "Get participant of predictor by id ", nickname = "Get predictor participant")
@@ -96,6 +96,12 @@ public class PredictorResource {
     @RequestMapping(value = "/{id}/participant/{participantId}", method = RequestMethod.GET)
     public ResponseEntity<Participant> participantInfo(@PathVariable("id") String id, @PathVariable("participantId") String participantId) {
         return new ResponseEntity<>(this.predictorService.findByPredictorAndParticipantId(id, participantId), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Get participant predictors ", nickname = "Participant predictors")
+    @RequestMapping(value = "/my-predictors", method = RequestMethod.GET)
+    public ResponseEntity<List<Predictor>> myPredictors(Principal principal) {
+        return new ResponseEntity<>(this.predictorService.myPredictors(principal.getName()), HttpStatus.OK);
     }
 
 }
