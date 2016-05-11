@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import predictor.domain.Event;
+import predictor.domain.JoinPredictorRequest;
 import predictor.domain.Participant;
 import predictor.domain.Predictor;
 import predictor.domain.exception.InvalidPredictor;
@@ -55,7 +56,7 @@ public class PredictorService {
         Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
         Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
         Predictor predictor = Predictor.createPredictor(event.getId(), newParticipant,event.getOpen());
-        predictor.join(newParticipant);
+        predictor.join(JoinPredictorRequest.create(newParticipant,""));
         predictor = this.predictorRepository.save(predictor);
         log.info("[CREATE-PREDICTOR] Predictor created with success ");
         return predictor;
@@ -71,10 +72,11 @@ public class PredictorService {
      */
     public Predictor join(String predictorId,String hash, JoinPredictorDTO joinPredictorDTO) {
         log.info(String.format("[ADD-PARTICIPANT] Adding participant %s in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
-        Participant newParticipant = this.participantService.getUserInfo(joinPredictorDTO.getUserId());
+        final SystemUser loggerUserInfo = this.systemUserService.loggerUserInfo(joinPredictorDTO.getUserId());
+        Participant newParticipant = this.participantService.getUserInfo(loggerUserInfo.getId());
         Predictor predictor = this.predictorRepository.findOne(predictorId);
         if (Objects.nonNull(predictor)) {
-            predictor.join(newParticipant);
+            predictor.join(JoinPredictorRequest.create(newParticipant,hash));
             predictor = this.predictorRepository.save(predictor);
             log.info(String.format("[ADD-PARTICIPANT] Participant %s added in predictor %s ", joinPredictorDTO.getUserId(), predictorId));
             return predictor;

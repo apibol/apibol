@@ -1,5 +1,8 @@
 package predictor.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.time.LocalDateTime;
 
 /**
@@ -7,6 +10,8 @@ import java.time.LocalDateTime;
  *
  * @author Claudio E. de Oliveira on on 25/04/16.
  */
+@Data
+@EqualsAndHashCode(of = {"userId"})
 public class AcceptedInvitation {
 
     private String userId;

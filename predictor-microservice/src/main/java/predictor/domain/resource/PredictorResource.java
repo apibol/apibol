@@ -51,11 +51,11 @@ public class PredictorResource {
             @ApiResponse(message = "Check your parameters", code = 400),
             @ApiResponse(message = "Predictor not found", code = 404)
     })
-    @RequestMapping(value = "/{predictorId}/join/{hash}", method = RequestMethod.POST)
-    public ResponseEntity<Predictor> join(@PathVariable("predictorId") String predictorId, @PathVariable("hash") String hash, Principal principal) {
+    @RequestMapping(value = "/{predictorId}/join", method = RequestMethod.POST)
+    public ResponseEntity<Predictor> join(@PathVariable("predictorId") String predictorId,Principal principal,@RequestBody HashDTO hashDTO) {
         JoinPredictorDTO joinPredictorDTO = new JoinPredictorDTO();
         joinPredictorDTO.setUserId(principal.getName());
-        Predictor predictor = this.predictorService.join(predictorId, hash, joinPredictorDTO);
+        Predictor predictor = this.predictorService.join(predictorId, hashDTO.getHash(), joinPredictorDTO);
         return new ResponseEntity<>(predictor, HttpStatus.OK);
     }
 

@@ -3,9 +3,11 @@ package predictor.domain;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import predictor.domain.exception.InvalidHash;
 import predictor.domain.exception.ParticipantNotInvited;
 import predictor.domain.specification.IsParticipantInvited;
 import predictor.domain.specification.IsPrivatePredictor;
+import predictor.domain.specification.IsValidJoinPredictionRequest;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,16 +29,24 @@ public class Predictor {
 
     private Boolean open = Boolean.FALSE;
 
-    /** Accepted participants */
+    /**
+     * Accepted participants
+     */
     private Set<Participant> participants = new HashSet<>();
 
-    /** Invitations */
+    /**
+     * Invitations
+     */
     private Set<Invitation> invitations = new HashSet<>();
 
-    /** Accepted invitations */
+    /**
+     * Accepted invitations
+     */
     private Set<AcceptedInvitation> acceptedInvitations = new HashSet<>();
 
-    /** Owner */
+    /**
+     * Owner
+     */
     private Participant owner;
 
     /**
@@ -52,7 +62,7 @@ public class Predictor {
      * @param open
      * @param owner
      */
-    public Predictor(String eventId, Boolean open,Participant owner){
+    public Predictor(String eventId, Boolean open, Participant owner) {
         this.eventId = eventId;
         this.open = open;
         this.owner = owner;
@@ -64,10 +74,10 @@ public class Predictor {
      * @param eventId
      * @param participant
      */
-    private Predictor(String eventId, Participant participant,Boolean open) {
+    private Predictor(String eventId, Participant participant, Boolean open) {
         this.eventId = eventId;
         this.open = open;
-        this.join(participant);
+        join(JoinPredictorRequest.create(participant,""));
     }
 
     /**
@@ -78,8 +88,8 @@ public class Predictor {
      * @param owner
      * @return
      */
-    public static Predictor createPredictor(String eventId, Boolean open,Participant owner) {
-        return new Predictor(eventId, open,owner);
+    public static Predictor createPredictor(String eventId, Boolean open, Participant owner) {
+        return new Predictor(eventId, open, owner);
     }
 
     /**
@@ -89,25 +99,30 @@ public class Predictor {
      * @param participant
      * @return
      */
-    public static Predictor createPredictor(String eventId, Participant participant,Boolean open) {
-        return new Predictor(eventId, participant,open);
+    public static Predictor createPredictor(String eventId, Participant participant, Boolean open) {
+        return new Predictor(eventId, participant, open);
     }
 
     /**
      * Add participant in predictor
-     * @param participant
+     *
+     * @param joinPredictorRequest
      * @return
      */
-    public Predictor join(Participant participant) throws ParticipantNotInvited {
-        if(new IsPrivatePredictor().isSatisfiedBy(this)){
-            if(new IsParticipantInvited(participant.getId()).isSatisfiedBy(this)){
-                this.removeInvitation(participant.getId());
-                this.acceptedInvitations.add(AcceptedInvitation.createNew(participant.getId()));
-            }else{
-                throw new ParticipantNotInvited(participant.getId(),this.id);
+    public Predictor join(JoinPredictorRequest joinPredictorRequest) throws ParticipantNotInvited {
+        if (new IsPrivatePredictor().isSatisfiedBy(this)) {
+            if (new IsParticipantInvited(joinPredictorRequest.getParticipantId()).isSatisfiedBy(this)) {
+                if(new IsValidJoinPredictionRequest(this).isSatisfiedBy(joinPredictorRequest)){
+                    this.removeInvitation(joinPredictorRequest.getParticipantId());
+                    this.acceptedInvitations.add(AcceptedInvitation.createNew(joinPredictorRequest.getParticipantId()));
+                }else {
+                    throw new InvalidHash(joinPredictorRequest.getParticipantId());
+                }
+            }else {
+                throw new ParticipantNotInvited(joinPredictorRequest.getParticipantId(), this.id);
             }
         }
-        this.participants.add(participant);
+        this.participants.add(joinPredictorRequest.getParticipant());
         return this;
     }
 
@@ -138,11 +153,11 @@ public class Predictor {
      * @param userId
      * @return
      */
-    private Predictor removeInvitation(String userId){
+    private Predictor removeInvitation(String userId) {
         Iterator<Invitation> iterator = this.invitations.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Invitation invitation = iterator.next();
-            if(invitation.getUserId().equals(userId)){
+            if (invitation.getUserId().equals(userId)) {
                 iterator.remove();
             }
         }
@@ -155,7 +170,7 @@ public class Predictor {
      * @param userId
      * @return
      */
-    public Predictor newInvitation(String userId){
+    public Predictor newInvitation(String userId) {
         this.invitations.add(Invitation.createNew(userId));
         return this;
     }
