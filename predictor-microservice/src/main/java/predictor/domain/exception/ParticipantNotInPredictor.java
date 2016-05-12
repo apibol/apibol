@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  *
  * @author Claudio E. de Oliveira on 20/03/16.
  */
-@ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Participant is not present in predictor")
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Participant is not present in predictor")
 public class ParticipantNotInPredictor extends RuntimeException {
-    
+
     @Getter
     private final String participantId;
 
@@ -22,5 +22,5 @@ public class ParticipantNotInPredictor extends RuntimeException {
         this.participantId = participantId;
         this.predictorId = predictorId;
     }
-    
+
 }
