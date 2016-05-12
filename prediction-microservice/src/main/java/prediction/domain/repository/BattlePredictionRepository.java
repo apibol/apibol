@@ -8,12 +8,14 @@ import java.util.List;
 
 /**
  * Prediction Repository
+ *
  * @author Claudio E. de Oliveira on 28/02/16.
  */
-public interface BattlePredictionRepository extends MongoRepository<BattlePrediction,String>{
+public interface BattlePredictionRepository extends MongoRepository<BattlePrediction, String> {
 
     /**
      * Retrieves Prediction By GameId
+     *
      * @param gameId
      * @return
      */
@@ -21,17 +23,21 @@ public interface BattlePredictionRepository extends MongoRepository<BattlePredic
 
     /**
      * Retrieves Prediction By Predictor
+     *
      * @param predictor
+     * @param ownerId
      * @return
      */
-    List<BattlePrediction> findByPredictor(String predictor);
+    List<BattlePrediction> findByPredictorAndOwnerId(String predictor, String ownerId);
 
     /**
      * Find predictions by predictor and gameId
+     *
      * @param predictor
      * @param gameId
+     * @param ownerId
      * @return
      */
-    List<BattlePrediction> findByPredictorAndGameId(String predictor,String gameId);
+    List<BattlePrediction> findByPredictorAndGameIdAndOwnerId(String predictor, String gameId, String ownerId);
 
 }

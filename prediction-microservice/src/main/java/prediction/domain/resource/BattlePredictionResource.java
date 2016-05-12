@@ -1,6 +1,9 @@
 package prediction.domain.resource;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +17,12 @@ import java.util.List;
 
 /**
  * Operations about predictions
+ *
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @RestController
 @RequestMapping(value = "/")
-@Api(value = "/predictions", description = "Operations to receive predictions")
+@Api(value = "/predictions", description = "Operations to receive and search predictions")
 public class BattlePredictionResource {
 
     private final BattlePredictionService battlePredictionService;
@@ -29,24 +33,34 @@ public class BattlePredictionResource {
     }
 
     @RequestMapping(value = "/{predictionId}", method = RequestMethod.DELETE)
-    public void deletePrediction(@PathVariable("predictionId") String predictionId,Principal credential) {
-        this.battlePredictionService.deletePredictionById(predictionId,credential.getName());
+    public void deletePrediction(@PathVariable("predictionId") String predictionId, Principal credential) {
+        this.battlePredictionService.deletePredictionById(predictionId, credential.getName());
     }
 
     @RequestMapping(value = "/predictor/{predictorId}", method = RequestMethod.POST)
-    public ResponseEntity<BattlePrediction> makePrediction(@PathVariable("predictorId") String predictorId, @RequestBody BattlePredictionDTO battlePrediction,Principal credential) {
+    public ResponseEntity<BattlePrediction> doPrediction(@PathVariable("predictorId") String predictorId, @RequestBody BattlePredictionDTO battlePrediction, Principal credential) {
         battlePrediction.assignPredictor(predictorId);
-        return new ResponseEntity<>(this.battlePredictionService.doPrediction(battlePrediction,credential.getName()), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.battlePredictionService.doPrediction(battlePrediction, credential.getName()), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Retrieve predictions by predictor", nickname = "Predictions by Predictor")
+    @ApiResponses({
+            @ApiResponse(message = "Listed with success", code = 200),
+            @ApiResponse(message = "Predictions not found", code = 404)
+    })
     @RequestMapping(value = "/predictor/{predictorId}", method = RequestMethod.GET)
-    public ResponseEntity<List<BattlePrediction>> findByPredictor(@PathVariable("predictorId") String predictorId) {
-        return new ResponseEntity<>(this.battlePredictionService.findByPredictorId(predictorId), HttpStatus.OK);
+    public ResponseEntity<List<BattlePrediction>> findByPredictor(@PathVariable("predictorId") String predictorId, Principal credential) {
+        return new ResponseEntity<>(this.battlePredictionService.findByPredictorId(predictorId, credential.getName()), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Retrieve prediction in predictor by game", nickname = "Prediction game")
+    @ApiResponses({
+            @ApiResponse(message = "Listed with success", code = 200),
+            @ApiResponse(message = "Prediction not found", code = 404)
+    })
     @RequestMapping(value = "/predictor/{predictorId}/game/{gameId}", method = RequestMethod.GET)
-    public ResponseEntity<List<BattlePrediction>> findByPredictionsByGame(@PathVariable("predictorId") String predictorId,@PathVariable("gameId") String gameId) {
-        return new ResponseEntity<>(this.battlePredictionService.findByPredictorIdAndGame(predictorId,gameId), HttpStatus.OK);
+    public ResponseEntity<List<BattlePrediction>> findByPredictionsByGame(@PathVariable("predictorId") String predictorId, @PathVariable("gameId") String gameId, Principal credential) {
+        return new ResponseEntity<>(this.battlePredictionService.findByPredictorIdAndGame(predictorId, gameId, credential.getName()), HttpStatus.OK);
     }
 
 }

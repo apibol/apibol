@@ -4,10 +4,13 @@ import domain.SystemUser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import prediction.domain.BattlePrediction;
 import prediction.domain.Game;
 import prediction.domain.Predictor;
 import prediction.domain.User;
+import prediction.domain.exception.AnyPredictionsInPredictor;
+import prediction.domain.exception.GamePredictionNotFound;
 import prediction.domain.exception.UserIsNotInPredictor;
 import prediction.domain.exception.UserIsNotPredictionOwner;
 import prediction.domain.repository.BattlePredictionRepository;
@@ -77,20 +80,34 @@ public class BattlePredictionService {
      * Retrieves Prediction by Predictor Id
      *
      * @param predictorId
+     * @param name
      * @return
      */
-    public List<BattlePrediction> findByPredictorId(String predictorId) {
-        return this.battlePredictionRepository.findByPredictor(predictorId);
+    public List<BattlePrediction> findByPredictorId(String predictorId, String name) {
+        final SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
+        final List<BattlePrediction> userPredictions = this.battlePredictionRepository.findByPredictorAndOwnerId(predictorId, loggedUser.getId());
+        if(CollectionUtils.isEmpty(userPredictions)){
+            log.error(String.format("Predictions not found userId: %s predictorId: %s",loggedUser.getId(),predictorId));
+            throw new AnyPredictionsInPredictor(loggedUser.getId(),predictorId);
+        }
+        return userPredictions;
     }
 
     /**
      * Retrieves Prediction by Predictor Id and Game Id
      *
      * @param predictorId
+     * @param name
      * @return
      */
-    public List<BattlePrediction> findByPredictorIdAndGame(String predictorId,String gameId) {
-        return this.battlePredictionRepository.findByPredictorAndGameId(predictorId,gameId);
+    public List<BattlePrediction> findByPredictorIdAndGame(String predictorId, String gameId, String name) {
+        final SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
+        final List<BattlePrediction> predictions = this.battlePredictionRepository.findByPredictorAndGameIdAndOwnerId(predictorId, gameId, loggedUser.getId());
+        if(CollectionUtils.isEmpty(predictions)){
+            log.error(String.format("Game prediction not found userId: %s predictorId: %s gameId: %s",loggedUser.getId(),predictorId,gameId));
+            throw new GamePredictionNotFound(loggedUser.getId(),predictorId,gameId);
+        }
+        return predictions;
     }
 
     /**
@@ -105,6 +122,7 @@ public class BattlePredictionService {
         if(new IsPredictionOwner(battlePrediction).isSatisfiedBy(loggedUser)){
             this.battlePredictionRepository.delete(id);
         }else{
+            log.error(String.format("Game prediction %s cannot be deleted by userId: %s",id,loggedUser.getId()));
             throw new UserIsNotPredictionOwner(name,id);
         }
     }
