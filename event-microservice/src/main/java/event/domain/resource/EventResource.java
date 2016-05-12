@@ -57,7 +57,7 @@ public class EventResource {
     @RequestMapping(value = "/{id}/game", method = RequestMethod.POST)
     @ApiOperation(value = "Add game in Event", nickname = "Add Game")
     public ResponseEntity<Event> addBattleGame(@PathVariable("id") String id, @RequestBody NewBattle newBattle, Principal credential) {
-        return new ResponseEntity<>(this.eventService.addNewGame(id, newBattle), HttpStatus.OK);
+        return new ResponseEntity<>(this.eventService.addNewGame(id, newBattle,credential.getName()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/game", method = RequestMethod.GET)
@@ -69,7 +69,7 @@ public class EventResource {
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Remove game from Event", nickname = "Remove Game")
     public void removeBattleGame(@PathVariable("id") String id, @PathVariable("gameId") String gameId, Principal credential) {
-        this.eventService.removeGame(id, gameId);
+        this.eventService.removeGame(id, gameId,credential.getName());
     }
 
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.GET)
@@ -81,7 +81,7 @@ public class EventResource {
     @RequestMapping(value = "/{id}/game/{gameId}", method = RequestMethod.PUT)
     @ApiOperation(value = "Update game result", nickname = "Update Game")
     public ResponseEntity<Game> updateGameResult(@PathVariable("id") String eventId, @PathVariable("gameId") String gameId, @RequestBody BattleResultDTO resultDTO,Principal credential) {
-        return new ResponseEntity<>(this.eventService.addGameResult(eventId, gameId, resultDTO), HttpStatus.OK);
+        return new ResponseEntity<>(this.eventService.addGameResult(eventId, gameId, resultDTO,credential.getName()), HttpStatus.OK);
     }
 
 }

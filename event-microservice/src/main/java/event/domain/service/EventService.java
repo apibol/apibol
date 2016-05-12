@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * The event service
+ *
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @Service
@@ -66,9 +68,10 @@ public class EventService {
      *
      * @param eventId
      * @param newGame
+     * @param name
      * @return
      */
-    public Event addNewGame(final String eventId, final NewGame newGame) {
+    public Event addNewGame(final String eventId, final NewGame newGame, String name) {
         Event event = this.eventRepository.findOne(eventId);
         event.addGame(newGame.toDomain());
         this.eventRepository.save(event);
@@ -80,9 +83,10 @@ public class EventService {
      *
      * @param eventId
      * @param gameId
+     * @param name
      * @return
      */
-    public Event removeGame(final String eventId, final String gameId) {
+    public Event removeGame(final String eventId, final String gameId, String name) {
         Event event = this.eventRepository.findOne(eventId);
         event = event.removeGame(gameId);
         this.eventRepository.save(event);
@@ -126,9 +130,10 @@ public class EventService {
      * @param eventId
      * @param gameId
      * @param resultDTO
+     * @param name
      * @return
      */
-    public Game addGameResult(final String eventId, final String gameId, final BattleResultDTO resultDTO) {
+    public Game addGameResult(final String eventId, final String gameId, final BattleResultDTO resultDTO, String name) {
         Event event = this.findOne(eventId);
         Game game = event.gameById(gameId);
         game.updateGame(resultDTO);
