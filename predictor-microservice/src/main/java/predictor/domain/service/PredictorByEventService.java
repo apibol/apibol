@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import predictor.domain.Event;
 import predictor.domain.Predictor;
 
+import java.util.UUID;
+
 /**
  * Convert the event on predictor
  *
@@ -19,7 +21,7 @@ public class PredictorByEventService {
      * @return
      */
     public Predictor byEvent(Event event){
-        Predictor newPredictor = Predictor.createPredictor(event.getId(), event.getOpen(), event.getOwner());
+        Predictor newPredictor = Predictor.createPredictor(UUID.randomUUID().toString(),event.getId(), event.getOpen(), event.getOwner());
         event.getParticipants().forEach(participant -> newPredictor.newInvitation(participant.getId()));
         return newPredictor;
     }

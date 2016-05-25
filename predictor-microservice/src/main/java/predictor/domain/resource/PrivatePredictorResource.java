@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import predictor.domain.Participant;
+import predictor.domain.Predictor;
 import predictor.domain.service.PredictorService;
 
 /**
@@ -37,6 +38,16 @@ public class PrivatePredictorResource {
     @RequestMapping(value = "/{id}/participant/{participantId}", method = RequestMethod.GET)
     public ResponseEntity<Participant> participantInfo(@PathVariable("id") String id, @PathVariable("participantId") String participantId) {
         return new ResponseEntity<>(this.predictorService.findByPredictorAndParticipantId(id, participantId), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Retrieve predictor by id ", nickname = "Get predictor by id")
+    @ApiResponses({
+            @ApiResponse(message = "Predictor retrieved with success", code = 200),
+            @ApiResponse(message = "Predictor not found", code = 404)
+    })
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Predictor> findOne(@PathVariable("id") String id) {
+        return new ResponseEntity<>(this.predictorService.findOne(id), HttpStatus.OK);
     }
 
 }

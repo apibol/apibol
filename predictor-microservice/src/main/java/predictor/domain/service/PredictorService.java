@@ -21,6 +21,7 @@ import predictor.domain.resource.PredictorDTO;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Claudio E. de Oliveira on 10/03/16.
@@ -55,7 +56,7 @@ public class PredictorService {
         log.info("[CREATE-PREDICTOR] Creating predictor ");
         Participant newParticipant = this.participantService.getUserInfo(predictorDTO.getUserId());
         Event event = this.eventService.getEventInfo(predictorDTO.getEventId());
-        Predictor predictor = Predictor.createPredictor(event.getId(), newParticipant,event.getOpen());
+        Predictor predictor = Predictor.createPredictor(UUID.randomUUID().toString(),event.getId(), newParticipant,event.getOpen());
         predictor.join(JoinPredictorRequest.create(newParticipant,""));
         predictor = this.predictorRepository.save(predictor);
         log.info("[CREATE-PREDICTOR] Predictor created with success ");

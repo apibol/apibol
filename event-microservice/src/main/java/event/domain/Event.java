@@ -3,21 +3,16 @@ package event.domain;
 import event.domain.exception.GameIsNotInEventRangeDate;
 import event.domain.specification.IsInEventPeriod;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Claudio E. de Oliveira on 27/02/16.
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Document(collection = "event")
 public class Event {
 

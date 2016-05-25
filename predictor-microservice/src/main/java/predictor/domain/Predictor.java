@@ -62,7 +62,8 @@ public class Predictor {
      * @param open
      * @param owner
      */
-    public Predictor(String eventId, Boolean open, Participant owner) {
+    public Predictor(String id,String eventId, Boolean open, Participant owner) {
+        this.id = id;
         this.eventId = eventId;
         this.open = open;
         this.owner = owner;
@@ -74,7 +75,8 @@ public class Predictor {
      * @param eventId
      * @param participant
      */
-    private Predictor(String eventId, Participant participant, Boolean open) {
+    private Predictor(String id,String eventId, Participant participant, Boolean open) {
+        this.id = id;
         this.eventId = eventId;
         this.open = open;
         join(JoinPredictorRequest.create(participant,""));
@@ -88,8 +90,8 @@ public class Predictor {
      * @param owner
      * @return
      */
-    public static Predictor createPredictor(String eventId, Boolean open, Participant owner) {
-        return new Predictor(eventId, open, owner);
+    public static Predictor createPredictor(String id,String eventId, Boolean open, Participant owner) {
+        return new Predictor(id,eventId, open, owner);
     }
 
     /**
@@ -99,8 +101,8 @@ public class Predictor {
      * @param participant
      * @return
      */
-    public static Predictor createPredictor(String eventId, Participant participant, Boolean open) {
-        return new Predictor(eventId, participant, open);
+    public static Predictor createPredictor(String id,String eventId, Participant participant, Boolean open) {
+        return new Predictor(id,eventId, participant, open);
     }
 
     /**
