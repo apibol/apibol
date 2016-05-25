@@ -8,7 +8,9 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import prediction.infra.data.DatabaseProducer;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author Claudio E. de Oliveira on 24/02/16.
@@ -17,7 +19,9 @@ import prediction.infra.data.DatabaseProducer;
 @Import(DatabaseProducer.class)
 @ComponentScan(basePackages = "prediction")
 @EnableZuulProxy
+@EnableSwagger2
 @EnableHystrix
+@EnableResourceServer
 public class PredictionApplication implements HealthIndicator {
 
     @Override

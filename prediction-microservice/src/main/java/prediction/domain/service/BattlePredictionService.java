@@ -48,22 +48,23 @@ public class BattlePredictionService {
     /**
      * Store prediction in repository
      *
+     * @param predictorId
+     * @param gameId
      * @param battlePredictionDTO
      * @param name
      * @return
      */
-    public BattlePrediction doPrediction(BattlePredictionDTO battlePredictionDTO, String name) {
+    public BattlePrediction doPrediction(String predictorId,String gameId,BattlePredictionDTO battlePredictionDTO, String name) {
         SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
-        User participantInfo = this.predictionService.getParticipantInfo(battlePredictionDTO.getPredictorId(), loggedUser.getId());
-        Predictor predictor = this.predictionService.getPredictorInfo(battlePredictionDTO.getPredictorId());
+        User participantInfo = this.predictionService.getParticipantInfo(predictorId, loggedUser.getId());
+        Predictor predictor = this.predictionService.getPredictorInfo(predictorId);
         final boolean isParticipant = predictor.isParticipant(loggedUser);
         if(!isParticipant){
             log.error(String.format("User %s is not in predictor %s",loggedUser.getId(),predictor.getId()));
             throw new UserIsNotInPredictor(predictor.getId(),loggedUser.getId());
         }
-        Game game = this.gameService.getGameInfo(predictor.getEventId(),battlePredictionDTO.getGameId());
-        battlePredictionDTO.assignOwner(participantInfo);
-        return this.battlePredictionRepository.save(battlePredictionDTO.toDomain());
+        Game game = this.gameService.getGameInfo(predictor.getEventId(),gameId);
+        return this.battlePredictionRepository.save(battlePredictionDTO.toDomain(participantInfo,predictorId,gameId));
     }
 
     /**

@@ -8,19 +8,12 @@ import prediction.domain.BattlePrediction;
 import prediction.domain.User;
 
 /**
+ * Battle Prediction DTO
+ *
  * @author Claudio E. de Oliveira on 19/03/16.
  */
 @Data
-public class BattlePredictionDTO implements DomainConverter<BattlePrediction> {
-
-    @JsonIgnore
-    private User owner;
-
-    @NotEmpty(message = "predictor id cannot be null")
-    private String predictorId;
-
-    @NotEmpty(message = "player game result cannot be null")
-    private String gameId;
+public class BattlePredictionDTO {
 
     @NotEmpty(message = "player two result cannot be null")
     private String playerOneResult;
@@ -28,31 +21,16 @@ public class BattlePredictionDTO implements DomainConverter<BattlePrediction> {
     @NotEmpty(message = "player one result cannot be null")
     private String playerTwoResult;
 
-    @Override
-    public BattlePrediction toDomain() {
-        return BattlePrediction.newBattlePrediction(this.gameId, this.predictorId, this.playerOneResult, this.playerTwoResult, this.owner);
-    }
-
     /**
-     * Assign owner to prediction
+     * Convert to domain entity
      *
      * @param owner
-     * @return
-     */
-    public BattlePredictionDTO assignOwner(User owner) {
-        this.owner = owner;
-        return this;
-    }
-
-    /**
-     * Assign predictorId to prediction
-     *
      * @param predictorId
+     * @param gameId
      * @return
      */
-    public BattlePredictionDTO assignPredictor(String predictorId) {
-        this.predictorId = predictorId;
-        return this;
+    public BattlePrediction toDomain(User owner,String predictorId,String gameId) {
+        return BattlePrediction.newBattlePrediction(gameId, predictorId, this.playerOneResult, this.playerTwoResult, owner);
     }
 
 }

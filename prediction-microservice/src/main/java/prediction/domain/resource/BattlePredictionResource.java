@@ -37,10 +37,9 @@ public class BattlePredictionResource {
         this.battlePredictionService.deletePredictionById(predictionId, credential.getName());
     }
 
-    @RequestMapping(value = "/predictor/{predictorId}", method = RequestMethod.POST)
-    public ResponseEntity<BattlePrediction> doPrediction(@PathVariable("predictorId") String predictorId, @RequestBody BattlePredictionDTO battlePrediction, Principal credential) {
-        battlePrediction.assignPredictor(predictorId);
-        return new ResponseEntity<>(this.battlePredictionService.doPrediction(battlePrediction, credential.getName()), HttpStatus.CREATED);
+    @RequestMapping(value = "/predictor/{predictorId}/game/{gameId}", method = RequestMethod.POST)
+    public ResponseEntity<BattlePrediction> doPrediction(@PathVariable("predictorId") String predictorId,@PathVariable("gameId") String gameId, @RequestBody BattlePredictionDTO battlePrediction, Principal credential) {
+        return new ResponseEntity<>(this.battlePredictionService.doPrediction(predictorId,gameId,battlePrediction, credential.getName()), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Retrieve predictions by predictor", nickname = "Predictions by Predictor")

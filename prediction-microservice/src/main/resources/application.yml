@@ -27,7 +27,7 @@ services:
       info: http://EVENTS/{0}/game/{1}
   predictor:
       info: http://PREDICTORS/
-      participant-info: http://PREDICTORS/{0}/participant/{1}
+      participant-info: http://PREDICTORS/private/{0}/participant/{1}
 
 rabbit:
   queue:
