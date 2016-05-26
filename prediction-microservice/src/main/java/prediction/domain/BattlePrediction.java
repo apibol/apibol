@@ -37,7 +37,6 @@ public class BattlePrediction extends Prediction {
         this.playerTwoResult = playerTwoResult;
         this.owner = owner;
         this.predictor = predictor;
-        this.registeredAt = LocalDateTime.now();
     }
 
     /**

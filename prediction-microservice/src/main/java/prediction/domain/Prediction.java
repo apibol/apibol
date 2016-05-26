@@ -18,6 +18,4 @@ public abstract class Prediction {
     
     protected String predictor;
 
-    protected LocalDateTime registeredAt;
-
 }
