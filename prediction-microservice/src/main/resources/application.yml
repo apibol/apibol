@@ -24,7 +24,7 @@ services:
   event:
     info: http://EVENTS/
     game:
-      info: http://EVENTS/{0}/game/{1}
+      info: http://EVENTS/private/{0}/game/{1}
   predictor:
       info: http://PREDICTORS/private/
       participant-info: http://PREDICTORS/private/{0}/participant/{1}

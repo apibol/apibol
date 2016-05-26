@@ -24,7 +24,7 @@ public class EventTest {
         owner.setEmail("jao@gmail.com");
         owner.setNickname("Jao");
         Period period = Period.newPeriod(LocalDateTime.now().format(FORMATTER), LocalDateTime.now().format(FORMATTER));
-        Event paulistao = Event.newEvent(UUID.randomUUID().toString(), "Paulistão", period, false, owner);
+        Event paulistao = Event.newEvent(UUID.randomUUID().toString(), "Paulistão", period, false, owner,2);
         String jsonEvent = new ObjectMapper().writeValueAsString(paulistao);
         assertNotNull(jsonEvent);
     }
