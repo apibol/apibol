@@ -2,6 +2,7 @@ package event.domain;
 
 import event.domain.exception.GameIsNotInEventRangeDate;
 import event.domain.specification.IsInEventPeriod;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,6 +17,11 @@ import java.util.Set;
 @Document(collection = "event")
 public class Event {
 
+    /**
+     * Default time to block
+     */
+    private static final Integer DEFAULT_HOURS = 2;
+
     @Id
     private String id;
 
@@ -28,6 +34,11 @@ public class Event {
     private Set<Game> games = new HashSet<>();
 
     private Set<User> participants = new HashSet<>();
+
+    /**
+     * Hours before game to accept new predictions
+     */
+    private Integer hoursLimitToBlock = DEFAULT_HOURS;
 
     private User owner;
 
@@ -46,12 +57,13 @@ public class Event {
      * @param open
      * @param owner
      */
-    private Event(String id, String name, Period period, Boolean open, User owner) {
+    private Event(String id, String name, Period period, Boolean open, User owner,Integer hoursLimitToBlock) {
         this.id = id;
         this.name = name;
         this.period = period;
         this.open = open;
         this.owner = owner;
+        this.hoursLimitToBlock = hoursLimitToBlock;
     }
 
     /**
@@ -62,10 +74,11 @@ public class Event {
      * @param period
      * @param open
      * @param owner
+     * @param hoursLimitToBlock
      * @return
      */
-    public static Event newEvent(String id, String name, Period period, Boolean open, User owner) {
-        return new Event(id, name, period, open, owner);
+    public static Event newEvent(String id, String name, Period period, Boolean open, User owner, Integer hoursLimitToBlock) {
+        return new Event(id, name, period, open, owner,hoursLimitToBlock);
     }
 
     /**
