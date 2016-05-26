@@ -1,5 +1,7 @@
 package ranking.domain.service;
 
+import domain.Participant;
+import domain.SystemUser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,18 +25,37 @@ public class RankingService {
 
     private final RankingRepository rankingRepository;
 
+    private final SystemUserService systemUserService;
+
+    private final PredictionService predictionService;
+
     @Autowired
-    public RankingService(RankingRepository rankingRepository) {
+    public RankingService(RankingRepository rankingRepository,SystemUserService systemUserService,PredictionService predictionService) {
         this.rankingRepository = rankingRepository;
+        this.systemUserService = systemUserService;
+        this.predictionService = predictionService;
     }
 
     /**
      * Retrieve ranking by predictor
      *
      * @param predictorId
+     * @param name
      * @return
      */
-    public List<RankingTO> findRanking(String predictorId) {
+    public List<RankingTO> findRanking(String predictorId, String name) {
+        SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
+        Participant participantInfo = this.predictionService.getParticipantInfo(predictorId, loggedUser.getId());
+        return makeRankingTO(predictorId);
+    }
+
+    /**
+     * Make ranking by predictor id
+     *
+     * @param predictorId
+     * @return
+     */
+    private List<RankingTO> makeRankingTO(String predictorId) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         log.info(String.format("[REQUEST-RANKING] Request ranking for predictor %s", predictorId));

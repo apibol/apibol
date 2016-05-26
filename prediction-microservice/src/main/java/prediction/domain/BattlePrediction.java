@@ -1,5 +1,6 @@
 package prediction.domain;
 
+import domain.Participant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +31,7 @@ public class BattlePrediction extends Prediction {
      * @param playerTwoResult
      * @param owner
      */
-    private BattlePrediction(String id, String predictor, String gameId, String playerOneResult, String playerTwoResult, User owner) {
+    private BattlePrediction(String id, String predictor, String gameId, String playerOneResult, String playerTwoResult, Participant owner) {
         this.id = id;
         this.gameId = gameId;
         this.playerOneResult = playerOneResult;
@@ -49,7 +50,7 @@ public class BattlePrediction extends Prediction {
      * @param owner
      * @return
      */
-    public static BattlePrediction newBattlePrediction(String gameId, String predictor, String playerOneResult, String playerTwoResult, User owner) {
+    public static BattlePrediction newBattlePrediction(String gameId, String predictor, String playerOneResult, String playerTwoResult, Participant owner) {
         return new BattlePrediction(UUID.randomUUID().toString(), predictor, gameId, playerOneResult, playerTwoResult, owner);
     }
 

@@ -1,4 +1,4 @@
-package prediction.domain;
+package domain;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @Data
-public class User {
+public class Participant {
     
     private String id;
     

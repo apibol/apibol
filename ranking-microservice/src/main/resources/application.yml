@@ -29,15 +29,20 @@ spring:
       username: guest
       password: guest
 
+management:
+  security:
+    enabled: false
+
 services:
   user:
     info: http://USERS/
   event:
     info: http://EVENTS/
-
-management:
-  security:
-    enabled: false
+    game:
+      info: http://EVENTS/private/{0}/game/{1}
+  predictor:
+      info: http://PREDICTORS/private/
+      participant-info: http://PREDICTORS/private/{0}/participant/{1}
 
 config:
   oauth2:

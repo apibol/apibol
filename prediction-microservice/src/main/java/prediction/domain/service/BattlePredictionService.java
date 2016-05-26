@@ -1,5 +1,6 @@
 package prediction.domain.service;
 
+import domain.Participant;
 import domain.SystemUser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.util.CollectionUtils;
 import prediction.domain.BattlePrediction;
 import prediction.domain.Game;
 import prediction.domain.Predictor;
-import prediction.domain.User;
 import prediction.domain.exception.AnyPredictionsInPredictor;
 import prediction.domain.exception.GamePredictionNotFound;
 import prediction.domain.exception.UserIsNotInPredictor;
@@ -56,7 +56,7 @@ public class BattlePredictionService {
      */
     public BattlePrediction doPrediction(String predictorId,String gameId,BattlePredictionDTO battlePredictionDTO, String name) {
         SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
-        User participantInfo = this.predictionService.getParticipantInfo(predictorId, loggedUser.getId());
+        Participant participantInfo = this.predictionService.getParticipantInfo(predictorId, loggedUser.getId());
         Predictor predictor = this.predictionService.getPredictorInfo(predictorId);
         final boolean isParticipant = predictor.isParticipant(loggedUser);
         if(!isParticipant){

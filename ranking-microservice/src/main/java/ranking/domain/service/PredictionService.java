@@ -1,4 +1,4 @@
-package prediction.domain.service;
+package ranking.domain.service;
 
 import domain.Participant;
 import lombok.extern.log4j.Log4j2;
@@ -9,8 +9,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import prediction.domain.Predictor;
-import prediction.domain.exception.InvalidPredictor;
+import ranking.domain.exception.InvalidPredictor;
 
 import java.text.MessageFormat;
 
@@ -26,29 +25,12 @@ public class PredictionService {
     @LoadBalanced
     private RestTemplate restTemplate;
 
-    @Value("${services.predictor.info}")
-    private String predictorInfoUrl;
-
     @Value("${services.predictor.participant-info}")
     private String participantInfoUrl;
 
     /**
-     * Get predictor information
-     * @param predictorId
-     * @return
-     */
-    public Predictor getPredictorInfo(String predictorId){
-        ResponseEntity<Predictor> response = this.restTemplate.getForEntity(this.predictorInfoUrl + predictorId, Predictor.class);
-        if(response.getStatusCode().is2xxSuccessful()){
-            return response.getBody();
-        }else {
-            log.error(String.format("[GET-PREDICTOR-INFO] Error on get predictor %s info",predictorId));
-            throw new InvalidPredictor(predictorId);
-        }
-    }
-
-    /**
-     * Get Participant info in predictor 
+     * Get Participant info in predictor
+     *
      * @param predictorId
      * @param participantId
      * @return

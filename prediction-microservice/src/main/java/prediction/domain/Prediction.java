@@ -1,5 +1,6 @@
 package prediction.domain;
 
+import domain.Participant;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public abstract class Prediction {
 
     protected String gameId;
 
-    protected User owner;
+    protected Participant owner;
     
     protected String predictor;
 

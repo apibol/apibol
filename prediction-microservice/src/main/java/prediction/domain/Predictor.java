@@ -1,5 +1,6 @@
 package prediction.domain;
 
+import domain.Participant;
 import domain.SystemUser;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class Predictor {
 
     private String eventId;
 
-    private Set<User> participants = new HashSet<>();
+    private Set<Participant> participants = new HashSet<>();
 
     /**
      * Indicates if user is predictor participant

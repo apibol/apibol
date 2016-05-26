@@ -12,6 +12,7 @@ import ranking.domain.RankingElement;
 import ranking.domain.repository.model.RankingTO;
 import ranking.domain.service.RankingService;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -31,8 +32,8 @@ public class RankingResource {
     }
 
     @RequestMapping(value = "/{predictorId}", method = RequestMethod.GET)
-    public ResponseEntity<List<RankingTO>> findByPredictor(@PathVariable("predictorId") String predictorId) {
-        return new ResponseEntity<>(this.rankingService.findRanking(predictorId), HttpStatus.OK);
+    public ResponseEntity<List<RankingTO>> findByPredictor(@PathVariable("predictorId") String predictorId,Principal credential) {
+        return new ResponseEntity<>(this.rankingService.findRanking(predictorId,credential.getName()), HttpStatus.OK);
     }
 
 }

@@ -1,11 +1,9 @@
 package prediction.domain.resource.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import domain.Participant;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Transient;
 import prediction.domain.BattlePrediction;
-import prediction.domain.User;
 
 /**
  * Battle Prediction DTO
@@ -29,7 +27,7 @@ public class BattlePredictionDTO {
      * @param gameId
      * @return
      */
-    public BattlePrediction toDomain(User owner,String predictorId,String gameId) {
+    public BattlePrediction toDomain(Participant owner, String predictorId, String gameId) {
         return BattlePrediction.newBattlePrediction(gameId, predictorId, this.playerOneResult, this.playerTwoResult, owner);
     }
 
