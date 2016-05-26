@@ -14,10 +14,13 @@ import predictor.domain.JoinPredictorRequest;
 import predictor.domain.Participant;
 import predictor.domain.Predictor;
 import predictor.domain.exception.InvalidPredictor;
+import predictor.domain.exception.ParticipantIsNotOwnerException;
 import predictor.domain.exception.ParticipantNotInPredictor;
+import predictor.domain.exception.PredictorNotFound;
 import predictor.domain.repository.PredictorRepository;
 import predictor.domain.resource.JoinPredictorDTO;
 import predictor.domain.resource.PredictorDTO;
+import predictor.domain.specification.IsPredictorOwner;
 
 import java.util.List;
 import java.util.Objects;
@@ -103,7 +106,12 @@ public class PredictorService {
      * @return
      */
     public Predictor findOne(String id) {
-        return this.predictorRepository.findOne(id);
+        final Predictor predictor = this.predictorRepository.findOne(id);
+        if (Objects.isNull(predictor)){
+            log.info(String.format("[GET-PREDICTOR-ID] Predictor %s not found in database", id));
+            throw new PredictorNotFound(id);
+        }
+        return predictor;
     }
 
     /**
@@ -113,8 +121,15 @@ public class PredictorService {
      * @param name
      */
     public void deletePredictor(String id, String name) {
-        log.info(String.format("[DELETE-PREDICTOR] Delete predictor by id. Predictor %s", id));
-        this.predictorRepository.delete(id);
+        final SystemUser systemUser = this.systemUserService.loggerUserInfo(name);
+        final Predictor predictor = this.predictorRepository.findOne(id);
+        if(new IsPredictorOwner(predictor).isSatisfiedBy(systemUser)){
+            log.info(String.format("[DELETE-PREDICTOR] Delete predictor by id. Predictor %s by user %s", id,name));
+            this.predictorRepository.delete(id);
+        }else{
+            log.error(String.format("[DELETE-PREDICTOR] User %s is not owner on predictor %s ", name,id));
+            throw new ParticipantIsNotOwnerException(id,systemUser.getId());
+        }
     }
 
     /**
@@ -127,6 +142,7 @@ public class PredictorService {
     public Participant findByPredictorAndParticipantId(String predictorId, String participantId) {
         Predictor predictor = this.predictorRepository.findByIdAndParticipantsId(predictorId, participantId);
         if (Objects.isNull(predictor)) {
+            log.error(String.format("[GET-PARTICIPANT-IN-PREDICTOR] Participant %s is not in predictor %s ", participantId,predictorId));
             throw new ParticipantNotInPredictor(participantId, predictorId);
         } else {
             return predictor.participantInfo(participantId);
@@ -140,6 +156,7 @@ public class PredictorService {
      * @return
      */
     public Predictor saveByEvent(Predictor predictor){
+        log.info("[SAVE-NEW-PREDICTOR-BY-EVENT] Receive new event "+ predictor.getId());
         return this.predictorRepository.save(predictor);
     }
 

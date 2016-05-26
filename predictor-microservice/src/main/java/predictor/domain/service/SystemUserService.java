@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import domain.SystemUser;
 import exception.UserNotFound;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Claudio E. de Oliveira on on 28/04/16.
  */
+@Log4j2
 @Service
 public class SystemUserService {
 
@@ -32,7 +34,7 @@ public class SystemUserService {
 
     private static final String queryInfo = "user?nickname=";
 
-    private final Cache<String,SystemUser> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
+    private final Cache<String, SystemUser> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(24L, TimeUnit.HOURS).build();
 
     /**
      * Retrieve logged user info
@@ -44,7 +46,7 @@ public class SystemUserService {
     public SystemUser loggerUserInfo(String nickname) {
         ResponseEntity<SystemUser> response = this.restTemplate.getForEntity(this.baseUrl + queryInfo + nickname, SystemUser.class);
         SystemUser body = response.getBody();
-        cache.put(body.getNickname(),body);
+        cache.put(body.getNickname(), body);
         return body;
     }
 
@@ -54,10 +56,11 @@ public class SystemUserService {
      * @param nickname
      * @return
      */
-    public SystemUser getUserInCache(String nickname){
+    public SystemUser getUserInCache(String nickname) {
         SystemUser cachedUser = cache.getIfPresent(nickname);
-        if(Objects.isNull(cachedUser)){
-            throw new UserNotFound(nickname);
+        if (Objects.isNull(cachedUser)) {
+            log.info(String.format("[GET-LOGGED-USER] User %s not found ", nickname));
+            throw new UserNotFound(nickname'');
         }
         return cachedUser;
     }
