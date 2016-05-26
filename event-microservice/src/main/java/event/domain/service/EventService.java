@@ -94,15 +94,6 @@ public class EventService {
     }
 
     /**
-     * List all events
-     *
-     * @return
-     */
-    public List<Event> all() {
-        return this.eventRepository.findAll();
-    }
-
-    /**
      * Find event by Id
      *
      * @param id

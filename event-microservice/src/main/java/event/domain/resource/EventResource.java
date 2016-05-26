@@ -42,12 +42,6 @@ public class EventResource {
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ApiOperation(value = "List all events", nickname = "List Events")
-    public ResponseEntity<List<Event>> all() {
-        return new ResponseEntity<>(this.eventService.all(), HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "Find Event By ID", nickname = "Find Event by ID")
     public ResponseEntity<Event> findOne(@PathVariable("id") String id) {
