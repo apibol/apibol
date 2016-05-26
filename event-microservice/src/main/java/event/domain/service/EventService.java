@@ -9,12 +9,17 @@ import event.domain.repository.EventRepository;
 import event.domain.resource.model.BattleResultDTO;
 import event.domain.resource.model.EventDTO;
 import event.domain.resource.model.NewGame;
+import event.domain.specification.GameIsOpenForPredictions;
 import event.domain.specification.IsPrivateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.Objects;
 import java.util.Set;
+
+import static java.time.temporal.ChronoUnit.HOURS;
 
 /**
  * The event service
@@ -147,6 +152,18 @@ public class EventService {
             event.addParticipant(participantInfo);
         });
         return event;
+    }
+
+    /**
+     * If game is opened for receive new predictions
+     *
+     * @param eventId
+     * @param gameId
+     * @return
+     */
+    public Boolean gameOpenedForPredictions(String eventId, String gameId) {
+        final Event event = this.findOne(eventId);
+        return new GameIsOpenForPredictions(event).isSatisfiedBy(gameId);
     }
 
 }

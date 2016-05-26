@@ -7,8 +7,12 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+
+import static java.time.temporal.ChronoUnit.HOURS;
 
 /**
  * @author Claudio E. de Oliveira on 27/02/16.
@@ -124,6 +128,17 @@ public class Event {
     public Event addParticipant(User user){
         this.participants.add(user);
         return this;
+    }
+
+    public Boolean isOpenForPredictions(String gameId){
+        final Game game = this.gameById(gameId);
+        if(Objects.nonNull(game)){
+            final LocalDateTime requestTime = LocalDateTime.now();
+            final LocalDateTime gameTime = game.getTime();
+            final long hours = HOURS.between(gameTime, requestTime);
+            return (int) hours > this.hoursLimitToBlock;
+        }
+        return Boolean.FALSE;
     }
 
 }

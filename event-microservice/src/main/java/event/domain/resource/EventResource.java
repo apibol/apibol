@@ -78,4 +78,15 @@ public class EventResource {
         return new ResponseEntity<>(this.eventService.addGameResult(eventId, gameId, resultDTO,credential.getName()), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/game/{gameId}/isOpened", method = RequestMethod.GET)
+    @ApiOperation(value = "Game is opened for predictions", nickname = "Is opened")
+    public ResponseEntity<Boolean> isOpenedFoPredictions(@PathVariable("id") String eventId, @PathVariable("gameId") String gameId) {
+        final Boolean isOpened = this.eventService.gameOpenedForPredictions(eventId, gameId);
+        if(isOpened){
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
