@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import domain.SystemUser;
 import exception.UserNotFound;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @author Claudio E. de Oliveira on on 28/04/16.
  */
 @Service
+@Log4j2
 public class SystemUserService {
 
     @Autowired
@@ -57,6 +59,7 @@ public class SystemUserService {
     public SystemUser getUserInCache(String nickname){
         SystemUser cachedUser = cache.getIfPresent(nickname);
         if(Objects.isNull(cachedUser)){
+            log.info(String.format("[GET-LOGGED-USER] User %s not found ", nickname));
             throw new UserNotFound(nickname);
         }
         return cachedUser;

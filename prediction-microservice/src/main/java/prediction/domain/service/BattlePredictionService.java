@@ -60,7 +60,7 @@ public class BattlePredictionService {
         Predictor predictor = this.predictionService.getPredictorInfo(predictorId);
         final boolean isParticipant = predictor.isParticipant(loggedUser);
         if(!isParticipant){
-            log.error(String.format("User %s is not in predictor %s",loggedUser.getId(),predictor.getId()));
+            log.error(String.format("[DO-PREDICTION] User %s is not in predictor %s",loggedUser.getId(),predictor.getId()));
             throw new UserIsNotInPredictor(predictor.getId(),loggedUser.getId());
         }
         Game game = this.gameService.getGameInfo(predictor.getEventId(),gameId);
@@ -74,7 +74,12 @@ public class BattlePredictionService {
      * @return
      */
     public List<BattlePrediction> findByGameId(String gameId) {
-        return this.battlePredictionRepository.findByGameId(gameId);
+        log.info(String.format("[GET-GAME-PREDICTIONS] Searching predictions for game id %s",gameId));
+        final List<BattlePrediction> predictions = this.battlePredictionRepository.findByGameId(gameId);
+        if(CollectionUtils.isEmpty(predictions)){
+            log.error(String.format("[GET-GAME-PREDICTIONS] Predictions not found for game id %s",gameId));
+        }
+        return predictions;
     }
 
     /**
@@ -84,11 +89,11 @@ public class BattlePredictionService {
      * @param name
      * @return
      */
-    public List<BattlePrediction> findByPredictorId(String predictorId, String name) {
+    public List<BattlePrediction> findParticipantPredictions(String predictorId, String name) {
         final SystemUser loggedUser = this.systemUserService.loggerUserInfo(name);
         final List<BattlePrediction> userPredictions = this.battlePredictionRepository.findByPredictorAndOwnerId(predictorId, loggedUser.getId());
         if(CollectionUtils.isEmpty(userPredictions)){
-            log.error(String.format("Predictions not found userId: %s predictorId: %s",loggedUser.getId(),predictorId));
+            log.error(String.format("[GET-PARTICIPANT-PREDICTIONS] Predictions not found userId: %s predictorId: %s",loggedUser.getId(),predictorId));
             throw new AnyPredictionsInPredictor(loggedUser.getId(),predictorId);
         }
         return userPredictions;
@@ -123,7 +128,7 @@ public class BattlePredictionService {
         if(new IsPredictionOwner(battlePrediction).isSatisfiedBy(loggedUser)){
             this.battlePredictionRepository.delete(id);
         }else{
-            log.error(String.format("Game prediction %s cannot be deleted by userId: %s",id,loggedUser.getId()));
+            log.error(String.format("[DELETE-PREDICTION] Game prediction %s cannot be deleted by userId: %s",id,loggedUser.getId()));
             throw new UserIsNotPredictionOwner(name,id);
         }
     }

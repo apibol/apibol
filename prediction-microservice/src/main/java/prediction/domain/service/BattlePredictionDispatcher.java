@@ -21,13 +21,13 @@ import java.util.List;
 @Component
 public class BattlePredictionDispatcher {
 
-    private final BattlePredictionRepository battlePredictionRepository;
+    private final BattlePredictionService battlePredictionService;
 
     private final SenderService senderService;
 
     @Autowired
-    public BattlePredictionDispatcher(BattlePredictionRepository battlePredictionRepository, SenderService senderService) {
-        this.battlePredictionRepository = battlePredictionRepository;
+    public BattlePredictionDispatcher(BattlePredictionService battlePredictionService, SenderService senderService) {
+        this.battlePredictionService = battlePredictionService;
         this.senderService = senderService;
     }
 
@@ -38,9 +38,11 @@ public class BattlePredictionDispatcher {
      */
     public void computePoints(final BattleResult battleResult) {
         log.info(String.format("[PROCESS-PREDICTIONS] Process results from game %s", battleResult.toString()));
-        List<BattlePrediction> predictions = battlePredictionRepository.findByGameId(battleResult.getGameId());
+        List<BattlePrediction> predictions = this.battlePredictionService.findByGameId(battleResult.getGameId());
         predictions.parallelStream().forEach(prediction -> {
+            log.info(String.format("[EVALUATE-PREDICTION] Start Evaluate prediction id %s", prediction.getId()));
             Integer pointsEarned = new PredictionEvaluator(battleResult).evaluate(prediction);
+            log.info(String.format("[EVALUATE-PREDICTION] End Evaluate prediction id %s", prediction.getId()));
             senderService.sendPoints(new UserPoints(battleResult.getGameId(), prediction.getOwner().getId(), pointsEarned, prediction.getOwner().getNickname(), prediction.getPredictor()));
         });
     }

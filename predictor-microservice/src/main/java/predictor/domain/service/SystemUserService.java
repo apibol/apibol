@@ -60,7 +60,7 @@ public class SystemUserService {
         SystemUser cachedUser = cache.getIfPresent(nickname);
         if (Objects.isNull(cachedUser)) {
             log.info(String.format("[GET-LOGGED-USER] User %s not found ", nickname));
-            throw new UserNotFound(nickname'');
+            throw new UserNotFound(nickname);
         }
         return cachedUser;
     }

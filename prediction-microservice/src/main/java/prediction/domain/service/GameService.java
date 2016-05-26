@@ -40,7 +40,7 @@ public class GameService {
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
-            log.error(String.format("Error on retrieve game %s information",gameId));
+            log.error(String.format("[GET-GAME-INFO] Error on retrieve game %s information",gameId));
             throw new InvalidGame(gameId);
         }
     }

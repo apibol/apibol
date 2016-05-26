@@ -49,7 +49,7 @@ public class BattlePredictionResource {
     })
     @RequestMapping(value = "/predictor/{predictorId}", method = RequestMethod.GET)
     public ResponseEntity<List<BattlePrediction>> findByPredictor(@PathVariable("predictorId") String predictorId, Principal credential) {
-        return new ResponseEntity<>(this.battlePredictionService.findByPredictorId(predictorId, credential.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(this.battlePredictionService.findParticipantPredictions(predictorId, credential.getName()), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Retrieve prediction in predictor by game", nickname = "Prediction game")

@@ -42,7 +42,7 @@ public class PredictionService {
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
-            log.error(String.format("Error on get predictor %s info",predictorId));
+            log.error(String.format("[GET-PREDICTOR-INFO] Error on get predictor %s info",predictorId));
             throw new InvalidPredictor(predictorId);
         }
     }
@@ -59,6 +59,7 @@ public class PredictionService {
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();
         }else {
+            log.error(String.format("[GET-PREDICTOR-INFO] Error on get predictor %s info",predictorId));
             throw new InvalidPredictor(predictorId);
         }
     }
