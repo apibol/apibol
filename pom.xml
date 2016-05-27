@@ -183,6 +183,13 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- Password complexity -->
+            <dependency>
+                <groupId>org.passay</groupId>
+                <artifactId>passay</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
