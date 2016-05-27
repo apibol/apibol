@@ -1,6 +1,6 @@
 # Dockerfile for user microservice
-MAINTAINER Claudio de Oliveira<claudioed.oliveira@gmail.com>
 FROM java:8
+MAINTAINER Claudio de Oliveira<claudioed.oliveira@gmail.com>
 VOLUME /tmp
 ADD auth-microservice-1.0-SNAPSHOT.jar auth-microservice.jar
 RUN bash -c 'touch /auth-microservice.jar'

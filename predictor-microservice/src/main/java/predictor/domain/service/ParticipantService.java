@@ -6,9 +6,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 public class ParticipantService {
 
-    @Autowired @LoadBalanced
+    @Autowired
     private RestTemplate restTemplate;
 
     @Value("${services.user.info}")

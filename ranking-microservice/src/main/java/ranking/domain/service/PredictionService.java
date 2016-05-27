@@ -7,7 +7,6 @@ import domain.Participant;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,6 @@ public class PredictionService {
     private static final String KEY_PATTERN = "%s:%s";
 
     @Autowired
-    @LoadBalanced
     private RestTemplate restTemplate;
 
     @Value("${services.predictor.participant-info}")

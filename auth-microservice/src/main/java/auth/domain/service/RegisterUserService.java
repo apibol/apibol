@@ -1,11 +1,9 @@
 package auth.domain.service;
 
 import auth.domain.Credential;
-import auth.domain.resource.vo.CredentialVO;
 import domain.NewUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
