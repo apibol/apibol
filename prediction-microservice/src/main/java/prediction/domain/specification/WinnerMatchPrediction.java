@@ -5,6 +5,8 @@ import prediction.domain.BattleResult;
 import specification.AbstractSpecification;
 
 /**
+ * Indicates if user hit the winner of game
+ *
  * @author Claudio E. de Oliveira on 22/03/16.
  */
 public class WinnerMatchPrediction extends AbstractSpecification<BattlePrediction> {
