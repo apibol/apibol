@@ -37,12 +37,9 @@ public class UserService {
     public Participant getUserInfo(String userId){
         log.info("[REQUEST-PARTICIPANT-INFO] Request event info ");
         ResponseEntity<Participant> response = this.restTemplate.getForEntity(this.url + userId, Participant.class);
-        if(response.getStatusCode().is2xxSuccessful()){
-            return response.getBody();
-        }else {
-            log.error(String.format("[REQUEST-PARTICIPANT-INFO] HTTP - Error on retrieve user %s information", userId));
-            throw new InvalidUser(userId);
-        }
+        final Participant user = response.getBody();
+        cache.put(user.getId(),user);
+        return user;
     }
 
     /**

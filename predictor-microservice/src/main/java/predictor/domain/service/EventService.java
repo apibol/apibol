@@ -40,12 +40,9 @@ public class EventService {
     public Event getEventInfo(String eventId) {
         log.info("[REQUEST-EVENT-INFO] Request event info ");
         ResponseEntity<Event> response = this.restTemplate.getForEntity(this.eventInfoUrl + eventId, Event.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        } else {
-            log.error(String.format("[REQUEST-EVENT-INFO] HTTP - Error on retrieve event %s information", eventId));
-            throw new InvalidEvent(eventId);
-        }
+        final Event event = response.getBody();
+        cache.put(event.getId(),event);
+        return event;
     }
 
     /**
