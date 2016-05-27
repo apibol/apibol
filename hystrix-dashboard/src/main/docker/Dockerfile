@@ -1,3 +1,5 @@
+# Dockerfile for hystrix dashboard microservice
+MAINTAINER Claudio de Oliveira<claudioed.oliveira@gmail.com>
 FROM java:8
 VOLUME /tmp
 ADD hystrix-dashboard-1.0-SNAPSHOT.jar hystrix-dashboard.jar

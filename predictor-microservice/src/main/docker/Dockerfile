@@ -1,3 +1,5 @@
+# Dockerfile for predictor microservice
+MAINTAINER Claudio de Oliveira<claudioed.oliveira@gmail.com>
 FROM java:8
 VOLUME /tmp
 ADD predictor-microservice-1.0-SNAPSHOT.jar predictor-microservice.jar

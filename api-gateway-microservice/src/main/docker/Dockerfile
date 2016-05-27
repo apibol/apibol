@@ -1,3 +1,6 @@
+# Dockerfile for api gateway microservice
+MAINTAINER Claudio de Oliveira<claudioed.oliveira@gmail.com>
+
 FROM java:8
 VOLUME /tmp
 ADD api-gateway-microservice-1.0-SNAPSHOT.jar api-gateway.jar
