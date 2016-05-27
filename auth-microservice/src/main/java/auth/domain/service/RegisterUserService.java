@@ -23,7 +23,7 @@ public class RegisterUserService {
     private final String url;
 
     @Autowired
-    public RegisterUserService(@LoadBalanced RestTemplate restTemplate,@Value("${services.user.new}") String url) {
+    public RegisterUserService(RestTemplate restTemplate,@Value("${services.user.new}") String url) {
         this.restTemplate = restTemplate;
         this.url = url;
     }

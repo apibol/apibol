@@ -4,11 +4,9 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import domain.SystemUser;
-import event.domain.User;
 import event.domain.exception.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 public class SystemUserService {
 
     @Autowired
-    @LoadBalanced
     private RestTemplate restTemplate;
 
     @Value("${services.user.baseUrl}")

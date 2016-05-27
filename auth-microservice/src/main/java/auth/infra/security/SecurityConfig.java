@@ -31,8 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private CredentialUserDetails credentialUserDetails;
@@ -42,12 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         log.info("Defining JDBC Authentication");
         auth.userDetailsService(this.credentialUserDetails).passwordEncoder(this.passwordEncoder);
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return this.authenticationManager;
     }
 
     @Override
