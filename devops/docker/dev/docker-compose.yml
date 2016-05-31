@@ -2,31 +2,41 @@ version: '2'
 services:
   config:
     restart: always
-    image: claudioed/config-microservice
+    image: apibol/config-microservice
     depends_on:
       - discovery
     ports:
       - 8001:8001
-    links:
-        - discovery:discovery
+    networks:
+      - backend
 
   discovery:
     restart: always
-    image: claudioed/discovery-microservice
+    image: apibol/discovery-microservice
     ports:
       - 8761:8761
+    networks:
+      - backend
 
   gateway:
     restart: always
-    image: claudioed/api-gateway-microservice
+    image: apibol/api-gateway-microservice
     ports:
       - 8888:8888
-    links:
-      - config:config
-      - discovery:discovery
+    networks:
+      - backend
     depends_on:
       - config
       - discovery
+
+  usermicro:
+      restart: always
+      image: apibol/user-microservice
+      depends_on:
+        - config
+        - discovery
+      networks:
+        - backend
 
   rabbit:
     restart: always
@@ -34,6 +44,8 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    networks:
+      - backend
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
@@ -46,3 +58,20 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=user
+    networks:
+      - backend
+
+  authdb:
+      restart: always
+      image: mariadb
+      expose:
+        - 3307
+      environment:
+        - MYSQL_ROOT_PASSWORD=admin
+        - MYSQL_DATABASE=auth
+      networks:
+        - backend
+
+networks:
+  backend:
+    driver: bridge
