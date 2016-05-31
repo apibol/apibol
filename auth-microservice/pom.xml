@@ -12,7 +12,6 @@
     <artifactId>auth-microservice</artifactId>
 
     <properties>
-        <docker.image.prefix>claudioed</docker.image.prefix>
         <start-class>auth.application.AuthApplication</start-class>
     </properties>
     
