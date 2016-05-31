@@ -1,8 +1,9 @@
 info:
   component: Event MicroService
 
+# Set to server.port=0 (waiting for bugfix)
 server:
-  port: 0
+  port: 7005
 
 eureka:
   client:

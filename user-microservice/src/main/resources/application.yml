@@ -2,9 +2,6 @@
 info:
   component: User MicroService
 
-server:
-  port: 0
-
 eureka:
   client:
     serviceUrl:

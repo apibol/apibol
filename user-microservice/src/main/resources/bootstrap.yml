@@ -5,7 +5,16 @@ spring:
     name: users
   cloud:
     config:
-      uri: http://localhost:8001/
+      uri: http://configserver:8001/
+## Remove this one when spring bug fixed
+server:
+  port: 7001
+
+eureka:
+   client:
+     serviceUrl:
+       defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
 ---
 spring:
   profiles: docker
@@ -14,3 +23,6 @@ spring:
   cloud:
     config:
       uri: http://config:8001/
+
+server:
+  port: 0

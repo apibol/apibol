@@ -2,8 +2,9 @@
 info:
   component: Predictor MicroService
 
+# Set to server.port=0 (waiting for bugfix)
 server:
-  port: 0
+  port: 7003
 
 eureka:
   client:
