@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   config:
     restart: always
     image: apibol/config-microservice
@@ -30,17 +31,47 @@ services:
       - discovery
 
   usermicro:
-      restart: always
-      image: apibol/user-microservice
-      expose:
-        - 7001
-      ports:
-        - 7001
-      depends_on:
-        - config
-        - discovery
-      networks:
-        - backend
+    restart: always
+    image: apibol/user-microservice
+    expose:
+      - 7001
+    ports:
+      - 7001
+    depends_on:
+      - config
+      - discovery
+    networks:
+      - backend
+
+  eventmicro:
+    restart: always
+    image: apibol/event-microservice
+    expose:
+      - 7005
+    ports:
+      - 7005
+    networks:
+      - backend
+
+  predictormicro:
+    restart: always
+    image: apibol/predictor-microservice
+    expose:
+      - 7003
+    ports:
+      - 7003
+    networks:
+      - backend
+
+  predictionmicro:
+    restart: always
+    image: apibol/prediction-microservice
+    expose:
+      - 7004
+    ports:
+      - 7004
+    networks:
+      - backend
 
   rabbit:
     restart: always
@@ -66,15 +97,31 @@ services:
       - backend
 
   authdb:
-      restart: always
-      image: mariadb
-      expose:
-        - 3307
-      environment:
-        - MYSQL_ROOT_PASSWORD=admin
-        - MYSQL_DATABASE=auth
-      networks:
-        - backend
+    restart: always
+    image: mariadb
+    expose:
+      - 3307
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=auth
+    networks:
+      - backend
+
+  mongodb:
+    restart: always
+    image: mongo
+    expose:
+      - 27017
+    networks:
+      - backend
+
+  redis:
+    restart: always
+    image: redis
+    expose:
+      - 6379
+    networks:
+      - backend
 
 networks:
   backend:

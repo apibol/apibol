@@ -28,10 +28,10 @@ data:
 
 spring:
   rabbitmq:
-      host: rabbit
-      port: 5672
-      username: guest
-      password: guest
+    host: rabbit
+    port: 5672
+    username: guest
+    password: guest
   oauth2:
     resource:
       userInfoUri: http://auth:7777/credential
