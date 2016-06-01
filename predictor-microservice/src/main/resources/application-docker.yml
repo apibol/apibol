@@ -1,10 +1,15 @@
+---
 info:
-  component: Event MicroService
+  component: Predictor MicroService
+
+# Set to server.port=0 (waiting for bugfix)
+server:
+  port: 7003
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+      defaultZone: http://discovery:8761/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 10
     preferIpAddress: true
@@ -15,27 +20,31 @@ ribbon:
 
 data:
   mongodb:
-    host: localhost
+    host: mongodb
     port: 27017
-    database: event
+    database: predictor
     username: mongo
     password: admin
 
-rabbit:
-  queue:
-    results: results
-    event: new-event
-  exchange:
-    event: event
-
-services:
-  user:
-    baseUrl: http://USERS/
-
 spring:
+  rabbitmq:
+      host: rabbit
+      port: 5672
+      username: guest
+      password: guest
   oauth2:
     resource:
       userInfoUri: http://auth:7777/credential
+
+services:
+  user:
+    info: http://USERS/
+  event:
+    info: http://EVENTS/
+
+rabbit:
+  queue:
+    event: new-event
 
 management:
   security:

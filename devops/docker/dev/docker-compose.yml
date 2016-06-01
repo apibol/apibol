@@ -32,6 +32,10 @@ services:
   usermicro:
       restart: always
       image: apibol/user-microservice
+      expose:
+        - 7001
+      ports:
+        - 7001
       depends_on:
         - config
         - discovery

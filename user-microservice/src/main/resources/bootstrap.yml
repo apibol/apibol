@@ -25,4 +25,4 @@ spring:
       uri: http://config:8001/
 
 server:
-  port: 0
+  port: 7001

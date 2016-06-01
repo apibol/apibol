@@ -1,36 +1,15 @@
+---
 info:
-  component: Event MicroService
+  component: User MicroService
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+      defaultZone: http://discovery:8761/eureka/
+    fetch-registry: true
   instance:
     leaseRenewalIntervalInSeconds: 10
     preferIpAddress: true
-
-ribbon:
-  eureka:
-    enabled: true
-
-data:
-  mongodb:
-    host: localhost
-    port: 27017
-    database: event
-    username: mongo
-    password: admin
-
-rabbit:
-  queue:
-    results: results
-    event: new-event
-  exchange:
-    event: event
-
-services:
-  user:
-    baseUrl: http://USERS/
 
 spring:
   oauth2:
@@ -66,3 +45,7 @@ config:
       /myh1zM6m8cbL5cYFPyP099thbVxzJkjHWqywvQih/qOOjliomKbM9pxG8Z1dB26
       hL9dSAZuA8xExjlPmQIDAQAB
       -----END PUBLIC KEY-----
+
+security:
+  basic:
+    enabled: false

@@ -1,13 +1,15 @@
+---
 info:
-  component: Event MicroService
+  component: Ranking MicroService
+
+# Set to server.port=0 (waiting for bugfix)
+server:
+  port: 7002
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    preferIpAddress: true
+      defaultZone: http://discovery:8761/eureka/
 
 ribbon:
   eureka:
@@ -15,31 +17,41 @@ ribbon:
 
 data:
   mongodb:
-    host: localhost
+    host: mongodb
     port: 27017
-    database: event
+    database: predictor
     username: mongo
     password: admin
 
+spring:
+  rabbitmq:
+      host: rabbit
+      port: 5672
+      username: guest
+      password: guest
+
+redis:
+  host: redis
+  port: 6379
+
 rabbit:
   queue:
-    results: results
-    event: new-event
-  exchange:
-    event: event
-
-services:
-  user:
-    baseUrl: http://USERS/
-
-spring:
-  oauth2:
-    resource:
-      userInfoUri: http://auth:7777/credential
+    userpoints: userpoints
 
 management:
   security:
     enabled: false
+
+services:
+  user:
+    info: http://USERS/
+  event:
+    info: http://EVENTS/
+    game:
+      info: http://EVENTS/private/{0}/game/{1}
+  predictor:
+      info: http://PREDICTORS/private/
+      participant-info: http://PREDICTORS/private/{0}/participant/{1}
 
 config:
   oauth2:
@@ -66,3 +78,7 @@ config:
       /myh1zM6m8cbL5cYFPyP099thbVxzJkjHWqywvQih/qOOjliomKbM9pxG8Z1dB26
       hL9dSAZuA8xExjlPmQIDAQAB
       -----END PUBLIC KEY-----
+
+security:
+  basic:
+    enabled: false
