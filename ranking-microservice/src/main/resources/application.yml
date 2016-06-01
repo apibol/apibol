@@ -1,6 +1,6 @@
 ---
 info:
-  component: Predictor MicroService
+  component: Ranking MicroService
 
 # Set to server.port=0 (waiting for bugfix)
 server:
@@ -29,6 +29,14 @@ spring:
       port: 5672
       username: guest
       password: guest
+
+redis:
+  host: localhost
+  port: 6379
+
+rabbit:
+  queue:
+    userpoints: userpoints
 
 management:
   security:
