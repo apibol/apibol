@@ -1,49 +1,18 @@
----
-info:
-  component: Predictor MicroService
-
-# Set to server.port=0 (waiting for bugfix)
 server:
-  port: 7003
+  port: 7777
+
+spring:
+  datasource:
+    initialization-fail-fast: true
+    validation-query: SELECT 1
+    continue-on-error: true
+    schema: classpath:db-ddl.sql
+    data: classpath:db-dml.sql
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://discovery:8761/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    preferIpAddress: true
-
-ribbon:
-  eureka:
-    enabled: true
-
-data:
-  mongodb:
-    host: mongodb
-    port: 27017
-    database: predictor
-    username: mongo
-    password: admin
-
-spring:
-  oauth2:
-    resource:
-      userInfoUri: http://auth:7777/credential
-
-services:
-  user:
-    info: http://USERS/
-  event:
-    info: http://EVENTS/
-
-rabbit:
-  queue:
-    event: new-event
-
-management:
-  security:
-    enabled: false
 
 config:
   oauth2:
@@ -70,3 +39,11 @@ config:
       /myh1zM6m8cbL5cYFPyP099thbVxzJkjHWqywvQih/qOOjliomKbM9pxG8Z1dB26
       hL9dSAZuA8xExjlPmQIDAQAB
       -----END PUBLIC KEY-----
+
+security:
+  basic:
+    enabled: false
+
+services:
+  user:
+    new: http://USERS/

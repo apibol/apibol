@@ -38,8 +38,7 @@ services:
     ports:
       - 7001
     depends_on:
-      - config
-      - discovery
+      - dbinstance
     networks:
       - backend
 
@@ -50,6 +49,10 @@ services:
       - 7005
     ports:
       - 7005
+    depends_on:
+      - discovery
+      - rabbit
+      - mongodb
     networks:
       - backend
 
@@ -60,6 +63,11 @@ services:
       - 7003
     ports:
       - 7003
+    depends_on:
+      - discovery
+      - mongodb
+      - rabbit
+      - eventmicro
     networks:
       - backend
 
@@ -70,6 +78,11 @@ services:
       - 7004
     ports:
       - 7004
+    depends_on:
+      - discovery
+      - mongodb
+      - eventmicro
+      - rabbit
     networks:
       - backend
 

@@ -19,8 +19,6 @@ data:
     host: mongodb
     port: 27017
     database: prediction
-    username: mongo
-    password: admin
 
 services:
   user:
@@ -40,13 +38,6 @@ rabbit:
   exchange:
     userpoints: userpoints
     event: event
-
-spring:
-  rabbitmq:
-    host: rabbit
-    port: 5672
-    username: guest
-    password: guest
 
 management:
   security:
