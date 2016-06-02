@@ -15,6 +15,11 @@ spring:
   oauth2:
     resource:
       userInfoUri: http://auth:7777/credential
+  datasource:
+    initialization-fail-fast: true
+    validation-query: SELECT 1
+    continue-on-error: true
+    schema: classpath:db-ddl.sql
 
 management:
   security:
