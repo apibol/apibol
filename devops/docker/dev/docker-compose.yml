@@ -86,6 +86,20 @@ services:
     networks:
       - backend
 
+  rankingmicro:
+    restart: always
+    image: apibol/ranking-microservice
+    expose:
+      - 7004
+    ports:
+      - 7004
+    depends_on:
+      - discovery
+      - rabbit
+      - redis
+    networks:
+      - backend
+
   rabbit:
     restart: always
     image: rabbitmq:3.6.0-management
