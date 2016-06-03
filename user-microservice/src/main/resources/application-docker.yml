@@ -20,6 +20,11 @@ spring:
     validation-query: SELECT 1
     continue-on-error: true
     schema: classpath:db-ddl.sql
+  rabbitmq:
+    host: rabbit
+    port: 5672
+    username: guest
+    password: guest
 
 management:
   security:

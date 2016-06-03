@@ -97,12 +97,18 @@ services:
       - discovery
       - rabbit
       - redis
+      - eventmicro
+      - predictormicro
+      - predictionmicro
     networks:
       - backend
 
   rabbit:
     restart: always
     image: rabbitmq:3.6.0-management
+    expose:
+      - 15672
+      - 5672
     ports:
       - 15672:15672
       - 5672:5672

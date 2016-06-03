@@ -39,6 +39,13 @@ rabbit:
     userpoints: userpoints
     event: event
 
+spring:
+  rabbitmq:
+    host: rabbit
+    port: 5672
+    username: guest
+    password: guest
+
 management:
   security:
     enabled: false

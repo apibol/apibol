@@ -15,14 +15,6 @@ ribbon:
   eureka:
     enabled: true
 
-data:
-  mongodb:
-    host: mongodb
-    port: 27017
-    database: predictor
-    username: mongo
-    password: admin
-
 spring:
   rabbitmq:
       host: rabbit
