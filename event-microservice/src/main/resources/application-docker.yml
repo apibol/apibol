@@ -36,6 +36,11 @@ spring:
   oauth2:
     resource:
       userInfoUri: http://auth:7777/credential
+  rabbitmq:
+    host: rabbit
+    port: 5672
+    username: guest
+    password: guest
 
 management:
   security:

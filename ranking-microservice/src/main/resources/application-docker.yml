@@ -10,6 +10,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://discovery:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    preferIpAddress: true
 
 ribbon:
   eureka:
@@ -17,10 +20,10 @@ ribbon:
 
 spring:
   rabbitmq:
-      host: rabbit
-      port: 5672
-      username: guest
-      password: guest
+    host: rabbit
+    port: 5672
+    username: guest
+    password: guest
 
 redis:
   host: redis
