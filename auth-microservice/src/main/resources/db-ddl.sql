@@ -1,6 +1,7 @@
 -- Client Details
-drop table if exists oauth_client_details;
-create table oauth_client_details (
+CREATE DATABASE auth;
+
+CREATE TABLE IF NOT EXISTS oauth_client_details (
   client_id VARCHAR(255) PRIMARY KEY,
   resource_ids VARCHAR(255),
   client_secret VARCHAR(255),
@@ -15,8 +16,7 @@ create table oauth_client_details (
 );
 
 -- Client Token
-drop table if exists oauth_client_token;
-create table oauth_client_token (
+CREATE TABLE IF NOT EXISTS oauth_client_token (
   token_id VARCHAR(255),
   token LONG VARBINARY,
   authentication_id VARCHAR(255) PRIMARY KEY,
@@ -25,8 +25,7 @@ create table oauth_client_token (
 );
 
 -- Access token
-drop table if exists oauth_access_token;
-create table oauth_access_token (
+CREATE TABLE IF NOT EXISTS oauth_access_token (
   token_id VARCHAR(255),
   token LONG VARBINARY,
   authentication_id VARCHAR(255) PRIMARY KEY,
@@ -37,22 +36,19 @@ create table oauth_access_token (
 );
 
 -- Refresh token
-drop table if exists oauth_refresh_token;
-create table oauth_refresh_token (
+CREATE TABLE IF NOT EXISTS oauth_refresh_token (
   token_id VARCHAR(255),
   token LONG VARBINARY,
   authentication LONG VARBINARY
 );
 
 -- OAuth Code
-drop table if exists oauth_code;
-create table oauth_code (
+CREATE TABLE IF NOT EXISTS oauth_code (
   code VARCHAR(255), authentication LONG VARBINARY
 );
 
 -- OAuth Approvals
-drop table if exists oauth_approvals;
-create table oauth_approvals (
+CREATE TABLE IF NOT EXISTS oauth_approvals (
     userId VARCHAR(255),
     clientId VARCHAR(255),
     scope VARCHAR(255),
@@ -62,15 +58,13 @@ create table oauth_approvals (
 );
 
 -- Scope
-drop table if exists scope;
-create table scope (
+CREATE TABLE IF NOT EXISTS scope (
   id VARCHAR(100),
   scope VARCHAR(255)
 );
 
 -- Credential
-drop table if exists credential;
-create table credential (
+CREATE TABLE IF NOT EXISTS credential (
   id VARCHAR(255),
   email VARCHAR(500),
   nickname VARCHAR(100),
@@ -78,8 +72,7 @@ create table credential (
 );
 
 -- Credential X Scope
-drop table if exists credentials_scope;
-create table credentials_scope (
+CREATE TABLE IF NOT EXISTS credentials_scope (
   id VARCHAR(255),
   nickname VARCHAR(100),
   scope VARCHAR(50)

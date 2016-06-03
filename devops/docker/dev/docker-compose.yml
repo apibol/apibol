@@ -103,6 +103,24 @@ services:
     networks:
       - backend
 
+  auth:
+    restart: always
+    image: apibol/auth-microservice
+    expose:
+      - 7777
+    ports:
+      - 7777
+    depends_on:
+      - discovery
+      - rabbit
+      - redis
+      - eventmicro
+      - predictormicro
+      - predictionmicro
+      - authdb
+    networks:
+      - backend
+
   rabbit:
     restart: always
     image: rabbitmq:3.6.0-management
