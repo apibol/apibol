@@ -6,21 +6,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
-
-spring:
-  oauth2:
-    resource:
-      userInfoUri: http://localhost:7777/credential
-  datasource:
-    initialization-fail-fast: true
-    validation-query: SELECT 1
-    continue-on-error: true
-    schema: classpath:db-ddl.sql
-
-management:
-  security:
-    enabled: false
-
-security:
-  basic:
-    enabled: false
