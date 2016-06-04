@@ -37,7 +37,7 @@ public class DataSourceProducer {
     public DataSource containerDataSource() {
         final BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://authdb:3307/auth");
+        dataSource.setUrl("jdbc:mysql://authdb:3306/auth");
         dataSource.setUsername("root");
         dataSource.setPassword("admin");
         dataSource.setMaxTotal(10);
