@@ -1,23 +1,31 @@
 package event.domain.service;
 
+import com.google.common.collect.Lists;
 import domain.SystemUser;
 import event.domain.Event;
 import event.domain.Game;
 import event.domain.User;
+import event.domain.exception.NoEventsFound;
 import event.domain.factory.UserFactory;
 import event.domain.repository.EventRepository;
 import event.domain.resource.model.BattleResultDTO;
 import event.domain.resource.model.EventDTO;
 import event.domain.resource.model.NewGame;
+import event.domain.specification.EventIsAllowedToUser;
+import event.domain.specification.EventIsOpenByTimeRange;
 import event.domain.specification.GameIsOpenForPredictions;
 import event.domain.specification.IsPrivateEvent;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.HOURS;
 
@@ -27,6 +35,7 @@ import static java.time.temporal.ChronoUnit.HOURS;
  * @author Claudio E. de Oliveira on 28/02/16.
  */
 @Service
+@Log4j2
 public class EventService {
 
     private final EventRepository eventRepository;
@@ -164,6 +173,25 @@ public class EventService {
     public Boolean gameOpenedForPredictions(String eventId, String gameId) {
         final Event event = this.findOne(eventId);
         return new GameIsOpenForPredictions(event).isSatisfiedBy(gameId);
+    }
+
+    /**
+     * Return user events
+     *
+     * @param nickname
+     * @return
+     */
+    public List<Event> myEvents(String nickname){
+        List<Event> events = Lists.newArrayList();
+        SystemUser systemUser = this.systemUserService.loggerUserInfo(nickname);
+        User userInfo = UserFactory.fromSystemUser(systemUser);
+        final List<Event> myEvents = events.stream().filter(ev -> EventIsOpenByTimeRange.createWithNow().isSatisfiedBy(ev) &&
+                new EventIsAllowedToUser(userInfo.getId()).isSatisfiedBy(ev)).collect(Collectors.toList());
+        if(CollectionUtils.isEmpty(myEvents)){
+            log.info("[MY-EVENTS] No events for user " + userInfo.getId());
+            throw new NoEventsFound(userInfo.getId());
+        }
+        return myEvents;
     }
 
 }

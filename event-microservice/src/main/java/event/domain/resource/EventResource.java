@@ -89,4 +89,10 @@ public class EventResource {
         }
     }
 
+    @RequestMapping(value = "/my-events", method = RequestMethod.GET)
+    @ApiOperation(value = "Get participant events", nickname = "Get my events")
+    public ResponseEntity<List<Event>> findGameById(Principal credential) {
+        return new ResponseEntity<>(this.eventService.myEvents(credential.getName()), HttpStatus.OK);
+    }
+
 }

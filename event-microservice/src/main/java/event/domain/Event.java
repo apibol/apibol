@@ -61,7 +61,7 @@ public class Event {
      * @param open
      * @param owner
      */
-    private Event(String id, String name, Period period, Boolean open, User owner,Integer hoursLimitToBlock) {
+    private Event(String id, String name, Period period, Boolean open, User owner, Integer hoursLimitToBlock) {
         this.id = id;
         this.name = name;
         this.period = period;
@@ -82,7 +82,7 @@ public class Event {
      * @return
      */
     public static Event newEvent(String id, String name, Period period, Boolean open, User owner, Integer hoursLimitToBlock) {
-        return new Event(id, name, period, open, owner,hoursLimitToBlock);
+        return new Event(id, name, period, open, owner, hoursLimitToBlock);
     }
 
     /**
@@ -91,10 +91,10 @@ public class Event {
      * @param game
      * @return
      */
-    public Event addGame(Game game) throws GameIsNotInEventRangeDate{
-        if (new IsInEventPeriod(this).isSatisfiedBy(game)){
+    public Event addGame(Game game) throws GameIsNotInEventRangeDate {
+        if (new IsInEventPeriod(this).isSatisfiedBy(game)) {
             this.games.add(game);
-        }else{
+        } else {
             throw new GameIsNotInEventRangeDate(game);
         }
         return this;
@@ -113,32 +113,58 @@ public class Event {
 
     /**
      * Select game by Id
+     *
      * @param gameId
      * @return
      */
-    public Game gameById(String gameId){
+    public Game gameById(String gameId) {
         return this.games.stream().filter(game -> game.getId().equals(gameId)).findFirst().get();
     }
 
     /**
      * Add participant in event
+     *
      * @param user
      * @return
      */
-    public Event addParticipant(User user){
+    public Event addParticipant(User user) {
         this.participants.add(user);
         return this;
     }
 
-    public Boolean isOpenForPredictions(String gameId){
+    /**
+     * Its defines if game is opened to receive predictions
+     *
+     * @param gameId
+     * @return
+     */
+    public Boolean isOpenForPredictions(String gameId) {
         final Game game = this.gameById(gameId);
-        if(Objects.nonNull(game)){
+        if (Objects.nonNull(game)) {
             final LocalDateTime requestTime = LocalDateTime.now();
             final LocalDateTime gameTime = game.getTime();
             final long hours = HOURS.between(gameTime, requestTime);
             return (int) hours > this.hoursLimitToBlock;
         }
         return Boolean.FALSE;
+    }
+
+    /**
+     * Its defines if event is opened to receive predictions
+     *
+     * @return
+     */
+    public Boolean isOpen(LocalDateTime requestTime) {
+        return this.period.start().isBefore(requestTime) && this.period.end().isBefore(requestTime);
+    }
+
+    /**
+     * Its defines if user is participant
+     *
+     * @return
+     */
+    public Boolean isParticipant(String userId) {
+        return this.participants.stream().anyMatch(part -> part.getId().equals(userId));
     }
 
 }
