@@ -30,6 +30,7 @@
         <module>config-file-microservice</module>
         <module>specification</module>
         <module>common</module>
+        <module>frontend</module>
     </modules>
 
     <parent>

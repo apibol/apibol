@@ -1,0 +1,41 @@
+---
+spring:
+  profiles: default
+  application:
+    name: frontend
+  cloud:
+    config:
+      uri: http://configserver:8001/
+## Remove this one when spring bug fixed
+server:
+  port: 7010
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    preferIpAddress: true
+
+---
+spring:
+  profiles: docker
+  application:
+    name: frontend
+  cloud:
+    config:
+      uri: http://config:8001/
+
+server:
+  port: 7010
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    fetch-registry: true
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    preferIpAddress: true
