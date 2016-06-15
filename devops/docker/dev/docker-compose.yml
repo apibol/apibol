@@ -1,126 +1,6 @@
 version: '2'
 services:
 
-  config:
-    restart: always
-    image: apibol/config-microservice
-    depends_on:
-      - discovery
-    ports:
-      - 8001:8001
-    networks:
-      - backend
-
-  discovery:
-    restart: always
-    image: apibol/discovery-microservice
-    ports:
-      - 8761:8761
-    networks:
-      - backend
-
-  gateway:
-    restart: always
-    image: apibol/api-gateway-microservice
-    ports:
-      - 8888:8888
-    networks:
-      - backend
-    depends_on:
-      - config
-      - discovery
-
-  usermicro:
-    restart: always
-    image: apibol/user-microservice
-    expose:
-      - 7001
-    ports:
-      - 7001
-    depends_on:
-      - dbinstance
-    networks:
-      - backend
-
-  eventmicro:
-    restart: always
-    image: apibol/event-microservice
-    expose:
-      - 7005
-    ports:
-      - 7005
-    depends_on:
-      - discovery
-      - rabbit
-      - mongodb
-    networks:
-      - backend
-
-  predictormicro:
-    restart: always
-    image: apibol/predictor-microservice
-    expose:
-      - 7003
-    ports:
-      - 7003
-    depends_on:
-      - discovery
-      - mongodb
-      - rabbit
-      - eventmicro
-    networks:
-      - backend
-
-  predictionmicro:
-    restart: always
-    image: apibol/prediction-microservice
-    expose:
-      - 7004
-    ports:
-      - 7004
-    depends_on:
-      - discovery
-      - mongodb
-      - eventmicro
-      - rabbit
-    networks:
-      - backend
-
-  rankingmicro:
-    restart: always
-    image: apibol/ranking-microservice
-    expose:
-      - 7004
-    ports:
-      - 7004
-    depends_on:
-      - discovery
-      - rabbit
-      - redis
-      - eventmicro
-      - predictormicro
-      - predictionmicro
-    networks:
-      - backend
-
-  auth:
-    restart: always
-    image: apibol/auth-microservice
-    expose:
-      - 7777
-    ports:
-      - 7777
-    depends_on:
-      - discovery
-      - rabbit
-      - redis
-      - eventmicro
-      - predictormicro
-      - predictionmicro
-      - authdb
-    networks:
-      - backend
-
   rabbit:
     restart: always
     image: rabbitmq:3.6.0-management
@@ -139,6 +19,8 @@ services:
   dbinstance:
     restart: always
     image: mariadb
+    ports:
+      - 3306
     expose:
       - 3306
     environment:
@@ -150,8 +32,10 @@ services:
   authdb:
     restart: always
     image: mariadb
-    expose:
+    ports:
       - 3307
+    expose:
+      - 3308
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=auth
@@ -161,6 +45,8 @@ services:
   mongodb:
     restart: always
     image: mongo
+    ports:
+      - 27017
     expose:
       - 27017
     networks:
@@ -169,6 +55,8 @@ services:
   redis:
     restart: always
     image: redis
+    ports:
+      - 6379
     expose:
       - 6379
     networks:
