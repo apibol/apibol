@@ -1,0 +1,6 @@
+{
+  "name": "Apibol",
+  "tagline": "API para Bolão",
+  "body": "# apibol\r\n###Prediction Game\r\n\r\nThe main purpose of this project is explain Spring Cloud Netflix features like Service Discovery, Service Registry, API Proxy,Load Balance,Config Management, etc...\r\n\r\nThe Microservices Architectural style was adopted in this project too.\r\n\r\n\r\n  API Gateway: API entrypoint, routing clients to private microservices known as API Gateway\r\n  https://github.com/claudioed/apibol/tree/master/api-gateway-microservice\r\n  \r\n  Auth Service: OAuth authorization server to protect microservices  \r\n  https://github.com/claudioed/apibol/tree/master/auth-microservice\r\n  \r\n  Discovery Service: Service Discovery/ Service Registry to automatic registration instances  \r\n  https://github.com/claudioed/apibol/tree/master/discovery-microservice\r\n  \r\n  User Service: Manage users registrations and user information  \r\n  https://github.com/claudioed/apibol/tree/master/user-microservice\r\n  \r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
