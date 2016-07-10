@@ -1,8 +1,0 @@
----
-info:
-  component: Frontend
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
