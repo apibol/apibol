@@ -1,0 +1,23 @@
+{
+  "camelcase": true,
+  "esversion": 6,
+  "immed": true,
+  "latedef": "nofunc",
+  "maxcomplexity": 8,
+  "maxdepth": 5,
+  "maxlen": 120,
+  "maxparams": 10,
+  "maxstatements": 40,
+  "newcap": true,
+  "nonew": true,
+  "quotmark": "single",
+  "varstmt": true,
+
+  "eqnull": true,
+  "loopfunc": true,
+  "sub": true,
+
+  "browserify": true,
+  "jasmine": true,
+  "node": true
+}
