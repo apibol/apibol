@@ -1,4 +1,4 @@
-package predictor.domain.resource;
+package predictor.domain.resource.vo;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;

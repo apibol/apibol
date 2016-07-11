@@ -5,7 +5,7 @@ spring:
     name: predictors
   cloud:
     config:
-      uri: http://configserver:8001/
+      uri: http://config:8001/
 
 # Set to server.port=0 (waiting for bugfix)
 server:

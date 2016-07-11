@@ -3,7 +3,7 @@ services:
 
   config:
     restart: always
-    image: apibol/config-microservice
+    image: us.gcr.io/apibol-1279/config-microservice
     depends_on:
       - discovery
     ports:
@@ -13,7 +13,7 @@ services:
 
   discovery:
     restart: always
-    image: apibol/discovery-microservice
+    image: us.gcr.io/apibol-1279/discovery-microservice
     ports:
       - 8761:8761
     networks:
@@ -21,7 +21,7 @@ services:
 
   gateway:
     restart: always
-    image: apibol/api-gateway-microservice
+    image: us.gcr.io/apibol-1279/api-gateway-microservice
     ports:
       - 8888:8888
     networks:
@@ -30,70 +30,65 @@ services:
       - config
       - discovery
 
-  users:
+  usermicro:
     restart: always
-    image: apibol/user-microservice
+    image: us.gcr.io/apibol-1279/user-microservice
     expose:
       - 7001
     ports:
       - 7001
     depends_on:
       - dbinstance
-      - config
-      - discovery
     networks:
       - backend
 
-  events:
+  eventmicro:
     restart: always
-    image: apibol/event-microservice
+    image: us.gcr.io/apibol-1279/event-microservice
     expose:
       - 7005
     ports:
       - 7005
     depends_on:
+      - discovery
       - rabbit
       - mongodb
-      - config
-      - discovery
     networks:
       - backend
 
-  predictors:
+  predictormicro:
     restart: always
-    image: apibol/predictor-microservice
+    image: us.gcr.io/apibol-1279/predictor-microservice
     expose:
       - 7003
     ports:
       - 7003
     depends_on:
+      - discovery
       - mongodb
       - rabbit
-      - events
-      - config
-      - discovery
+      - eventmicro
     networks:
       - backend
 
-  predictions:
+  predictionmicro:
     restart: always
-    image: apibol/prediction-microservice
+    image: us.gcr.io/apibol-1279/prediction-microservice
     expose:
       - 7004
     ports:
       - 7004
     depends_on:
-      - mongodb
-      - events
-      - rabbit
-      - config
       - discovery
+      - mongodb
+      - eventmicro
+      - rabbit
     networks:
       - backend
 
-  rankings:
+  rankingmicro:
     restart: always
-    image: apibol/ranking-microservice
+    image: us.gcr.io/apibol-1279/ranking-microservice
     expose:
       - 7004
     ports:
@@ -102,15 +97,15 @@ services:
       - discovery
       - rabbit
       - redis
-      - events
-      - predictors
-      - predictions
+      - eventmicro
+      - predictormicro
+      - predictionmicro
     networks:
       - backend
 
   auth:
     restart: always
-    image: apibol/auth-microservice
+    image: us.gcr.io/apibol-1279/auth-microservice
     expose:
       - 7777
     ports:
@@ -119,9 +114,9 @@ services:
       - discovery
       - rabbit
       - redis
-      - events
-      - predictors
-      - predictions
+      - eventmicro
+      - predictormicro
+      - predictionmicro
       - authdb
     networks:
       - backend
@@ -156,7 +151,7 @@ services:
     restart: always
     image: mariadb
     expose:
-      - 3306
+      - 3307
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=auth

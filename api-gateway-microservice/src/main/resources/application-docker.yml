@@ -15,11 +15,13 @@ endpoints:
 eureka:
   instance:
       leaseRenewalIntervalInSeconds: 10
+      preferIpAddress: true
+      ip-address: 127.0.0.1
   client:
     registryFetchIntervalSeconds: 5
     serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
-      
+      defaultZone: http://dicovery:8761/eureka/
+
 logging:
   level:
     ROOT: INFO
@@ -42,3 +44,11 @@ zuul:
     rankings:
       path: /api/v1/rankings/**
       serviceId: rankings
+    auth:
+      path: /api/v1/auth/**
+      serviceId: auth
+
+proxy:
+  auth:
+    routes:
+      users: oauth2

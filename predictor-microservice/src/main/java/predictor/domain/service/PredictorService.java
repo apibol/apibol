@@ -11,8 +11,8 @@ import predictor.domain.Participant;
 import predictor.domain.Predictor;
 import predictor.domain.exception.*;
 import predictor.domain.repository.PredictorRepository;
-import predictor.domain.resource.JoinPredictorDTO;
-import predictor.domain.resource.PredictorDTO;
+import predictor.domain.resource.vo.JoinPredictorDTO;
+import predictor.domain.resource.vo.PredictorDTO;
 import predictor.domain.specification.IsPredictorOwner;
 
 import java.util.List;

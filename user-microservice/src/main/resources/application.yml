@@ -5,7 +5,11 @@ info:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+      defaultZone: http://discovery:8761/eureka/
+    fetch-registry: true
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    preferIpAddress: true
 
 spring:
   oauth2:

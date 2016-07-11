@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import predictor.domain.Participant;
 import predictor.domain.Predictor;
+import predictor.domain.resource.vo.HashDTO;
+import predictor.domain.resource.vo.JoinPredictorDTO;
+import predictor.domain.resource.vo.PredictorDTO;
 import predictor.domain.service.PredictorService;
 
 import java.security.Principal;

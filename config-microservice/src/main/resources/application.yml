@@ -7,7 +7,7 @@ spring:
         git:
           uri: https://github.com/claudioed/apibol-config-files
   application:
-    name: configserver
+    name: config
   rabbitmq:
       host: localhost
 
@@ -37,7 +37,7 @@ spring:
         git:
           uri: https://github.com/claudioed/apibol-config-files
   application:
-      name: configserver
+      name: config
   rabbitmq:
       host: rabbit
 

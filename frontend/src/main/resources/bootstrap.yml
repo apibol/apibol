@@ -5,7 +5,7 @@ spring:
     name: frontend
   cloud:
     config:
-      uri: http://configserver:8001/
+      uri: http://config:8001/
 ## Remove this one when spring bug fixed
 server:
   port: 7010
