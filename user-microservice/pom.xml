@@ -145,7 +145,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                            <imageName>${docker.image.prefix}/user</imageName>
                             <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                             <resources>
                                 <resource>

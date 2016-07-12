@@ -95,7 +95,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                            <imageName>${docker.image.prefix}/config</imageName>
                             <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                             <resources>
                                 <resource>
